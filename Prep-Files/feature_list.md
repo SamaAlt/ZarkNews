@@ -3,10 +3,14 @@ Zark Newspaper is a platform where admin and editor manage articles, while reade
 
 ## New account creation, log in, log out, and guest/demo login
 _ Please note: users are not 1 of your 4 features, but are required for the project.
-* Create: Admin can create editor accounts.
+* Create: Admin can sign up, log in, and log out. [Demo is Admin]
+* Create: Editor log in, and log out. 
+* Admin/Editor can't use certain features without logging in.
 * Read: Admin and editors can view their profiles.
 * Update: Admin can update editor details.
 * Delete: Admin can delete editor accounts.
+* Logged out users are directed to the login page.
+
 
 ## Articles
 * Create: Editors can create and publish articles with text images, and video.
@@ -32,12 +36,10 @@ Update: Admin and editors can add or modify filters as needed.
 * Delete: Subscribers can unsubscribe from newsletters.
 
 ## Analytics Diagram
-* Read: Readers can view visual analytics diagrams for socio-economic data (e.g., poverty rates, health statistics).
-Radio News
-* Create: Editors can upload audio news segments.
-* Read: Readers can listen to radio news.
-* Update: Editors can update audio segments.
-* Delete: Editors can delete audio segments.
+* Create: Editors can create visual analytics diagrams for socio-economic data (e.g., poverty rates, health statistics, etc).
+* Read: Readers can view visual analytics diagrams.
+* Update: Admin and editors can update diagrams.
+* Delete: Admin can delete diagrams.
 
 ## AI-powered Virtual Reporter
 * Create: AI generates summaries based on topics or user preferences.
