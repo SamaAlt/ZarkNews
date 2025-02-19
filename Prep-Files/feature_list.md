@@ -24,6 +24,12 @@ _ Please note: users are not 1 of your 4 features, but are required for the proj
     * Editors can delete their own articles.
     * Admin can delete any article.
 
+## Subscription
+* Create: Readers can subscribe to newsletters.
+* Read: Subscribers can view newsletters.
+* Update: Subscribers can manage subscription settings.
+* Delete: Subscribers can unsubscribe from newsletters.
+
 ## Search
 * Create: Admins and editors can define searchable content attributes (keywords, tags, etc.).
 * Read: 
@@ -49,12 +55,6 @@ _ Please note: users are not 1 of your 4 features, but are required for the proj
     * Admins and editors can delete filters when necessary.
     * Filter update log for tracking changes to filtering criteria.
     
-## Subscription
-* Create: Readers can subscribe to newsletters.
-* Read: Subscribers can view newsletters.
-* Update: Subscribers can manage subscription settings.
-* Delete: Subscribers can unsubscribe from newsletters.
-
 ## Analytics Diagram
 * Create: Editors can create visual analytics diagrams for socio-economic data (e.g., poverty rates, health statistics, etc).
 * Read: Readers can view visual analytics diagrams.

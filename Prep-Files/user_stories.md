@@ -18,6 +18,12 @@
 7. As an Editor, I want to delete my own articles if they are no longer needed.
 8. As an Admin, I want to delete any article when necessary to manage content.
 
+## Subscription
+1. As a Reader, I want to subscribe to newsletters so that I can receive regular updates about new articles.
+2. As a Subscriber, I want to view newsletters so that I can stay informed about content.
+3. As a Subscriber, I want to manage my subscription settings so that I can control how I receive newsletters.
+4. As a Subscriber, I want to unsubscribe from newsletters when I no longer wish to receive them.
+
 ## Search
 1. As an Admin or Editor, I want to define searchable content attributes (keywords, tags, etc.) so that readers can find relevant content easily.
 2. As a Reader, I want to search for articles using keywords, tags, or other search criteria so that I can find relevant content.
@@ -38,12 +44,6 @@
 3. As an Admin or Editor, I want to modify filters as needed to ensure the filtering options remain relevant.
 4. As an Admin or Editor, I want to delete filters when they are no longer necessary so that the filter options stay clean and effective.
 5. As an Admin or Editor, I want to track changes to filters with a log so that I can understand how filtering criteria have evolved.
-
-## Subscription
-1. As a Reader, I want to subscribe to newsletters so that I can receive regular updates about new articles.
-2. As a Subscriber, I want to view newsletters so that I can stay informed about content.
-3. As a Subscriber, I want to manage my subscription settings so that I can control how I receive newsletters.
-4. As a Subscriber, I want to unsubscribe from newsletters when I no longer wish to receive them.
 
 ## Analytics Diagram
 1. As an Editor, I want to create visual analytics diagrams for socio-economic data so that readers can access insightful data visualizations.
