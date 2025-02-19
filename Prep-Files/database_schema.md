@@ -4,155 +4,96 @@
 ![alt text](dbSchema.png)
 
 
-## Users Table
+# Database Schema
 
-| Column          | Type      | Constraints                     |
-|-----------------|-----------|---------------------------------|
-| id              | int       | PRIMARY KEY, AUTO_INCREMENT     |
-| username        | varchar   | NOT NULL                        |
-| email           | varchar   | NOT NULL                        |
-| password_hash   | varchar   | NOT NULL                        |
-| role            | varchar   | NOT NULL                        |
-| created_at      | timestamp | NOT NULL                        |
-| updated_at      | timestamp | NOT NULL                        |
+## users
+| Column Name      | Data Type        | Constraints                                                |
+|------------------|------------------|------------------------------------------------------------|
+| id               | UUID             | PRIMARY KEY                                                |
+| username         | VARCHAR(30)      | NOT NULL, UNIQUE, CHECK (username ~ '^[A-Za-z0-9_]{3,30}$') |
+| email            | VARCHAR(255)     | NOT NULL, UNIQUE, CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$' AND email = LOWER(email)) |
+| password_hash    | VARCHAR(255)     | NOT NULL                                                   |
+| phone_number     | VARCHAR(20)      | UNIQUE, CHECK (phone_number ~ '^\+\d{1,15}$')              |
+| address          | TEXT             |                                                            |
+| created_at       | TIMESTAMP        | DEFAULT CURRENT_TIMESTAMP                                   |
 
+## articles
+| Column Name      | Data Type        | Constraints                                                |
+|------------------|------------------|------------------------------------------------------------|
+| id               | UUID             | PRIMARY KEY                                                |
+| title            | VARCHAR(255)     | NOT NULL                                                   |
+| content          | TEXT             | NOT NULL                                                   |
+| image_url        | VARCHAR(255)     |                                                            |
+| youtube_embed_url| VARCHAR(255)     |                                                            |
+| tags             | JSON             |                                                            |
+| location         | VARCHAR(255)     |                                                            |
+| contributors     | TEXT             |                                                            |
+| author_id        | UUID             | NOT NULL, FOREIGN KEY (author_id) REFERENCES users(id)     |
+| created_at       | TIMESTAMP        | DEFAULT CURRENT_TIMESTAMP                                   |
+| updated_at       | TIMESTAMP        | DEFAULT CURRENT_TIMESTAMP                                   |
 
-## Articles Table
+## article_edits
+| Column Name      | Data Type        | Constraints                                                |
+|------------------|------------------|------------------------------------------------------------|
+| id               | UUID             | PRIMARY KEY                                                |
+| article_id       | UUID             | NOT NULL, FOREIGN KEY (article_id) REFERENCES articles(id) |
+| editor_id        | UUID             | NOT NULL, FOREIGN KEY (editor_id) REFERENCES users(id)     |
+| previous_content | TEXT             |                                                            |
+| edited_at        | TIMESTAMP        | DEFAULT CURRENT_TIMESTAMP                                   |
 
-| Column          | Type      | Constraints                     |
-|-----------------|-----------|---------------------------------|
-| id              | int       | PRIMARY KEY, AUTO_INCREMENT     |
-| title           | varchar   | NOT NULL                        |
-| content         | text      | NOT NULL                        |
-| author_id       | int       | FOREIGN KEY (users.id)          |
-| status          | varchar   | NOT NULL                        |
-| created_at      | timestamp | NOT NULL                        |
-| updated_at      | timestamp | NOT NULL                        |
-| published_at    | timestamp | NULL                            |
-| version         | int       | NOT NULL                        |
-| approved_by     | int       | FOREIGN KEY (users.id)          |
-| approval_status | varchar   | NOT NULL                        |
+## newsletter
+| Column Name               | Data Type             | Constraints                                                  |
+|---------------------------|-----------------------|--------------------------------------------------------------|
+| id                        | UUID                  | PRIMARY KEY                                                  |
+| reader_id                 | UUID                  | NOT NULL, FOREIGN KEY (reader_id) REFERENCES users(id)       |
+| frequency                 | ENUM('daily_morning', 'daily_evening', 'weekly', 'monthly', 'real_time') | NOT NULL                                                   |
+| content_type              | ENUM('top_headlines', 'in_depth', 'opinion', 'trending', 'local_news') | NOT NULL                                                   |
+| topics                    | JSON                  |                                                              |
+| notification_preferences  | JSON                  |                                                              |
+| created_at                | TIMESTAMP             | DEFAULT CURRENT_TIMESTAMP                                     |
 
+## search_filters
+| Column Name      | Data Type        | Constraints                                                |
+|------------------|------------------|------------------------------------------------------------|
+| id               | UUID             | PRIMARY KEY                                                |
+| name             | VARCHAR(255)     | NOT NULL, UNIQUE                                           |
+| type             | ENUM('category', 'tag', 'location') | NOT NULL                                               |
 
-## Article Media Table
+## article_filters
+| Column Name      | Data Type        | Constraints                                                |
+|------------------|------------------|------------------------------------------------------------|
+| article_id       | UUID             | NOT NULL, FOREIGN KEY (article_id) REFERENCES articles(id) |
+| filter_id        | UUID             | NOT NULL, FOREIGN KEY (filter_id) REFERENCES search_filters(id) |
+| primary key      | (article_id, filter_id) |                                                            |
 
-| Column          | Type      | Constraints                     |
-|-----------------|-----------|---------------------------------|
-| id              | int       | PRIMARY KEY, AUTO_INCREMENT     |
-| article_id      | int       | FOREIGN KEY (articles.id)       |
-| media_type      | varchar   | NOT NULL                        |
-| media_url       | varchar   | NOT NULL                        |
-| created_at      | timestamp | NOT NULL                        |
+## analytics_diagrams
+| Column Name      | Data Type        | Constraints                                                |
+|------------------|------------------|------------------------------------------------------------|
+| id               | UUID             | PRIMARY KEY                                                |
+| title            | VARCHAR(255)     | NOT NULL                                                   |
+| description      | TEXT             |                                                            |
+| diagram_url      | VARCHAR(255)     | NOT NULL                                                   |
+| created_by       | UUID             | NOT NULL, FOREIGN KEY (created_by) REFERENCES users(id)    |
+| created_at       | TIMESTAMP        | DEFAULT CURRENT_TIMESTAMP                                   |
+| updated_at       | TIMESTAMP        | DEFAULT CURRENT_TIMESTAMP                                   |
 
+## ai_reporter
+| Column Name      | Data Type        | Constraints                                                |
+|------------------|------------------|------------------------------------------------------------|
+| id               | UUID             | PRIMARY KEY                                                |
+| article_id       | UUID             | NOT NULL, FOREIGN KEY (article_id) REFERENCES articles(id) |
+| summary          | TEXT             | NOT NULL                                                   |
+| created_at       | TIMESTAMP        | DEFAULT CURRENT_TIMESTAMP                                   |
 
-## Search Table
+---
 
-| Column          | Type      | Constraints                     |
-|-----------------|-----------|---------------------------------|
-| id              | int       | PRIMARY KEY, AUTO_INCREMENT     |
-| article_id      | int       | FOREIGN KEY (articles.id)       |
-| keywords        | text      | NOT NULL                        |
-| tags            | text      | NOT NULL                        |
-| search_count    | int       | NOT NULL                        |
-| last_searched_at| timestamp | NOT NULL                        |
+# Relationships
 
-
-## Filters Table
-
-| Column          | Type      | Constraints                     |
-|-----------------|-----------|---------------------------------|
-| id              | int       | PRIMARY KEY, AUTO_INCREMENT     |
-| filter_name     | varchar   | NOT NULL                        |
-| filter_type     | varchar   | NOT NULL                        |
-| created_at      | timestamp | NOT NULL                        |
-| updated_at      | timestamp | NOT NULL                        |
-
-
-## Article Filters Table
-
-| Column          | Type      | Constraints                     |
-|-----------------|-----------|---------------------------------|
-| id              | int       | PRIMARY KEY, AUTO_INCREMENT     |
-| article_id      | int       | FOREIGN KEY (articles.id)       |
-| filter_id       | int       | FOREIGN KEY (filters.id)        |
-
-
-## Subscription Table
-
-| Column          | Type      | Constraints                     |
-|-----------------|-----------|---------------------------------|
-| id              | int       | PRIMARY KEY, AUTO_INCREMENT     |
-| user_id         | int       | FOREIGN KEY (users.id)          |
-| newsletter_name | varchar   | NOT NULL                        |
-| subscribed_at   | timestamp | NOT NULL                        |
-| unsubscribed_at | timestamp | NULL                            |
-
-
-## Analytics Table
-
-| Column          | Type      | Constraints                     |
-|-----------------|-----------|---------------------------------|
-| id              | int       | PRIMARY KEY, AUTO_INCREMENT     |
-| editor_id       | int       | FOREIGN KEY (users.id)          |
-| diagram_name    | varchar   | NOT NULL                        |
-| diagram_data    | json      | NOT NULL                        |
-| created_at      | timestamp | NOT NULL                        |
-| updated_at      | timestamp | NOT NULL                        |
-
-
-## AI Reporter Table
-
-| Column          | Type      | Constraints                     |
-|-----------------|-----------|---------------------------------|
-| id              | int       | PRIMARY KEY, AUTO_INCREMENT     |
-| summary_text    | text      | NOT NULL                        |
-| generated_by    | varchar   | NOT NULL                        |
-| generated_at    | timestamp | NOT NULL                        |
-| updated_at      | timestamp | NOT NULL                        |
-| feedback        | text      | NULL                            |
-
-
-## Article Collaborators Table
-
-| Column          | Type      | Constraints                     |
-|-----------------|-----------|---------------------------------|
-| id              | int       | PRIMARY KEY, AUTO_INCREMENT     |
-| article_id      | int       | FOREIGN KEY (articles.id)       |
-| editor_id       | int       | FOREIGN KEY (users.id)          |
-| created_at      | timestamp | NOT NULL                        |
-
-
-## Search Analytics Table
-
-| Column          | Type      | Constraints                     |
-|-----------------|-----------|---------------------------------|
-| id              | int       | PRIMARY KEY, AUTO_INCREMENT     |
-| search_term     | varchar   | NOT NULL                        |
-| search_count    | int       | NOT NULL                        |
-| last_searched_at| timestamp | NOT NULL                        |
-
-
-## User Interests Table
-
-| Column          | Type      | Constraints                     |
-|-----------------|-----------|---------------------------------|
-| id              | int       | PRIMARY KEY, AUTO_INCREMENT     |
-| user_id         | int       | FOREIGN KEY (users.id)          |
-| interest_keyword| varchar   | NOT NULL                        |
-| created_at      | timestamp | NOT NULL                        |
-
-
-## Foreign Key References
-```
-Ref: articles.author_id > users.id // Articles authored by users
-Ref: articles.approved_by > users.id // Articles approved by users
-Ref: article_media.article_id > articles.id // Media linked to articles
-Ref: search.article_id > articles.id // Search linked to articles
-Ref: article_filters.article_id > articles.id // Filters applied to articles
-Ref: article_filters.filter_id > filters.id // Filters linked to articles
-Ref: subscription.user_id > users.id // Subscriptions linked to users
-Ref: analytics.editor_id > users.id // Analytics created by editors
-Ref: article_collaborators.article_id > articles.id // Collaborators linked to articles
-Ref: article_collaborators.editor_id > users.id // Collaborators linked to users
-Ref: user_interests.user_id > users.id // Interests linked to users
-```
+- `articles.author_id > users.id` // many-to-one
+- `article_edits.article_id > articles.id` // many-to-one
+- `article_edits.editor_id > users.id` // many-to-one
+- `newsletter.reader_id > users.id` // many-to-one
+- `article_filters.article_id > articles.id` // many-to-one
+- `article_filters.filter_id > search_filters.id` // many-to-one
+- `analytics_diagrams.created_by > users.id` // many-to-one
+- `ai_reporter.article_id > articles.id` // many-to-one
