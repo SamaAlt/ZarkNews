@@ -3,7 +3,7 @@
 ## User Authentication and Management
 
 ### 1. User Registration
-- **Description:** Register a new user with a company email.
+- **Description:** Register a new user with a company email (@zark.com).
 - **Require Authentication:** false (Registration doesn't require authentication, but the user will be logged in immediately after)
 - **Request:**
     - **Method:** POST
@@ -12,11 +12,18 @@
     ```json
     {
       "username": "string",
-      "email": "string",
-      "password": "string",
-      "phone_number": "string",
-      "address": "string"
+      "email": "string (valid email format)",
+      "password": "string (must be at least 12 characters, containing uppercase, lowercase, numbers, and symbols)",
+      "phone_number": "string (international format, e.g., +123456789)",
+      "first_name": "string",
+      "last_name": "string",
+      "street": "string",
+      "city": "string",
+      "state": "string",
+      "country": "string",
+      "postal_code": "string"
     }
+
     ```
 
 - **Successful Response:**
@@ -30,9 +37,16 @@
       "username": "string",
       "email": "string",
       "phone_number": "string",
-      "address": "string",
+      "first_name": "string",
+      "last_name": "string",
+      "street": "string",
+      "city": "string",
+      "state": "string",
+      "country": "string",
+      "postal_code": "string",
       "created_at": "timestamp"
     }
+
     ```
 
 - **Error Response:**
@@ -43,13 +57,20 @@
     ```json
     {
       "errors": [
-        "email: Please provide a valid email address.",
-        "password: This field is required.",
+        "email: Invalid email format",
+        "password: Must be at least 12 characters and contain uppercase, lowercase, numbers, and symbols",
         "username: This field is required.",
-        "phone_number: This field is required.",
-        "address: This field is required."
+        "phone_number: Invalid phone number format (must be in international format, e.g., +123456789)",
+        "first_name: This field is required.",
+        "last_name: This field is required.",
+        "street: This field is required.",
+        "city: This field is required.",
+        "state: This field is required.",
+        "country: This field is required.",
+        "postal_code: This field is required."
       ]
     }
+
     ```
 
     - **Status Code:** 409
@@ -60,7 +81,8 @@
     {
       "errors": [
         "email: Email address is already in use.",
-        "username: Username already exists."
+        "username: Username already exists.",
+        "phone_number: Phone number already exists."
       ]
     }
     ```
@@ -91,7 +113,6 @@
       "username": "string",
       "email": "string",
       "phone_number": "string",
-      "address": "string",
       "created_at": "timestamp"
     }
     ```
@@ -131,7 +152,13 @@
       "username": "string",
       "email": "string",
       "phone_number": "string",
-      "address": "string",
+      "first_name": "string",
+      "last_name": "string",
+      "street": "string",
+      "city": "string",
+      "state": "string",
+      "country": "string",
+      "postal_code": "string",
       "created_at": "timestamp"
     }
     ```
@@ -159,10 +186,17 @@
     ```json
     {
       "username": "string",
-      "email": "string",
-      "phone_number": "string",
-      "address": "string"
+      "email": "string (valid email format)",
+      "phone_number": "string (international format, e.g., +123456789)",
+      "first_name": "string",
+      "last_name": "string",
+      "street": "string",
+      "city": "string",
+      "state": "string",
+      "country": "string",
+      "postal_code": "string"
     }
+
     ```
 
 - **Successful Response:**
@@ -176,7 +210,13 @@
       "username": "string",
       "email": "string",
       "phone_number": "string",
-      "address": "string",
+      "first_name": "string",
+      "last_name": "string",
+      "street": "string",
+      "city": "string",
+      "state": "string",
+      "country": "string",
+      "postal_code": "string",
       "updated_at": "timestamp"
     }
     ```
@@ -189,11 +229,18 @@
     ```json
     {
       "errors": [
-        "email: Please provide a valid email address.",
-        "phone_number: This field is required.",
-        "address: This field is required."
+        "email: Invalid email format",
+        "phone_number: Invalid phone number format (must be in international format, e.g., +123456789)",
+        "first_name: This field is required.",
+        "last_name: This field is required.",
+        "street: This field is required.",
+        "city: This field is required.",
+        "state: This field is required.",
+        "country: This field is required.",
+        "postal_code: This field is required."
       ]
     }
+
     ```
 
 ### 5. Delete User Account
@@ -250,7 +297,7 @@
       "content": "string",
       "image_url": "string",
       "youtube_embed_url": "string",
-      "tags": ["string"],
+      "tags": ["string"],  // Array of tags stored as JSON
       "location": "string",
       "contributors": "string",
       "author_id": "UUID"
@@ -269,7 +316,7 @@
       "content": "string",
       "image_url": "string",
       "youtube_embed_url": "string",
-      "tags": ["string"],
+      "tags": ["string"],  // Array of tags stored as JSON
       "location": "string",
       "contributors": "string",
       "author_id": "UUID",
@@ -288,7 +335,9 @@
       "errors": [
         "title: This field is required.",
         "content: This field is required.",
-        "author_id: This field is required."
+        "author_id: This field is required.",
+        "tags: This field is required.",
+        "location: This field is required."
       ]
     }
     ```
@@ -472,7 +521,7 @@
       "reader_id": "UUID",
       "frequency": "daily_morning",
       "content_type": "top_headlines",
-      "topics": ["string"],
+      "topics": ["string"],  // Array of topics stored as JSON
       "notification_preferences": ["string"]
     }
     ```
@@ -522,7 +571,7 @@
         {
           "frequency": "daily_morning",
           "content_type": "top_headlines",
-          "topics": ["string"],
+          "topics": ["string"],  // Array of topics stored as JSON
           "notification_preferences": ["string"]
         }
       ]
