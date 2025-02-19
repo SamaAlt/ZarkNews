@@ -16,7 +16,7 @@ _ Please note: users are not 1 of your 4 features, but are required for the proj
     * Version control for article updates (track changes and revert if necessary).
 * Delete:users can delete their own articles.
 
-## Subscription
+## Newsletter
 * Create: Readers can subscribe to newsletters.
 * Read: Subscribers can view newsletters.
 * Update: Subscribers can manage subscription settings.

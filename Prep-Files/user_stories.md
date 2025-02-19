@@ -17,7 +17,7 @@
 5. As a user, I want to delete my own articles so that I can remove outdated or unwanted content.
 
 
-## Subscription
+## Newsletter
 1. As a reader, I want to subscribe to a newsletter so that I can receive regular content updates.
 2. As a subscriber, I want to view past newsletters so that I can access previous content.
 3. As a subscriber, I want to manage my subscription settings so that I can customize my preferences.
