@@ -1,7 +1,7 @@
 # Database Schema
 
 # Layout
-![alt text](image.png)
+![alt text](dbSchema.png)
 
 
 ## Users Table
