@@ -41,11 +41,11 @@
 | previous_content | TEXT             |                                                            |
 | edited_at        | TIMESTAMP        | DEFAULT CURRENT_TIMESTAMP                                   |
 
-## newsletter
+## newsletters
 | Column Name               | Data Type             | Constraints                                                  |
 |---------------------------|-----------------------|--------------------------------------------------------------|
 | id                        | UUID                  | PRIMARY KEY                                                  |
-| reader_id                 | UUID                  | NOT NULL, FOREIGN KEY (reader_id) REFERENCES users(id)       |
+| reader_id                 | UUID                  | NOT NULL      |
 | frequency                 | ENUM('daily_morning', 'daily_evening', 'weekly', 'monthly', 'real_time') | NOT NULL                                                   |
 | content_type              | ENUM('top_headlines', 'in_depth', 'opinion', 'trending', 'local_news') | NOT NULL                                                   |
 | topics                    | JSON                  |                                                              |
@@ -73,11 +73,11 @@
 | title            | VARCHAR(255)     | NOT NULL                                                   |
 | description      | TEXT             |                                                            |
 | diagram_url      | VARCHAR(255)     | NOT NULL                                                   |
-| created_by       | UUID             | NOT NULL, FOREIGN KEY (created_by) REFERENCES users(id)    |
+| author_id       | UUID             | NOT NULL, FOREIGN KEY (author_id) REFERENCES users(id)    |
 | created_at       | TIMESTAMP        | DEFAULT CURRENT_TIMESTAMP                                   |
 | updated_at       | TIMESTAMP        | DEFAULT CURRENT_TIMESTAMP                                   |
 
-## ai_reporter
+## ai_reporters
 | Column Name      | Data Type        | Constraints                                                |
 |------------------|------------------|------------------------------------------------------------|
 | id               | UUID             | PRIMARY KEY                                                |
@@ -89,11 +89,97 @@
 
 # Relationships
 
-- `articles.author_id > users.id` // many-to-one
-- `article_edits.article_id > articles.id` // many-to-one
-- `article_edits.editor_id > users.id` // many-to-one
-- `newsletter.reader_id > users.id` // many-to-one
-- `article_filters.article_id > articles.id` // many-to-one
-- `article_filters.filter_id > search_filters.id` // many-to-one
-- `analytics_diagrams.created_by > users.id` // many-to-one
-- `ai_reporter.article_id > articles.id` // many-to-one
+
+- articles.author_id > users.id // many-to-one
+- article_edits.article_id > articles.id // many-to-one
+- article_edits.editor_id > users.id // many-to-one
+- article_filters.article_id > articles.id // many-to-one
+- article_filters.filter_id > search_filters.id // many-to-one
+- analytics_diagrams.created_by > users.id // many-to-one
+- ai_reporter.article_id > articles.id // many-to-one
+
+--- 
+
+```
+Table users {
+    id UUID [pk]
+    username VARCHAR(30) [not null, unique] 
+    email VARCHAR(255) [not null, unique] 
+    password_hash VARCHAR(255) [not null]
+    phone_number VARCHAR(20) [unique] 
+    address TEXT
+    created_at TIMESTAMP [default: 'CURRENT_TIMESTAMP']
+}
+
+Table articles {
+    id UUID [pk]
+    title VARCHAR(255) [not null]
+    content TEXT [not null]
+    image_url VARCHAR(255)
+    youtube_embed_url VARCHAR(255)
+    tags JSON []
+    location VARCHAR(255)
+    contributors TEXT
+    author_id UUID [not null]
+    created_at TIMESTAMP [default: 'CURRENT_TIMESTAMP']
+    updated_at TIMESTAMP [default: 'CURRENT_TIMESTAMP']
+}
+
+Table article_edits {
+    id UUID [pk]
+    article_id UUID [not null]
+    editor_id UUID [not null]
+    previous_content TEXT
+    edited_at TIMESTAMP [default: 'CURRENT_TIMESTAMP']
+}
+
+Table newsletters {
+    id UUID [pk]
+    reader_id UUID [not null]
+    frequency ENUM('daily_morning', 'daily_evening', 'weekly', 'monthly', 'real_time') [not null]
+    content_type ENUM('top_headlines', 'in_depth', 'opinion', 'trending', 'local_news') [not null]
+    topics JSON []
+    notification_preferences JSON []
+    created_at TIMESTAMP [default: 'CURRENT_TIMESTAMP']
+}
+
+Table search_filters {
+    id UUID [pk]
+    name VARCHAR(255) [not null, unique]
+    type ENUM('category', 'tag', 'location') [not null]
+}
+
+Table article_filters {
+    article_id UUID [not null]
+    filter_id UUID [not null]
+    primary key (article_id, filter_id)
+}
+
+Table analytics_diagrams {
+    id UUID [pk]
+    title VARCHAR(255) [not null]
+    description TEXT
+    diagram_url VARCHAR(255) [not null]
+    created_by UUID [not null]
+    created_at TIMESTAMP [default: 'CURRENT_TIMESTAMP']
+    updated_at TIMESTAMP [default: 'CURRENT_TIMESTAMP']
+}
+
+Table ai_reporter {
+    id UUID [pk]
+    article_id UUID [not null]
+    summary TEXT [not null]
+    created_at TIMESTAMP [default: 'CURRENT_TIMESTAMP']
+}
+
+// Relationships
+
+Ref: articles.author_id > users.id // many-to-one
+Ref: article_edits.article_id > articles.id // many-to-one
+Ref: article_edits.editor_id > users.id // many-to-one
+Ref: article_filters.article_id > articles.id // many-to-one
+Ref: article_filters.filter_id > search_filters.id // many-to-one
+Ref: analytics_diagrams.created_by > users.id // many-to-one
+Ref: ai_reporter.article_id > articles.id // many-to-one
+
+```
