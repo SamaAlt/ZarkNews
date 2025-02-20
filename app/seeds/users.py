@@ -1,32 +1,45 @@
 from app.models import db, User, environment, SCHEMA
-from sqlalchemy.sql import text
-
+from werkzeug.security import generate_password_hash
 
 # Adds a demo user, you can add other users here if you want
 def seed_users():
+    # Creating demo users with hashed passwords
     demo = User(
-        username='Demo', email='demo@aa.io', password='password')
-    marnie = User(
-        username='marnie', email='marnie@aa.io', password='password')
-    bobbie = User(
-        username='bobbie', email='bobbie@aa.io', password='password')
+        first_name='Demo',
+        last_name='User',
+        email='demo@zarknews.com',
+        password_hash=generate_password_hash('StrongPassword1'),  # Hash the password
+        role='editor',
+    )
+    amy = User(
+        first_name='Amy',
+        last_name='Dunder',
+        email='amy@zarknews.com',
+        password_hash=generate_password_hash('StrongPassword2'),  # Hash the password
+        role='editor',
+    )
+    jack = User(
+        first_name='Jack',
+        last_name='Waters',
+        email='jack@zarknews.com',
+        password_hash=generate_password_hash('StrongPassword3'),  # Hash the password
+        role='editor',
+    )
 
-    db.session.add(demo)
-    db.session.add(marnie)
-    db.session.add(bobbie)
+    # Add users to the session
+    db.session.add(demo)  
+    db.session.add(amy)
+    db.session.add(jack)
+    
     db.session.commit()
+    print("Users have been seeded!")
 
 
-# Uses a raw SQL query to TRUNCATE or DELETE the users table. SQLAlchemy doesn't
-# have a built in function to do this. With postgres in production TRUNCATE
-# removes all the data from the table, and RESET IDENTITY resets the auto
-# incrementing primary key, CASCADE deletes any dependent entities.  With
-# sqlite3 in development you need to instead use DELETE to remove all data and
-# it will reset the primary keys for you as well.
+# Undo the user seeding (clears the users table)
 def undo_users():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE TABLE {SCHEMA}.users RESTART IDENTITY CASCADE;")
     else:
-        db.session.execute(text("DELETE FROM users"))
-        
+        db.session.execute("DELETE FROM users")
+
     db.session.commit()

@@ -102,109 +102,95 @@
 ---
 
 
-# Relationships
+# DB & Relationships
 
-   ```json
-Ref: articles.author_id > users.id // many-to-one
-Ref: articles_edits.article_id > articles.id // many-to-one
-Ref: articles_edits.editor_id > users.id // many-to-one
-Ref: articles_filters.article_id > articles.id // many-to-one
-Ref: articles_filters.filter_id > search_filters.id // many-to-one
-Ref: research_diagrams.created_by > users.id // many-to-one
-Ref: ai_reporters.article_id > articles.id // many-to-one
-Ref: newsletters.reader_id > users.id // many-to-one
-```
-
---- 
    ```json
 Table users {
-    id UUID [primary key]
-    role ENUM('reader', 'editor', 'admin') NOT NULL DEFAULT 'reader';
+    id INT [primary key, increment] 
+    role ENUM('editor', 'admin') [not null]
     username VARCHAR(30) [not null, unique]
     email VARCHAR(255) [not null, unique]
-    password_hash VARCHAR(255) [not null, note: "Must be at least 12 characters, contain uppercase, lowercase, numbers, and symbols"]
+    password_hash VARCHAR(255) [not null]
     first_name VARCHAR(100) [not null]
     last_name VARCHAR(100) [not null]
-    phone_number VARCHAR(20) UNIQUE CHECK (phone_number ~ '^\\+?[1-9]\\d{1,14}$'),
+    phone_number VARCHAR(20) [unique]
     street VARCHAR(255) [not null]
     city VARCHAR(100) [not null]
     state VARCHAR(100) [not null]
     country VARCHAR(100) [not null]
     postal_code VARCHAR(20) [not null]
-    created_at TIMESTAMP [default: "CURRENT_TIMESTAMP"]
+    created_at TIMESTAMP [default: 'CURRENT_TIMESTAMP']
 }
 
 Table articles {
-    id UUID [pk]
+    id INT [primary key, increment]
     title VARCHAR(255) [not null]
     content TEXT [not null]
     image_url VARCHAR(255)
     youtube_embed_url VARCHAR(255)
     location VARCHAR(255) [not null]
     contributors TEXT
-    author_id UUID [not null]
-    tags JSON [note: "Array of tags associated with the article"]
+    author_id INT [not null]
+    tags JSON
     created_at TIMESTAMP [default: 'CURRENT_TIMESTAMP']
     updated_at TIMESTAMP [default: 'CURRENT_TIMESTAMP']
 }
 
-
 Table article_edits {
-    id UUID [pk]
-    article_id UUID [not null]
-    editor_id UUID [not null]
+    id INT [primary key, increment]
+    article_id INT [not null]
+    editor_id INT [not null]
     previous_content TEXT
     edited_at TIMESTAMP [default: 'CURRENT_TIMESTAMP']
 }
 
 Table newsletters {
-    id UUID [pk]
-    reader_id UUID [not null]
+    id INT [primary key, increment]
+    reader_id INT [not null]
     frequency ENUM('daily_morning', 'daily_evening', 'weekly', 'monthly', 'real_time') [not null]
     content_type ENUM('top_headlines', 'in_depth', 'opinion', 'trending', 'local_news') [not null]
-    topics JSON [note: "Array of topics associated with the newsletter"]
-    notification_preferences JSON []
+    topics JSON
+    notification_preferences JSON
     created_at TIMESTAMP [default: 'CURRENT_TIMESTAMP']
 }
 
-
 Table search_filters {
-    id UUID [pk]
+    id INT [primary key, increment]
     name VARCHAR(255) [not null, unique]
     type ENUM('category', 'tag', 'location') [not null]
 }
 
 Table article_filters {
-    article_id UUID [not null]
-    filter_id UUID [not null]
+    article_id INT [not null]
+    filter_id INT [not null]
     primary key (article_id, filter_id)
 }
 
 Table research_diagrams {
-    id UUID [pk]
+    id INT [primary key, increment]
     title VARCHAR(255) [not null]
     description TEXT
     diagram_url VARCHAR(255) [not null]
-    created_by UUID [not null]
+    created_by INT [not null]
     created_at TIMESTAMP [default: 'CURRENT_TIMESTAMP']
     updated_at TIMESTAMP [default: 'CURRENT_TIMESTAMP']
 }
 
 Table ai_reporters {
-    id UUID [pk]
-    article_id UUID [not null]
+    id INT [primary key, increment]
+    article_id INT [not null]
     summary TEXT [not null]
     created_at TIMESTAMP [default: 'CURRENT_TIMESTAMP']
 }
 
 // Relationships
 
-Ref: articles.author_id > users.id // many-to-one
-Ref: articles_edits.article_id > articles.id // many-to-one
-Ref: articles_edits.editor_id > users.id // many-to-one
-Ref: articles_filters.article_id > articles.id // many-to-one
-Ref: articles_filters.filter_id > search_filters.id // many-to-one
-Ref: research_diagrams.created_by > users.id // many-to-one
-Ref: ai_reporters.article_id > articles.id // many-to-one
-Ref: newsletters.reader_id > users.id // many-to-one
+Ref: articles.author_id > users.id
+Ref: article_edits.article_id > articles.id
+Ref: article_edits.editor_id > users.id
+Ref: article_filters.article_id > articles.id
+Ref: article_filters.filter_id > search_filters.id
+Ref: research_diagrams.created_by > users.id
+Ref: ai_reporters.article_id > articles.id
+Ref: newsletters.reader_id > users.id
 ```

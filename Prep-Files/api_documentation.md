@@ -1,286 +1,241 @@
 # Zark Newspaper API Documentation
 
-## User Authentication and Management
 
-### 1. User Registration
-- **Description:** Register a new user with a company email (@zark.com).
-- **Require Authentication:** false (Registration doesn't require authentication, but the user will be logged in immediately after)
-- **Request:**
-    - **Method:** POST
-    - **URL:** /api/users/register
-    - **Body:**
-    ```json
-    {
-      "username": "string",
-      "email": "string (valid email format)",
-      "password": "string (must be at least 12 characters, containing uppercase, lowercase, numbers, and symbols)",
-      "phone_number": "string (international format, e.g., +123456789)",
-      "first_name": "string",
-      "last_name": "string",
-      "street": "string",
-      "city": "string",
-      "state": "string",
-      "country": "string",
-      "postal_code": "string"
-    }
+# User Authentication & Authorization API Documentation
+## Authentication Required Endpoints
+All endpoints that require authentication require the user to be logged in.
 
-    ```
+**Error Response:**
+- **Status Code:** 401 Unauthorized
 
-- **Successful Response:**
-    - **Status Code:** 201
-    - **Headers:**
-      - Content-Type: application/json
-    - **Body:**
-    ```json
-    {
-      "id": "UUID",
-      "username": "string",
-      "email": "string",
-      "phone_number": "string",
-      "first_name": "string",
-      "last_name": "string",
-      "street": "string",
-      "city": "string",
-      "state": "string",
-      "country": "string",
-      "postal_code": "string",
-      "created_at": "timestamp"
-    }
+**Headers:**
+- Content-Type: application/json
 
-    ```
-
-- **Error Response:**
-    - **Status Code:** 400
-    - **Headers:**
-      - Content-Type: application/json
-    - **Body:**
-    ```json
-    {
-      "errors": [
-        "email: Invalid email format",
-        "password: Must be at least 12 characters and contain uppercase, lowercase, numbers, and symbols",
-        "username: This field is required.",
-        "phone_number: Invalid phone number format (must be in international format, e.g., +123456789)",
-        "first_name: This field is required.",
-        "last_name: This field is required.",
-        "street: This field is required.",
-        "city: This field is required.",
-        "state: This field is required.",
-        "country: This field is required.",
-        "postal_code: This field is required."
-      ]
-    }
-
-    ```
-
-    - **Status Code:** 409
-    - **Headers:**
-      - Content-Type: application/json
-    - **Body:**
-    ```json
-    {
-      "errors": [
-        "email: Email address is already in use.",
-        "username: Username already exists.",
-        "phone_number: Phone number already exists."
-      ]
-    }
-    ```
-
-### 2. User Login
-- **Description:** Login a user with email and password.
-- **Require Authentication:** false (Login required for gaining access to user resources)
-- **Request:**
-    - **Method:** POST
-    - **URL:** /api/users/login
-    - **Body:**
-    ```json
-    {
-      "email": "string",
-      "password": "string"
-    }
-    ```
-
-- **Successful Response:**
-    - **Status Code:** 200
-    - **Headers:**
-      - Content-Type: application/json
-    - **Body:**
-    ```json
-    {
-      "access_token": "string",
-      "id": "UUID",
-      "username": "string",
-      "email": "string",
-      "phone_number": "string",
-      "created_at": "timestamp"
-    }
-    ```
-
-- **Error Response:**
-    - **Status Code:** 401
-    - **Headers:**
-      - Content-Type: application/json
-    - **Body:**
-    ```json
-    {
-      "errors": [
-        "Invalid email or password"
-      ]
-    }
-    ```
-
-### 3. User Profile
-- **Description:** View a user's profile.
-- **Require Authentication:** true
-- **Request:**
-    - **Method:** GET
-    - **URL:** /api/users/{id}
-    - **Body:** None
-    - **Headers:**
-      - Content-Type: application/json
-      - Authorization: Bearer {access_token}
-
-- **Successful Response:**
-    - **Status Code:** 200
-    - **Headers:**
-      - Content-Type: application/json
-    - **Body:**
-    ```json
-    {
-      "id": "UUID",
-      "username": "string",
-      "email": "string",
-      "phone_number": "string",
-      "first_name": "string",
-      "last_name": "string",
-      "street": "string",
-      "city": "string",
-      "state": "string",
-      "country": "string",
-      "postal_code": "string",
-      "created_at": "timestamp"
-    }
-    ```
-
-- **Error Response:**
-    - **Status Code:** 401
-    - **Headers:**
-      - Content-Type: application/json
-    - **Body:**
-    ```json
-    {
-      "errors": [
-        "Unauthorized"
-      ]
-    }
-    ```
-
-### 4. Update User Profile
-- **Description:** Update user details like name, email, etc.
-- **Require Authentication:** true
-- **Request:**
-    - **Method:** PUT
-    - **URL:** /api/users/{id}
-    - **Body:**
-    ```json
-    {
-      "username": "string",
-      "email": "string (valid email format)",
-      "phone_number": "string (international format, e.g., +123456789)",
-      "first_name": "string",
-      "last_name": "string",
-      "street": "string",
-      "city": "string",
-      "state": "string",
-      "country": "string",
-      "postal_code": "string"
-    }
-
-    ```
-
-- **Successful Response:**
-    - **Status Code:** 200
-    - **Headers:**
-      - Content-Type: application/json
-    - **Body:**
-    ```json
-    {
-      "id": "UUID",
-      "username": "string",
-      "email": "string",
-      "phone_number": "string",
-      "first_name": "string",
-      "last_name": "string",
-      "street": "string",
-      "city": "string",
-      "state": "string",
-      "country": "string",
-      "postal_code": "string",
-      "updated_at": "timestamp"
-    }
-    ```
-
-- **Error Response:**
-    - **Status Code:** 400
-    - **Headers:**
-      - Content-Type: application/json
-    - **Body:**
-    ```json
-    {
-      "errors": [
-        "email: Invalid email format",
-        "phone_number: Invalid phone number format (must be in international format, e.g., +123456789)",
-        "first_name: This field is required.",
-        "last_name: This field is required.",
-        "street: This field is required.",
-        "city: This field is required.",
-        "state: This field is required.",
-        "country: This field is required.",
-        "postal_code: This field is required."
-      ]
-    }
-
-    ```
-
-### 5. Delete User Account
-- **Description:** Delete a user account.
-- **Require Authentication:** true
-- **Request:**
-    - **Method:** DELETE
-    - **URL:** /api/users/{id}
-    - **Body:** None
-    - **Headers:**
-      - Content-Type: application/json
-      - Authorization: Bearer {access_token}
-
-- **Successful Response:**
-    - **Status Code:** 200
-    - **Headers:**
-      - Content-Type: application/json
-    - **Body:**
-    ```json
-    {
-      "message": "User deleted successfully"
-    }
-    ```
-
-- **Error Response:**
-    - **Status Code:** 404
-    - **Headers:**
-      - Content-Type: application/json
-    - **Body:**
-    ```json
-    {
-      "errors": [
-        "User not found"
-      ]
-    }
-    ```
+**Body:**
+```json
+{
+  "errors": ["Unauthorized"]
+}
+```
 
 ---
 
-# Zark Newspaper API Documentation
+## Get Current User
+
+Authenticates the current user and returns their information as a JSON object.
+
+### Require Authentication: **true**
+
+**Request:**
+
+- **Method:** GET
+- **URL:** /api/auth
+- **Body:** None
+
+**Successful Response:**
+
+- **Status Code:** 200
+
+**Headers:**
+- Content-Type: application/json
+
+**Body:**
+```json
+{
+  "id": "id-of-user",
+  "firstName": "Demo",
+  "lastName": "Lition",
+  "phoneNumber": "123-456-7890",
+  "email": "demo@user.io",
+  "street": "123 Main St",
+  "city": "Los Angeles",
+  "state": "CA",
+  "country": "USA",
+  "postalCode": "90001",
+  "createdAt": "2023-09-03T00:00:00Z",
+  "updatedAt": "2023-09-03T00:00:00Z"
+}
+```
+
+---
+
+## Log in a User
+
+Logs in a current user with valid credentials and returns the current user's information.
+
+### Require Authentication: **true**
+
+**Request:**
+
+- **Method:** POST
+- **URL:** /api/auth/login
+- **Body:**
+```json
+{
+  "email": "demo@user.io",
+  "password": "password"
+}
+```
+
+**Successful Response:**
+
+- **Status Code:** 200
+
+**Headers:**
+- Content-Type: application/json
+
+**Body:**
+```json
+{
+  "id": "id-of-user",
+  "firstName": "Demo",
+  "lastName": "Lition",
+  "phoneNumber": "123-456-7890",
+  "email": "demo@user.io",
+  "street": "123 Main St",
+  "city": "Los Angeles",
+  "state": "CA",
+  "country": "USA",
+  "postalCode": "90001",
+  "createdAt": "2023-09-03T00:00:00Z",
+  "updatedAt": "2023-09-03T00:00:00Z"
+}
+```
+
+**Error Response (Invalid Credentials):**
+
+- **Status Code:** 401
+
+**Headers:**
+- Content-Type: application/json
+
+**Body:**
+```json
+{
+  "errors": [
+    "Invalid email or password"
+  ]
+}
+```
+
+---
+
+## Log out a User
+
+Logs out the current user.
+
+### Require Authentication: **false**
+
+**Request:**
+
+- **Method:** GET
+- **URL:** /api/auth/logout
+- **Body:** None
+
+**Successful Response:**
+
+**Body:**
+```json
+{
+  "message": "User logged out"
+}
+```
+
+---
+
+## Sign up a User
+
+Creates a new user, logs them in as the current user, and returns the current user's information.
+
+### Require Authentication: **false**
+
+**Request:**
+
+- **Method:** POST
+- **URL:** /api/auth/signup
+- **Body:**
+```json
+{
+  "email": "test@gmail.com",
+  "password": "password",
+  "firstName": "Testo",
+  "lastName": "Test",
+  "phoneNumber": "123-456-7890",
+  "street": "1 E South Street",
+  "city": "Los Angeles",
+  "state": "CA",
+  "country": "USA",
+  "postalCode": "90001"
+}
+```
+
+**Successful Response:**
+
+- **Status Code:** 200
+
+**Headers:**
+- Content-Type: application/json
+
+**Body:**
+```json
+{
+  "id": "id-of-new-user",
+  "firstName": "Testo",
+  "lastName": "Test",
+  "phoneNumber": "123-456-7890",
+  "email": "test@gmail.com",
+  "street": "1 E South Street",
+  "city": "Los Angeles",
+  "state": "CA",
+  "country": "USA",
+  "postalCode": "90001",
+  "createdAt": "2023-09-04T00:00:00Z",
+  "updatedAt": "2023-09-04T00:00:00Z"
+}
+```
+
+**Error Response (Email Already Exists):**
+
+- **Status Code:** 500
+
+**Headers:**
+- Content-Type: application/json
+
+**Body:**
+```json
+{
+  "errors": [
+    "email: Email address is already in use."
+  ]
+}
+```
+
+**Error Response (Validation Errors):**
+
+- **Status Code:** 400
+
+**Headers:**
+- Content-Type: application/json
+
+**Body:**
+```json
+{
+  "errors": [
+    "email: Please provide a valid email address.",
+    "password: This field is required.",
+    "firstName: This field is required.",
+    "lastName: This field is required.",
+    "phoneNumber: This field is required.",
+    "street: This field is required.",
+    "city: This field is required.",
+    "state: This field is required.",
+    "postalCode: This field is required."
+  ]
+}
+```
+
+---
+
 
 ## Articles
 
@@ -300,7 +255,7 @@
       "tags": ["string"],  // Array of tags stored as JSON
       "location": "string",
       "contributors": "string",
-      "author_id": "UUID"
+      "author_id": "id"
     }
     ```
 
@@ -311,7 +266,7 @@
     - **Body:**
     ```json
     {
-      "id": "UUID",
+      "id": "id",
       "title": "string",
       "content": "string",
       "image_url": "string",
@@ -319,7 +274,7 @@
       "tags": ["string"],  // Array of tags stored as JSON
       "location": "string",
       "contributors": "string",
-      "author_id": "UUID",
+      "author_id": "id",
       "created_at": "timestamp",
       "updated_at": "timestamp"
     }
@@ -358,7 +313,7 @@
     ```json
     [
       {
-        "id": "UUID",
+        "id": "id",
         "title": "string",
         "content": "string",
         "image_url": "string",
@@ -366,7 +321,7 @@
         "tags": ["string"],
         "location": "string",
         "contributors": "string",
-        "author_id": "UUID",
+        "author_id": "id",
         "created_at": "timestamp",
         "updated_at": "timestamp"
       }
@@ -399,7 +354,7 @@
     - **Body:**
     ```json
     {
-      "id": "UUID",
+      "id": "id",
       "title": "string",
       "content": "string",
       "image_url": "string",
@@ -407,7 +362,7 @@
       "tags": ["string"],
       "location": "string",
       "contributors": "string",
-      "author_id": "UUID",
+      "author_id": "id",
       "updated_at": "timestamp"
     }
     ```
@@ -470,8 +425,8 @@
     - **Body:**
     ```json
     {
-      "article_id": "UUID",
-      "editor_id": "UUID",
+      "article_id": "id",
+      "editor_id": "id",
       "previous_content": "string"
     }
     ```
@@ -483,9 +438,9 @@
     - **Body:**
     ```json
     {
-      "id": "UUID",
-      "article_id": "UUID",
-      "editor_id": "UUID",
+      "id": "id",
+      "article_id": "id",
+      "editor_id": "id",
       "previous_content": "string",
       "created_at": "timestamp"
     }
@@ -518,7 +473,7 @@
     - **Body:**
     ```json
     {
-      "reader_id": "UUID",
+      "reader_id": "id",
       "frequency": "daily_morning",
       "content_type": "top_headlines",
       "topics": ["string"],  // Array of topics stored as JSON
@@ -566,7 +521,7 @@
     - **Body:**
     ```json
     {
-      "reader_id": "UUID",
+      "reader_id": "id",
       "subscriptions": [
         {
           "frequency": "daily_morning",
@@ -675,7 +630,7 @@
     - **Body:**
     ```json
     {
-      "id": "UUID",
+      "id": "id",
       "name": "string",
       "type": "category"
     }
@@ -710,7 +665,7 @@
     ```json
     [
       {
-        "id": "UUID",
+        "id": "id",
         "name": "string",
         "type": "category"
       }
@@ -765,7 +720,7 @@
       "title": "string",
       "description": "string",
       "diagram_url": "string",
-      "author_id": "UUID"
+      "author_id": "id"
     }
     ```
 
@@ -776,11 +731,11 @@
     - **Body:**
     ```json
     {
-      "id": "UUID",
+      "id": "id",
       "title": "string",
       "description": "string",
       "diagram_url": "string",
-      "author_id": "UUID",
+      "author_id": "id",
       "created_at": "timestamp"
     }
     ```
@@ -814,11 +769,11 @@
     ```json
     [
       {
-        "id": "UUID",
+        "id": "id",
         "title": "string",
         "description": "string",
         "diagram_url": "string",
-        "author_id": "UUID",
+        "author_id": "id",
         "created_at": "timestamp",
         "updated_at": "timestamp"
       }
@@ -847,11 +802,11 @@
     - **Body:**
     ```json
     {
-      "id": "UUID",
+      "id": "id",
       "title": "string",
       "description": "string",
       "diagram_url": "string",
-      "author_id": "UUID",
+      "author_id": "id",
       "updated_at": "timestamp"
     }
     ```
@@ -914,7 +869,7 @@
     - **Body:**
     ```json
     {
-      "article_id": "UUID",
+      "article_id": "id",
       "summary": "string"
     }
     ```
@@ -926,7 +881,7 @@
     - **Body:**
     ```json
     {
-      "article_id": "UUID",
+      "article_id": "id",
       "summary": "string",
       "created_at": "timestamp"
     }
@@ -961,7 +916,7 @@
     - **Body:**
     ```json
     {
-      "article_id": "UUID",
+      "article_id": "id",
       "summary": "string",
       "created_at": "timestamp"
     }
@@ -987,7 +942,7 @@
     - **Body:**
     ```json
     {
-      "article_id": "UUID",
+      "article_id": "id",
       "summary": "string",
       "updated_at": "timestamp"
     }

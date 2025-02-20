@@ -15,6 +15,10 @@
 - Logout Functionality Completed
 - Error Handlings Functionality Completed
 
+## Second seeding method
+### flak shell
+### >>> from app.seeds.users import seed_users
+### >>> seed_users()
 
 
 ## Project progression 

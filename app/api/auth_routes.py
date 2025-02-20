@@ -1,71 +1,90 @@
-from flask import Blueprint, request
-from app.models import User, db
-from app.forms import LoginForm
-from app.forms import SignUpForm
+from flask import Blueprint, request, jsonify, redirect, url_for
 from flask_login import current_user, login_user, logout_user, login_required
+from app.models import User, db
+from werkzeug.security import generate_password_hash
+import uuid
 
 auth_routes = Blueprint('auth', __name__)
 
-
-@auth_routes.route('/')
+@auth_routes.route('', methods=['GET'])
 def authenticate():
     """
     Authenticates a user.
     """
     if current_user.is_authenticated:
-        return current_user.to_dict()
-    return {'errors': {'message': 'Unauthorized'}}, 401
-
+        return jsonify(current_user.to_dict()), 200
+    return jsonify({'errors': {'message': 'Unauthorized'}}), 401
 
 @auth_routes.route('/login', methods=['POST'])
 def login():
     """
-    Logs a user in
+    Logs a user in.
     """
-    form = LoginForm()
-    # Get the csrf_token from the request cookie and put it into the
-    # form manually to validate_on_submit can be used
-    form['csrf_token'].data = request.cookies['csrf_token']
-    if form.validate_on_submit():
-        # Add the user to the session, we are logged in!
-        user = User.query.filter(User.email == form.data['email']).first()
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+
+    user = User.query.filter(User.email == email).first()
+    if user and user.check_password(password):
         login_user(user)
-        return user.to_dict()
-    return form.errors, 401
+        return jsonify(user.to_dict()), 200
+    return jsonify({'errors': {'message': 'Invalid credentials'}}), 401
 
-
-@auth_routes.route('/logout')
+@auth_routes.route('/logout', methods=['POST'])
+@login_required
 def logout():
     """
-    Logs a user out
+    Logs a user out and redirects to Google.
     """
     logout_user()
-    return {'message': 'User logged out'}
+    return redirect('/login')  
 
+@auth_routes.route('/unauthorized', methods=['GET'])
+def unauthorized():
+    """
+    Handles unauthorized access.
+    """
+    return jsonify({'errors': {'message': 'Unauthorized'}}), 401
 
 @auth_routes.route('/signup', methods=['POST'])
 def sign_up():
     """
-    Creates a new user and logs them in
+    Creates a new user, logs them in, and returns their information.
     """
-    form = SignUpForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
-    if form.validate_on_submit():
-        user = User(
-            username=form.data['username'],
-            email=form.data['email'],
-            password=form.data['password']
-        )
-        db.session.add(user)
+    data = request.get_json()
+
+    first_name = data.get('firstName')
+    last_name = data.get('lastName')
+    email = data.get('email')
+    password = data.get('password')
+
+    # Ensure required fields are present
+    required_fields = [first_name, last_name, email, password]
+    if not all(required_fields):
+        return jsonify({'errors': ['All fields are required']}), 400
+
+    # Check if email is already used
+    if User.query.filter(User.email == email).first():
+        return jsonify({'errors': ['Email address is already in use.']}), 400
+
+    # Hash the password before saving
+    hashed_password = generate_password_hash(password)
+
+    # Create new user with 'editor' as the default role
+    user = User(
+        first_name=first_name,
+        last_name=last_name,
+        email=email,
+        password_hash=hashed_password,
+        role='editor'  # Default role is 'editor'
+    )
+
+    db.session.add(user)
+    try:
         db.session.commit()
-        login_user(user)
-        return user.to_dict()
-    return form.errors, 401
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'errors': ['Database error: ' + str(e)]}), 500
 
-
-@auth_routes.route('/unauthorized')
-def unauthorized():
-    """
-    Returns unauthorized JSON when flask-login authentication fails
-    """
-    return {'errors': {'message': 'Unauthorized'}}, 401
+    login_user(user)
+    return jsonify(user.to_dict()), 200

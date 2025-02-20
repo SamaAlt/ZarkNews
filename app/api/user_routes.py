@@ -1,39 +1,92 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import User
+from app.models import User, db
+from marshmallow import Schema, fields, validate, ValidationError
+from werkzeug.security import generate_password_hash, check_password_hash
+
+# User Schema for validation
+class UserUpdateSchema(Schema):
+    username = fields.String(validate=validate.Length(min=3, max=30))
+    email = fields.Email(required=False)
+    phone_number = fields.String(validate=validate.Regexp(r'^\+?[1-9]\d{1,14}$'), required=False)
+    first_name = fields.String(validate=validate.Length(min=1, max=100))
+    last_name = fields.String(validate=validate.Length(min=1, max=100))
+    street = fields.String(validate=validate.Length(min=1, max=255))
+    city = fields.String(validate=validate.Length(min=1, max=100))
+    state = fields.String(validate=validate.Length(min=1, max=100))
+    country = fields.String(validate=validate.Length(min=1, max=100))
+    postal_code = fields.String(validate=validate.Length(min=1, max=20))
+    password = fields.String(validate=validate.Length(min=6), required=False)  # Optional, to update password
 
 user_routes = Blueprint('users', __name__)
 
-def editor_required(func):
-    """
-    Custom decorator to require the editor role for route access.
-    """
-    def wrapper(*args, **kwargs):
-        if current_user.is_authenticated and current_user.role == 'editor':
-            return func(*args, **kwargs)
-        return {'errors': {'message': 'Unauthorized'}}, 401
-    return wrapper
-
-@user_routes.route('/')
+@user_routes.route('', methods=['GET'])
 @login_required
-def users():
+def get_users():
     """
-    Query for all users and returns them in a list of user dictionaries
+    Get all users (only accessible by editors)
     """
-    if current_user.role == 'editor':  # You can view user data if you're an editor
-        users = User.query.all()
-        return {'users': [user.to_dict() for user in users]}
-    return {'errors': {'message': 'Unauthorized'}}, 401
+    if current_user.role != 'editor' and current_user.role != 'admin':
+        return jsonify({"errors": ["Unauthorized"]}), 403
+    
+    users = User.query.all()
+    return jsonify({'users': [user.to_dict() for user in users]}), 200
 
-
-@user_routes.route('/<int:id>')
+@user_routes.route('/<int:id>', methods=['GET'])
 @login_required
-@editor_required  # Ensures that only editors can view this route
-def user(id):
+def get_user(id):
     """
-    Query for a user by id and returns that user in a dictionary
+    Get a specific user by ID
     """
     user = User.query.get(id)
-    if user:
-        return user.to_dict()
-    return {'errors': {'message': 'User not found'}}, 404
+    if not user:
+        return jsonify({"errors": ["User not found"]}), 404
+    return jsonify(user.to_dict()), 200
+
+@user_routes.route('/<int:id>', methods=['PUT'])
+@login_required
+def update_user(id):
+    """
+    Update a user by ID (only accessible by editors or admin)
+    """
+    if current_user.role not in ['editor', 'admin']:
+        return jsonify({"errors": ["Unauthorized"]}), 403
+
+    user = User.query.get(id)
+    if not user:
+        return jsonify({"errors": ["User not found"]}), 404
+
+    # Load the request data and validate it
+    schema = UserUpdateSchema()
+    try:
+        data = schema.load(request.get_json())  # Validate and deserialize
+    except ValidationError as err:
+        return jsonify({"errors": err.messages}), 400
+
+    # Apply valid updates to the user
+    for key, value in data.items():
+        if hasattr(user, key):
+            if key == 'password' and value:  # If password is included, hash it
+                user.password_hash = generate_password_hash(value)
+            else:
+                setattr(user, key, value)
+
+    db.session.commit()
+    return jsonify(user.to_dict()), 200
+
+@user_routes.route('/<int:id>', methods=['DELETE'])
+@login_required
+def delete_user(id):
+    """
+    Delete a user by ID (only accessible by admins)
+    """
+    if current_user.role != 'admin':
+        return jsonify({"errors": ["Unauthorized"]}), 403
+
+    user = User.query.get(id)
+    if not user:
+        return jsonify({"errors": ["User not found"]}), 404
+    
+    db.session.delete(user)
+    db.session.commit()
+    return jsonify({"message": "User deleted successfully"}), 200
