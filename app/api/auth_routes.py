@@ -2,7 +2,6 @@ from flask import Blueprint, request, jsonify, redirect, url_for
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, db
 from werkzeug.security import generate_password_hash
-import uuid
 
 auth_routes = Blueprint('auth', __name__)
 
