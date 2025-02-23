@@ -2,7 +2,6 @@ from app.models import db, Article, environment, SCHEMA
 from datetime import datetime, timedelta
 import json
 
-
 def seed_articles():
     articles = [
         {
@@ -16,7 +15,9 @@ def seed_articles():
             "author_id": 1,
             "section": "technology",
             "tags": json.dumps(["renewable", "energy", "solar", "wind"]),
-            "created_at": datetime.utcnow() - timedelta(days=10)
+            "created_at": datetime.utcnow() - timedelta(days=10),
+            "version_history": json.dumps([{"version": 1, "updated_at": (datetime.utcnow() - timedelta(days=10)).isoformat(), "changes": "Initial version"}])
+
         },
         {
             "title": "Top 10 Tech Gadgets of 2023",
@@ -29,7 +30,8 @@ def seed_articles():
             "author_id": 2,
             "section": "technology",
             "tags": json.dumps(["gadgets", "tech", "2023"]),
-            "created_at": datetime.utcnow() - timedelta(days=9)
+            "created_at": datetime.utcnow() - timedelta(days=9),             
+            "version_history": json.dumps([{"version": 1, "updated_at": (datetime.utcnow() - timedelta(days=10)).isoformat(), "changes": "Initial version"}])
         },
         {
             "title": "Global Markets React to New Policies",
@@ -42,7 +44,8 @@ def seed_articles():
             "author_id": 3,
             "section": "business",
             "tags": json.dumps(["markets", "policies", "global"]),
-            "created_at": datetime.utcnow() - timedelta(days=8)
+            "created_at": datetime.utcnow() - timedelta(days=8), 
+            "version_history": json.dumps([{"version": 1, "updated_at": (datetime.utcnow() - timedelta(days=10)).isoformat(), "changes": "Initial version"}])
         },
         {
             "title": "The Rise of E-Sports",
@@ -55,7 +58,8 @@ def seed_articles():
             "author_id": 4,
             "section": "sports",
             "tags": json.dumps(["esports", "gaming", "sports"]),
-            "created_at": datetime.utcnow() - timedelta(days=7)
+            "created_at": datetime.utcnow() - timedelta(days=7), 
+            "version_history": json.dumps([{"version": 1, "updated_at": (datetime.utcnow() - timedelta(days=10)).isoformat(), "changes": "Initial version"}])
         },
         {
             "title": "Hollywood's Newest Blockbusters",
@@ -68,7 +72,8 @@ def seed_articles():
             "author_id": 1,
             "section": "entertainment",
             "tags": json.dumps(["hollywood", "movies", "blockbusters"]),
-            "created_at": datetime.utcnow() - timedelta(days=6)
+            "created_at": datetime.utcnow() - timedelta(days=6), 
+            "version_history": json.dumps([{"version": 1, "updated_at": (datetime.utcnow() - timedelta(days=10)).isoformat(), "changes": "Initial version"}])
         },
         {
             "title": "The Impact of AI on Healthcare",
@@ -81,7 +86,8 @@ def seed_articles():
             "author_id": 2,
             "section": "technology",
             "tags": json.dumps(["AI", "healthcare", "technology"]),
-            "created_at": datetime.utcnow() - timedelta(days=5)
+            "created_at": datetime.utcnow() - timedelta(days=5), 
+            "version_history": json.dumps([{"version": 1, "updated_at": (datetime.utcnow() - timedelta(days=10)).isoformat(), "changes": "Initial version"}])
         },
         {
             "title": "The Best Travel Destinations for 2023",
@@ -94,7 +100,8 @@ def seed_articles():
             "author_id": 3,
             "section": "international",
             "tags": json.dumps(["travel", "destinations", "2023"]),
-            "created_at": datetime.utcnow() - timedelta(days=4)
+            "created_at": datetime.utcnow() - timedelta(days=4), 
+            "version_history": json.dumps([{"version": 1, "updated_at": (datetime.utcnow() - timedelta(days=10)).isoformat(), "changes": "Initial version"}])
         },
         {
             "title": "The Evolution of Smartphones",
@@ -107,7 +114,8 @@ def seed_articles():
             "author_id": 4,
             "section": "technology",
             "tags": json.dumps(["smartphones", "tech", "evolution"]),
-            "created_at": datetime.utcnow() - timedelta(days=3)
+            "created_at": datetime.utcnow() - timedelta(days=3), 
+            "version_history": json.dumps([{"version": 1, "updated_at": (datetime.utcnow() - timedelta(days=10)).isoformat(), "changes": "Initial version"}])
         },
         {
             "title": "The Future of Work: Remote vs Office",
@@ -120,7 +128,8 @@ def seed_articles():
             "author_id": 1,
             "section": "business",
             "tags": json.dumps(["work", "remote", "office"]),
-            "created_at": datetime.utcnow() - timedelta(days=2)
+            "created_at": datetime.utcnow() - timedelta(days=2), 
+            "version_history": json.dumps([{"version": 1, "updated_at": (datetime.utcnow() - timedelta(days=10)).isoformat(), "changes": "Initial version"}])
         },
         {
             "title": "The Rise of Plant-Based Diets",
@@ -133,7 +142,8 @@ def seed_articles():
             "author_id": 2,
             "section": "national",
             "tags": json.dumps(["diet", "plant-based", "health"]),
-            "created_at": datetime.utcnow() - timedelta(days=1)
+            "created_at": datetime.utcnow() - timedelta(days=1), 
+            "version_history": json.dumps([{"version": 1, "updated_at": (datetime.utcnow() - timedelta(days=10)).isoformat(), "changes": "Initial version"}])
         },
         {
             "title": "The Impact of Climate Change on Agriculture",
@@ -146,7 +156,8 @@ def seed_articles():
             "author_id": 3,
             "section": "national",
             "tags": json.dumps(["climate", "agriculture", "farming"]),
-            "created_at": datetime.utcnow() - timedelta(days=15)
+            "created_at": datetime.utcnow() - timedelta(days=15), 
+            "version_history": json.dumps([{"version": 1, "updated_at": (datetime.utcnow() - timedelta(days=10)).isoformat(), "changes": "Initial version"}])
         },
         {
             "title": "The Future of Space Exploration",
@@ -159,7 +170,8 @@ def seed_articles():
             "author_id": 4,
             "section": "technology",
             "tags": json.dumps(["space", "exploration", "future"]),
-            "created_at": datetime.utcnow() - timedelta(days=14)
+            "created_at": datetime.utcnow() - timedelta(days=14), 
+            "version_history": json.dumps([{"version": 1, "updated_at": (datetime.utcnow() - timedelta(days=10)).isoformat(), "changes": "Initial version"}])
         },
         {
             "title": "The Role of Big Data in Business",
@@ -172,7 +184,8 @@ def seed_articles():
             "author_id": 1,
             "section": "business",
             "tags": json.dumps(["big data", "business", "analytics"]),
-            "created_at": datetime.utcnow() - timedelta(days=13)
+            "created_at": datetime.utcnow() - timedelta(days=13), 
+            "version_history": json.dumps([{"version": 1, "updated_at": (datetime.utcnow() - timedelta(days=10)).isoformat(), "changes": "Initial version"}])
         },
         {
             "title": "The Rise of Virtual Reality",
@@ -185,7 +198,8 @@ def seed_articles():
             "author_id": 2,
             "section": "technology",
             "tags": json.dumps(["VR", "virtual reality", "tech"]),
-            "created_at": datetime.utcnow() - timedelta(days=12)
+            "created_at": datetime.utcnow() - timedelta(days=12), 
+            "version_history": json.dumps([{"version": 1, "updated_at": (datetime.utcnow() - timedelta(days=10)).isoformat(), "changes": "Initial version"}])
         },
         {
             "title": "The Future of Electric Vehicles",
@@ -198,7 +212,8 @@ def seed_articles():
             "author_id": 3,
             "section": "technology",
             "tags": json.dumps(["EV", "electric vehicles", "future"]),
-            "created_at": datetime.utcnow() - timedelta(days=11)
+            "created_at": datetime.utcnow() - timedelta(days=11), 
+            "version_history": json.dumps([{"version": 1, "updated_at": (datetime.utcnow() - timedelta(days=10)).isoformat(), "changes": "Initial version"}])
         },
         {
             "title": "The Impact of Social Media on Mental Health",
@@ -211,7 +226,8 @@ def seed_articles():
             "author_id": 4,
             "section": "national",
             "tags": json.dumps(["social media", "mental health", "well-being"]),
-            "created_at": datetime.utcnow() - timedelta(days=10)
+            "created_at": datetime.utcnow() - timedelta(days=10), 
+            "version_history": json.dumps([{"version": 1, "updated_at": (datetime.utcnow() - timedelta(days=10)).isoformat(), "changes": "Initial version"}])
         },
         {
             "title": "The Future of Quantum Computing",
@@ -224,7 +240,8 @@ def seed_articles():
             "author_id": 1,
             "section": "technology",
             "tags": json.dumps(["quantum", "computing", "future"]),
-            "created_at": datetime.utcnow() - timedelta(days=9)
+            "created_at": datetime.utcnow() - timedelta(days=9), 
+            "version_history": json.dumps([{"version": 1, "updated_at": (datetime.utcnow() - timedelta(days=10)).isoformat(), "changes": "Initial version"}])
         },
         {
             "title": "The Rise of Online Education",
@@ -237,7 +254,8 @@ def seed_articles():
             "author_id": 2,
             "section": "national",
             "tags": json.dumps(["education", "online", "learning"]),
-            "created_at": datetime.utcnow() - timedelta(days=8)
+            "created_at": datetime.utcnow() - timedelta(days=8), 
+            "version_history": json.dumps([{"version": 1, "updated_at": (datetime.utcnow() - timedelta(days=10)).isoformat(), "changes": "Initial version"}])
         },
         {
             "title": "The Impact of 5G on Mobile Technology",
@@ -250,7 +268,8 @@ def seed_articles():
             "author_id": 3,
             "section": "technology",
             "tags": json.dumps(["5G", "mobile", "technology"]),
-            "created_at": datetime.utcnow() - timedelta(days=7)
+            "created_at": datetime.utcnow() - timedelta(days=7), 
+            "version_history": json.dumps([{"version": 1, "updated_at": (datetime.utcnow() - timedelta(days=10)).isoformat(), "changes": "Initial version"}])
         },
         {
             "title": "The Future of Cybersecurity",
@@ -263,12 +282,27 @@ def seed_articles():
             "author_id": 4,
             "section": "technology",
             "tags": json.dumps(["cybersecurity", "future", "tech"]),
-            "created_at": datetime.utcnow() - timedelta(days=6)
+            "created_at": datetime.utcnow() - timedelta(days=6), 
+            "version_history": json.dumps([{"version": 1, "updated_at": (datetime.utcnow() - timedelta(days=10)).isoformat(), "changes": "Initial version"}])
         }
     ]
 
     for article_data in articles:
-        article = Article(**article_data)
+        # Create an Article instance
+        article = Article(
+            title=article_data["title"],
+            display_type=article_data["display_type"],
+            content=article_data["content"],
+            image_filename=article_data["image_filename"],
+            youtube_embed_url=article_data["youtube_embed_url"],
+            location=article_data["location"],
+            contributors=article_data["contributors"],
+            author_id=article_data["author_id"],
+            section=article_data["section"],
+            tags=article_data["tags"],
+            version_history=article_data["version_history"],
+            created_at=article_data["created_at"]
+        )
         db.session.add(article)
 
     db.session.commit()

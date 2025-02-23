@@ -105,53 +105,43 @@
 # DB & Relationships
 
    ```json
+
 Table users {
-    id INT [primary key, increment] 
-    role ENUM('editor', 'admin') [not null]
-    username VARCHAR(30) [not null, unique]
-    email VARCHAR(255) [not null, unique]
-    password_hash VARCHAR(255) [not null]
+    id INT [primary key, increment]
     first_name VARCHAR(100) [not null]
     last_name VARCHAR(100) [not null]
-    phone_number VARCHAR(20) [unique]
-    street VARCHAR(255) [not null]
-    city VARCHAR(100) [not null]
-    state VARCHAR(100) [not null]
-    country VARCHAR(100) [not null]
-    postal_code VARCHAR(20) [not null]
-    created_at TIMESTAMP [default: 'CURRENT_TIMESTAMP']
+    email VARCHAR(255) [not null, unique]
+    password_hash VARCHAR(255) [not null]
+    role ENUM('editor', 'admin', 'reader') [not null]
+    created_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
 }
 
 Table articles {
     id INT [primary key, increment]
     title VARCHAR(255) [not null]
+    display_type VARCHAR(50) [not null]
     content TEXT [not null]
-    image_url VARCHAR(255)
+    image_filename VARCHAR(255)
     youtube_embed_url VARCHAR(255)
     location VARCHAR(255) [not null]
     contributors TEXT
     author_id INT [not null]
-    tags JSON
-    created_at TIMESTAMP [default: 'CURRENT_TIMESTAMP']
-    updated_at TIMESTAMP [default: 'CURRENT_TIMESTAMP']
+    section VARCHAR(50) [not null]
+    tags TEXT [not null, default: '[]']
+    created_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+    updated_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+    version_history TEXT [default: '[]']
 }
 
-Table article_edits {
+Table subscriptions {
     id INT [primary key, increment]
-    article_id INT [not null]
-    editor_id INT [not null]
-    previous_content TEXT
-    edited_at TIMESTAMP [default: 'CURRENT_TIMESTAMP']
-}
-
-Table newsletters {
-    id INT [primary key, increment]
-    reader_id INT [not null]
-    frequency ENUM('daily_morning', 'daily_evening', 'weekly', 'monthly', 'real_time') [not null]
-    content_type ENUM('top_headlines', 'in_depth', 'opinion', 'trending', 'local_news') [not null]
-    topics JSON
-    notification_preferences JSON
-    created_at TIMESTAMP [default: 'CURRENT_TIMESTAMP']
+    first_name VARCHAR(100) [not null]
+    last_name VARCHAR(100) [not null]
+    email VARCHAR(255) [not null, unique]
+    frequency ENUM('Daily', 'Weekly', 'Monthly') [not null]
+    sections TEXT [default: '[]']
+    tags TEXT [default: '[]']
+    subscribed_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
 }
 
 Table search_filters {
@@ -172,25 +162,20 @@ Table research_diagrams {
     description TEXT
     diagram_url VARCHAR(255) [not null]
     created_by INT [not null]
-    created_at TIMESTAMP [default: 'CURRENT_TIMESTAMP']
-    updated_at TIMESTAMP [default: 'CURRENT_TIMESTAMP']
+    created_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+    updated_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
 }
 
 Table ai_reporters {
     id INT [primary key, increment]
     article_id INT [not null]
     summary TEXT [not null]
-    created_at TIMESTAMP [default: 'CURRENT_TIMESTAMP']
+    created_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
 }
 
-// Relationships
-
 Ref: articles.author_id > users.id
-Ref: article_edits.article_id > articles.id
-Ref: article_edits.editor_id > users.id
 Ref: article_filters.article_id > articles.id
 Ref: article_filters.filter_id > search_filters.id
 Ref: research_diagrams.created_by > users.id
 Ref: ai_reporters.article_id > articles.id
-Ref: newsletters.reader_id > users.id
 ```

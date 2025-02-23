@@ -1,4 +1,5 @@
-from .db import db, environment, SCHEMA 
+# models/user.py
+from .db import db, environment, SCHEMA
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from sqlalchemy.dialects.postgresql import TIMESTAMP
@@ -15,18 +16,15 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=True)
     password_hash = db.Column(db.String(255), nullable=False)
-    role = db.Column(db.Enum('editor', 'admin', 'reader', name='user_roles'), nullable=False, server_default='editor')  
+    role = db.Column(db.Enum('editor', 'admin', 'reader', name='user_roles'), nullable=False)  
     created_at = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp())
 
-    # Reverse relationships
-    # use lazy='dynamic' for better performance when querying for filtering, search, sorting, pagination, etc.
-    # articles = db.relationship('Article', back_populates='author', lazy='dynamic')
-    # newsletters = db.relationship('Newsletter', back_populates='author', lazy='dynamic')
-    # research_diagrams = db.relationship('ResearchDiagram', back_populates='author', lazy='dynamic')
+    # Relationships
+    articles = db.relationship('Article', back_populates='author', lazy=True)
 
     @property
     def password(self):
-        raise AttributeError("Password is not readable.")  # Prevent direct access
+        raise AttributeError("Password is not readable.")
 
     @password.setter
     def password(self, password):
