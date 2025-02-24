@@ -1,14 +1,18 @@
 import os
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, send_from_directory
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
-from .models import db, User, Article, Subscription
+from  .api import user_routes, auth_routes, article_routes, subscription_routes
+
 from .models import environment, SCHEMA
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
-from .api.upload_routes import upload_routes
+from .api.article_routes import article_routes
+from .api.subscription_routes import subscription_routes
+
+from .models import db, User, Article, Subscription
 
 from .seeds import seed_commands
 from .config import Config
@@ -29,15 +33,24 @@ def load_user(id):
 app.cli.add_command(seed_commands)
 
 app.config.from_object(Config)
-app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
-app.register_blueprint(upload_routes)
+app.register_blueprint(user_routes, url_prefix='/api/users')
+app.register_blueprint(article_routes, url_prefix='/api/articles')
+app.register_blueprint(subscription_routes, url_prefix='/api/subscriptions')
+
 db.init_app(app)
 Migrate(app, db)
 
 # Application Security
 CORS(app)
 
+# Serve uploaded media files
+@app.route('/media/uploads/<filename>')
+def uploaded_file(filename):
+    """
+    Serve uploaded files from the media/uploads folder.
+    """
+    return send_from_directory(Config.UPLOAD_FOLDER, filename)
 
 # Since we are deploying with Docker and Flask,
 # we won't be using a buildpack when we deploy to Heroku.

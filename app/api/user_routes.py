@@ -6,17 +6,17 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 # User Schema for validation
 class UserUpdateSchema(Schema):
-    username = fields.String(validate=validate.Length(min=3, max=30))
-    email = fields.Email(required=False)
-    phone_number = fields.String(validate=validate.Regexp(r'^\+?[1-9]\d{1,14}$'), required=False)
     first_name = fields.String(validate=validate.Length(min=1, max=100))
     last_name = fields.String(validate=validate.Length(min=1, max=100))
+    email = fields.Email(required=False)
+    password = fields.String(validate=validate.Length(min=6), required=False)  
+    username = fields.String(validate=validate.Length(min=3, max=30))
+    phone_number = fields.String(validate=validate.Regexp(r'^\+?[1-9]\d{1,14}$'), required=False)
     street = fields.String(validate=validate.Length(min=1, max=255))
     city = fields.String(validate=validate.Length(min=1, max=100))
     state = fields.String(validate=validate.Length(min=1, max=100))
     country = fields.String(validate=validate.Length(min=1, max=100))
     postal_code = fields.String(validate=validate.Length(min=1, max=20))
-    password = fields.String(validate=validate.Length(min=6), required=False)  # Optional, to update password
 
 user_routes = Blueprint('users', __name__)
 

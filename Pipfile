@@ -28,6 +28,7 @@ flask-migrate = "*"
 flask-login = "*"
 wtforms = "*"
 flask-wtf = "*"
+defusedxml = "*"
 
 [dev-packages]
 

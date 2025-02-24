@@ -12,7 +12,7 @@ class Article(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     VALID_DISPLAY_TYPES = {'headline', 'sidebar_1', 'sidebar_2', 'sidebar_3', 'list', 'ads_1', 'ads_2', 'archived'}
-    VALID_SECTIONS = {'national', 'international', 'business', 'sports', 'entertainment', 'technology'}
+    VALID_SECTIONS = {'national', 'world', 'business', 'sports', 'entertainment', 'technology'}
 
     id = db.Column(Integer, primary_key=True, autoincrement=True)
     title = db.Column(String(255), nullable=False)
@@ -23,7 +23,7 @@ class Article(db.Model):
     location = db.Column(String(255), nullable=False)
     contributors = db.Column(db.Text)
     author_id = db.Column(Integer, db.ForeignKey('users.id'), nullable=False)
-    section = db.Column(String(50), nullable=False)  # Enforce in Frontend: 'national', 'international', etc.
+    section = db.Column(String(50), nullable=False)  # Enforce in Frontend: 'national', 'world', etc.
     tags = db.Column(db.Text, nullable=False, default='[]') 
     created_at = db.Column(DateTime, server_default=db.func.current_timestamp())
     updated_at = db.Column(DateTime, server_default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())

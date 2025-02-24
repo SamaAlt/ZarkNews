@@ -31,7 +31,7 @@ def seed_subscriptions():
             last_name='Johnson',
             email='alice.johnson@example.com',
             frequency='Monthly',
-            sections=json.dumps(['entertainment', 'international']),
+            sections=json.dumps(['entertainment', 'world']),
             tags=json.dumps(['movies', 'travel']),
             subscribed_at=datetime.utcnow()
         )

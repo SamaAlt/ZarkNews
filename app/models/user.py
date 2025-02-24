@@ -16,7 +16,7 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=True)
     password_hash = db.Column(db.String(255), nullable=False)
-    role = db.Column(db.Enum('editor', 'admin', 'reader', name='user_roles'), nullable=False)  
+    role = db.Column(db.Enum('editor', 'admin', name='user_roles'), nullable=False, default='editor')   
     created_at = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp())
 
     # Relationships

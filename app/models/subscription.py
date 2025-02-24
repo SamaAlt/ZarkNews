@@ -11,7 +11,7 @@ class Subscription(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     VALID_FREQUENCIES = {'Daily', 'Weekly', 'Monthly'}
-    VALID_SECTIONS = {'national', 'international', 'business', 'sports', 'entertainment', 'technology'}
+    VALID_SECTIONS = {'national', 'world', 'business', 'sports', 'entertainment', 'technology'}
 
     id = db.Column(Integer, primary_key=True, autoincrement=True)
     first_name = db.Column(String(100), nullable=False)
