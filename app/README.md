@@ -1,8 +1,8 @@
-
 # Zark News API Documentation
 
-Welcome to the ZarkNews API! This API powers the backend for ZarkNews, a platform for managing newspaper articles, subscriptions, and research diagrams. Below, you'll find everything you need to get started, including API documentation, database schema details, and instructions for testing the API.
+Welcome to the ZarkNews project! This repository contains both the **frontend** and **backend** for ZarkNews, a platform for managing newspaper articles, subscriptions, and research diagrams. The backend API powers the core functionality, while the frontend provides a user-friendly interface for interacting with the platform.
 
+Below, you'll find everything you need to get started with the **backend API**, including documentation, database schema details, and instructions for testing the API.
 
 To explore the API endpoints, test requests, and view examples of error responses, check out the full API documentation on Postman:
 
