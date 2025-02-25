@@ -1031,8 +1031,6 @@ Authentication Required
 
 ## Database Schema
 
-![alt text](db_schema.png)
-
 ``` json
 
 Table users {
