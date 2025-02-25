@@ -1,7 +1,12 @@
 
-# Zark Newspaper API Documentation
-- For error responses please visit full documentation at: 
-https://documenter.getpostman.com/view/40420607/2sAYdeNC6k
+## Zark News API Documentation
+
+To explore the API endpoints, test requests, and view examples of error responses, check out the full API documentation on Postman:
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://documenter.getpostman.com/view/40420607/2sAYdeNC6k)
+
+- **Documentation Link**: [Zark Newspaper API Docs](https://documenter.getpostman.com/view/40420607/2sAYdeNC6k)
+- **Run in Postman**: Click the button above to import the collection directly into your Postman app.
 
 **Database Schema**
 
