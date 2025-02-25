@@ -1,5 +1,8 @@
 
-## Zark News API Documentation
+# Zark News API Documentation
+
+Welcome to the ZarkNews API! This API powers the backend for ZarkNews, a platform for managing newspaper articles, subscriptions, and research diagrams. Below, you'll find everything you need to get started, including API documentation, database schema details, and instructions for testing the API.
+
 
 To explore the API endpoints, test requests, and view examples of error responses, check out the full API documentation on Postman:
 
@@ -8,13 +11,28 @@ To explore the API endpoints, test requests, and view examples of error response
 - **Documentation Link**: [Zark Newspaper API Docs](https://documenter.getpostman.com/view/40420607/2sAYdeNC6k)
 - **Run in Postman**: Click the button above to import the collection directly into your Postman app.
 
-**Database Schema**
+---
 
+## Table of Contents
+- [Features](#features)
+- [API Documentation](#api-documentation)
+- [Database Schema](#database-schema)
+
+---
 ![alt text](db_schema.png)
+---
 
---- 
+## Features
+- **User Management**: Create and manage users with roles (`editor` or `admin`).
+- **Article Management**: Create, update, and retrieve articles with rich content (text, images, YouTube embeds).
+- **Subscriptions**: Readers manage subscriptions with customizable frequency and preferences.
+- **Search Filters**: Filter articles by categories, tags, or locations.
+- **Research Diagrams**: Upload and manage research diagrams with titles and descriptions.
+- **AI Reporters**: Generate summaries for articles using AI.
 
-# Zark News is a platform where editors manage articles, while readers can view, search, filter content, and subscribe to updates.
+---
+
+## API Documentation
 
 ## User and Authentication
 Authentication Required Endpoints:
@@ -1009,4 +1027,84 @@ Authentication Required
         "startups"
     ]
 }
+```
+
+## Database Schema
+
+![alt text](db_schema.png)
+
+``` json
+
+Table users {
+    id INT [primary key, increment]
+    first_name VARCHAR(100) [not null]
+    last_name VARCHAR(100) [not null]
+    email VARCHAR(255) [not null, unique]
+    password_hash VARCHAR(255) [not null]
+    role ENUM('editor', 'admin') [not null]
+    created_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Table articles {
+    id INT [primary key, increment]
+    title VARCHAR(255) [not null]
+    display_type VARCHAR(50) [not null]
+    content TEXT [not null]
+    image_filename VARCHAR(255)
+    youtube_embed_url VARCHAR(255)
+    location VARCHAR(255) [not null]
+    contributors TEXT
+    author_id INT [not null]
+    section VARCHAR(50) [not null]
+    tags TEXT [not null, default: '[]']
+    created_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+    updated_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+    version_history TEXT [default: '[]']
+}
+
+Table subscriptions {
+    id INT [primary key, increment]
+    first_name VARCHAR(100) [not null]
+    last_name VARCHAR(100) [not null]
+    email VARCHAR(255) [not null, unique]
+    frequency ENUM('Daily', 'Weekly', 'Monthly') [not null]
+    sections TEXT [default: '[]']
+    tags TEXT [default: '[]']
+    subscribed_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Table search_filters {
+    id INT [primary key, increment]
+    name VARCHAR(255) [not null, unique]
+    type ENUM('category', 'tag', 'location') [not null]
+}
+
+Table article_filters {
+    article_id INT [not null]
+    filter_id INT [not null]
+    primary key (article_id, filter_id)
+}
+
+Table research_diagrams {
+    id INT [primary key, increment]
+    title VARCHAR(255) [not null]
+    description TEXT
+    diagram_url VARCHAR(255) [not null]
+    created_by INT [not null]
+    created_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+    updated_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Table ai_reporters {
+    id INT [primary key, increment]
+    article_id INT [not null]
+    summary TEXT [not null]
+    created_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Ref: articles.author_id > users.id
+Ref: article_filters.article_id > articles.id
+Ref: article_filters.filter_id > search_filters.id
+Ref: research_diagrams.created_by > users.id
+Ref: ai_reporters.article_id > articles.id
 ```

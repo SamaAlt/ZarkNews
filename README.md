@@ -1,131 +1,1110 @@
-# Flask React Project
 
-This is the starter for the Flask React project.
+# Zark News API Documentation
 
-## Getting started
+Welcome to the ZarkNews API! This API powers the backend for ZarkNews, a platform for managing newspaper articles, subscriptions, and research diagrams. Below, you'll find everything you need to get started, including API documentation, database schema details, and instructions for testing the API.
 
-1. Clone this repository (only this branch).
 
-2. Install dependencies.
+To explore the API endpoints, test requests, and view examples of error responses, check out the full API documentation on Postman:
 
-   ```bash
-   pipenv install -r requirements.txt
-   ```
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://documenter.getpostman.com/view/40420607/2sAYdeNC6k)
 
-3. Create a __.env__ file based on the example with proper settings for your
-   development environment.
+- **Documentation Link**: [Zark Newspaper API Docs](https://documenter.getpostman.com/view/40420607/2sAYdeNC6k)
+- **Run in Postman**: Click the button above to import the collection directly into your Postman app.
 
-4. Make sure the SQLite3 database connection URL is in the __.env__ file.
+---
 
-5. This starter organizes all tables inside the `flask_schema` schema, defined
-   by the `SCHEMA` environment variable.  Replace the value for
-   `SCHEMA` with a unique name, **making sure you use the snake_case
-   convention.**
+## Table of Contents
+- [Features](#features)
+- [API Documentation](#api-documentation)
+- [Database Schema](#database-schema)
 
-6. Get into your pipenv, migrate your database, seed your database, and run your
-   Flask app:
+---
+![alt text](db_schema.png)
+---
 
-   ```bash
-   pipenv shell
-   ```
+## Features
+- **User Management**: Create and manage users with roles (`editor` or `admin`).
+- **Article Management**: Create, update, and retrieve articles with rich content (text, images, YouTube embeds).
+- **Subscriptions**: Readers manage subscriptions with customizable frequency and preferences.
+- **Search Filters**: Filter articles by categories, tags, or locations.
+- **Research Diagrams**: Upload and manage research diagrams with titles and descriptions.
+- **AI Reporters**: Generate summaries for articles using AI.
 
-   ```bash
-   flask db upgrade
-   ```
+---
 
-   ```bash
-   flask seed all
-   ```
+## API Documentation
 
-   ```bash
-   flask run
-   ```
+## User and Authentication
+Authentication Required Endpoints:
+- All endpoints that require authentication require the user to be logged in.
 
-7. The React frontend has no styling applied. Copy the __.css__ files from your
-   Authenticate Me project into the corresponding locations in the
-   __react-vite__ folder to give your project a unique look.
+### Sign up a User
 
-8. To run the React frontend in development, `cd` into the __react-vite__
-   directory and run `npm i` to install dependencies. Next, run `npm run build`
-   to create the `dist` folder. The starter has modified the `npm run build`
-   command to include the `--watch` flag. This flag will rebuild the __dist__
-   folder whenever you change your code, keeping the production version up to
-   date.
+**Request:**
 
-## Deployment through Render.com
+- **Method:** POST
+- **URL:** /api/auth/signup
+- **Body**
+```json
+{
+    "firstName": "Mike",
+    "lastName": "Mint",
+    "email": "mike.mint@zarknews.com",
+    "password": "Securepassword123"
+}
+```
 
-First, recall that Vite is a development dependency, so it will not be used in
-production. This means that you must already have the __dist__ folder located in
-the root of your __react-vite__ folder when you push to GitHub. This __dist__
-folder contains your React code and all necessary dependencies minified and
-bundled into a smaller footprint, ready to be served from your Python API.
+**Example Request** Successful Signup 
+- **Body**
+```json
 
-Begin deployment by running `npm run build` in your __react-vite__ folder and
-pushing any changes to GitHub.
+{
+    "firstName": "Mike",
+    "lastName": "Mint",
+    "email": "mike.mint@zarknews.com",
+    "password": "Securepassword123"
+}
+```
 
-Refer to your Render.com deployment articles for more detailed instructions
-about getting started with [Render.com], creating a production database, and
-deployment debugging tips.
+**Example Response**
+- **Status Code:**  200 OK
+- **Body**
+```json
+{
+    "created_at": "2025-02-25T01:37:53",
+    "email": "mike.mint@zarknews.com",
+    "first_name": "Mike",
+    "id": 5,
+    "last_name": "Mint",
+    "role": "editor"
+}
+```
 
-From the Render [Dashboard], click on the "New +" button in the navigation bar,
-and click on "Web Service" to create the application that will be deployed.
+### Login User
 
-Select that you want to "Build and deploy from a Git repository" and click
-"Next". On the next page, find the name of the application repo you want to
-deploy and click the "Connect" button to the right of the name.
+**Request:**
 
-Now you need to fill out the form to configure your app. Most of the setup will
-be handled by the __Dockerfile__, but you do need to fill in a few fields.
+- **Method:** POST
+- **URL:** /api/auth/login
+- **Body**
+```json
+{
+  "email": "demo@zarknews.com",
+  "password": "StrongPassword1"
+}
+```
 
-Start by giving your application a name.
+**Example Request** Successful Login
 
-Make sure the Region is set to the location closest to you, the Branch is set to
-"main", and Runtime is set to "Docker". You can leave the Root Directory field
-blank. (By default, Render will run commands from the root directory.)
+```json
+{
+  "email": "demo@zarknews.com",
+  "password": "StrongPassword1"
+}
+```
 
-Select "Free" as your Instance Type.
+**Example Response**
 
-### Add environment variables
+- **Body**
+```json
 
-In the development environment, you have been securing your environment
-variables in a __.env__ file, which has been removed from source control (i.e.,
-the file is gitignored). In this step, you will need to input the keys and
-values for the environment variables you need for production into the Render
-GUI.
+{
+    "created_at": "2025-02-23T20:15:48",
+    "email": "demo@zarknews.com",
+    "first_name": "Demo",
+    "id": 1,
+    "last_name": "User",
+    "role": "editor"
+}
+```
 
-Add the following keys and values in the Render GUI form:
+### Get All Users
 
-- SECRET_KEY (click "Generate" to generate a secure secret for production)
-- FLASK_ENV production
-- FLASK_APP app
-- SCHEMA (your unique schema name, in snake_case)
+**Request:**
 
-In a new tab, navigate to your dashboard and click on your Postgres database
-instance.
+- **Method:** GET
+- **URL:** /api/users
+- **Body**
+```json
+{
+    "email": "ssie.doe@example.com",
+    "password": "securepassword123"
+}
+```
+- **Example Response** 
+- **Status Code:**  200 OK
+- **Body**
+```json
+{
+    "users": [
+        {
+            "created_at": "2025-02-23T20:15:48",
+            "email": "demo@zarknews.com",
+            "first_name": "Demo",
+            "id": 1,
+            "last_name": "User",
+            "role": "editor"
+        },
+        {
+            "created_at": "2025-02-23T20:15:48",
+            "email": "amy@zarknews.com",
+            "first_name": "Amy",
+            "id": 2,
+            "last_name": "Dunder",
+            "role": "editor"
+        },
+        {
+            "created_at": "2025-02-23T20:15:48",
+            "email": "jack@zarknews.com",
+            "first_name": "Jack",
+            "id": 3,
+            "last_name": "Waters",
+            "role": "editor"
+        },
+        {
+            "created_at": "2025-02-23T20:15:48",
+            "email": "jill@zarknews.com",
+            "first_name": "Jill",
+            "id": 4,
+            "last_name": "Waters",
+            "role": "editor"
+        },
+        {
+            "created_at": "2025-02-25T01:37:53",
+            "email": "mike.mint@zarknews.com",
+            "first_name": "Mike",
+            "id": 5,
+            "last_name": "Mint",
+            "role": "editor"
+        },
+        {
+            "created_at": "2025-02-25T01:38:33",
+            "email": "mie.mint@zarknews.com",
+            "first_name": "Mike",
+            "id": 6,
+            "last_name": "Mint",
+            "role": "editor"
+        }
+    ]
+}
+```
 
-Add the following keys and values:
 
-- DATABASE_URL (copy value from the **External Database URL** field)
+### Get User by Id
 
-**Note:** Add any other keys and values that may be present in your local
-__.env__ file. As you work to further develop your project, you may need to add
-more environment variables to your local __.env__ file. Make sure you add these
-environment variables to the Render GUI as well for the next deployment.
+**Request:**
 
-### Deploy
+- **Method:** GET
+- **URL:** /api/users/<id>
+- **Body**
+```json
+{
+  "email": "demo@zarknew.com",
+  "password": "StrongPassword1"
+}
+```
 
-Now you are finally ready to deploy! Click "Create Web Service" to deploy your
-project. The deployment process will likely take about 10-15 minutes if
-everything works as expected. You can monitor the logs to see your Dockerfile
-commands being executed and any errors that occur.
+- **Example Request** Successful response
 
-When deployment is complete, open your deployed site and check to see that you
-have successfully deployed your Flask application to Render! You can find the
-URL for your site just below the name of the Web Service at the top of the page.
+```json
+{
+  "email": "demo@zarknew.com",
+  "password": "StrongPassword1"
+}
+```
+- **Example Response**
+- **Status Code:**  200 OK
+- **Body**
+```json
 
-**Note:** By default, Render will set Auto-Deploy for your project to true. This
-setting will cause Render to re-deploy your application every time you push to
-main, always keeping it up to date.
+{
+    "created_at": "2025-02-23T20:15:48",
+    "email": "jill@zarknews.com",
+    "first_name": "Jill",
+    "id": 4,
+    "last_name": "Waters",
+    "role": "editor"
+}
+```
 
-[Render.com]: https://render.com/
-[Dashboard]: https://dashboard.render.com/
+### Update User by Id
+
+**Request:**
+
+- **Method:** PUT
+- **URL:** /api/users/<id>
+- **Body**
+```json
+{
+  "last_name": "Vance"
+}
+```
+
+- **Example Request** Successful
+- **Body**
+
+```json
+{
+  "last_name": "Vance"
+}
+```
+- **Example Response** 
+- **Status Code:**  200 OK
+- **Body**
+```json
+
+{
+    "created_at": "2025-02-23T20:15:48",
+    "email": "jill@zarknews.com",
+    "first_name": "Jill",
+    "id": 4,
+    "last_name": "Vance",
+    "role": "editor"
+}
+```
+
+### Delete a User
+
+**Request:**
+
+- **Method:** POST
+- **URL:** /api/users/<id>
+- **Body**
+```json
+{
+  "email": "demo@zarknews.com",
+  "password": "StrongPassword1"
+}
+```
+
+- **Example Request** Successful
+```json
+{
+  "email": "demo@zarknews.com",
+  "password": "StrongPassword1"
+}
+```
+
+- **Example Response** 
+- **Status Code:**  200 OK
+- **Body**
+```json
+
+{
+    "message": "User deleted successfully"
+}
+```
+
+
+
+### Get Current User
+
+**Request:**
+
+- **Method:** GET
+- **URL:** /api/auth
+---
+- **Example Response** Successful Authentication
+- **Body**
+```json
+{
+    "created_at": "2025-02-23T20:15:48",
+    "email": "demo@zarknews.com",
+    "first_name": "Demo",
+    "id": 1,
+    "last_name": "User",
+    "role": "editor"
+}
+```
+
+### Logout User
+Authentication Required
+
+**Request:**
+
+- **Method:** POST
+- **URL:** /api/auth/logout
+---
+- **Example Response** Successful Logout
+
+<html><p> Login Page </p></html>
+
+
+
+### Unauthorized Request
+
+**Request:**
+
+- **Method:** GET
+- **URL:** /api/auth/unauthorized
+
+---
+- **Example Response** 401 Unauthorized
+
+- **Body**
+```json
+
+{
+    "errors": {
+        "message": "Unauthorized"
+    }
+}
+```
+
+## Articles
+
+### Get All Articles
+- **Method:** GET
+- **URL:** /api/articles
+- **Body**
+```json
+{
+  "email": "demo@zarknews.com",
+  "password": "StrongPassword1"
+}
+```
+
+- **Example Request** Successful | All articles
+- **Status Code:**  200 OK
+- **Body**
+```json
+{
+  "email": "demo@zarknews.com",
+  "password": "StrongPassword1"
+}
+```
+
+- **Example Response**
+- **Body**
+```json
+{
+    "articles": [
+        {
+            "author_id": 1,
+            "content": "Exploring the advancements in solar and wind energy technologies.",
+            "contributors": "John Doe, Jane Smith",
+            "created_at": "2025-02-13T20:15:48.103285",
+            "display_type": "headline",
+            "id": 1,
+            "image_filename": "renewable_energy.jpg",
+            "image_url": "/static/uploads/renewable_energy.jpg",
+            "location": "Global",
+            "section": "technology",
+            "tags": [
+                "renewable",
+                "energy",
+                "solar",
+                "wind"
+            ],
+            "title": "The Future of Renewable Energy",
+            "updated_at": "2025-02-23T20:15:48",
+            "version_history": [
+                {
+                    "changes": "Initial version",
+                    "updated_at": "2025-02-13T20:15:48.103559",
+                    "version": 1
+                }
+            ],
+            "youtube_embed_url": "https://www.youtube.com/embed/solar_energy"
+        },
+        {
+            "author_id": 2,
+            "content": "A curated list of the most innovative gadgets this year.",
+            "contributors": "Alice Johnson",
+            "created_at": "2025-02-14T20:15:48.103878",
+            "display_type": "list",
+            "id": 2,
+            "image_filename": "tech_gadgets.jpg",
+            "image_url": "/static/uploads/tech_gadgets.jpg",
+            "location": "USA",
+            "section": "technology",
+            "tags": [
+                "gadgets",
+                "tech",
+                "2023"
+            ],
+            "title": "Top 10 Tech Gadgets of 2023",
+            "updated_at": "2025-02-23T20:15:48",
+            "version_history": [
+                {
+                    "changes": "Initial version",
+                    "updated_at": "2025-02-13T20:15:48.103893",
+                    "version": 1
+                }
+            ],
+            "youtube_embed_url": "https://www.youtube.com/embed/tech_gadgets"
+        },
+        {
+            "author_id": 3,
+            "content": "How recent policy changes are affecting global markets. ",
+            "contributors": "Bob Brown",
+            "created_at": "2025-02-15T20:15:48.103924",
+            "display_type": "sidebar_1",
+            "id": 3,
+            "image_filename": "global_markets.jpg",
+            "image_url": "/static/uploads/global_markets.jpg",
+            "location": "International",
+            "section": "business",
+            "tags": [
+                "markets",
+                "policies",
+                "global"
+            ],
+            "title": "Global Markets React to New Policies",
+            "updated_at": "2025-02-23T20:15:48",
+            "version_history": [
+                {
+                    "changes": "Initial version",
+                    "updated_at": "2025-02-13T20:15:48.103927",
+                    "version": 1
+                }
+            ],
+            "youtube_embed_url": "https://www.youtube.com/embed/global_markets"
+        }
+    ]
+}
+```
+
+### Get Article
+
+**Request:**
+
+- **Method:** GET
+- **URL:** /api/articles/<id>
+---
+
+- **Example Request** Successful Article by ID
+- **Status Code:**  200 OK
+- **Body**
+```json
+{
+    "author_id": 1,
+    "content": "A look at the most anticipated movies of the year. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit. Etiam tempor. Ut ullamcorper, ligula eu tempor congue, eros est euismod turpis, id tincidunt sapien risus a quam. Maecenas fermentum consequat mi.",
+    "contributors": "Diana Evans",
+    "created_at": "2025-02-17T20:15:48.103971",
+    "display_type": "sidebar_2",
+    "id": 5,
+    "image_filename": "hollywood.jpg",
+    "image_url": "/static/uploads/hollywood.jpg",
+    "location": "USA",
+    "section": "entertainment",
+    "tags": [
+        "hollywood",
+        "movies",
+        "blockbusters"
+    ],
+    "title": "Hollywood's Newest Blockbusters",
+    "updated_at": "2025-02-23T20:15:48",
+    "version_history": [
+        {
+            "changes": "Initial version",
+            "updated_at": "2025-02-13T20:15:48.103973",
+            "version": 1
+        }
+    ],
+    "youtube_embed_url": "https://www.youtube.com/embed/hollywood"
+}
+```
+
+### Create Article
+Authentication Required
+
+**Request:**
+
+- **Method:** POST
+- **URL:** /api/articles
+- **Body**
+```json
+{
+    "title": "Testing",
+    "display_type": "standard",
+    "content": "This is the content of my first article.",
+    "location": "New York",
+    "section": "Technology",
+    "tags": ["tech", "innovation", "AI"]
+}
+```
+
+- **Example Request** Successful new article
+- **Body:**
+```json
+{
+    "title": "My First Article",
+    "display_type": "standard",
+    "content": "This is the content of my first article.",
+    "location": "New York",
+    "section": "Technology",
+    "tags": ["tech", "innovation", "AI"]
+}
+```
+
+- **Example Response**
+- **Body**
+```json
+{
+    "author_id": 1,
+    "content": "This is the content of my first article.",
+    "contributors": null,
+    "created_at": "2025-02-25T13:15:07",
+    "display_type": "standard",
+    "id": 21,
+    "image_filename": null,
+    "image_url": null,
+    "location": "New York",
+    "section": "Technology",
+    "tags": [
+        "tech",
+        "innovation",
+        "AI"
+    ],
+    "title": "My First Article",
+    "updated_at": "2025-02-25T13:15:07",
+    "version_history": [],
+    "youtube_embed_url": null
+}
+```
+
+### Update Article 
+Authentication Required
+
+**Request:**
+
+- **Method:** PUT
+- **URL:** /api/articles/<id>
+- **Body**
+```json
+{
+  "title": "Testing",
+  "content": "Testing",
+  "image_filename": "default.jpg",
+  "contributors": "Testing, Demo",
+  "location": "Chicago"
+}
+```
+
+- **Example Request** Successful Updates
+- **Body**
+```json
+{
+  "title": "Testing",
+  "content": "Testing",
+  "image_filename": "default.jpg",
+  "contributors": "Testing, Demo",
+  "location": "Chicago"
+}
+```
+
+- **Example Response**
+- **Status Code:**  200 OK
+- **Body**
+```json
+{
+    "author_id": 1,
+    "content": "Testing",
+    "contributors": "Testing, Demo",
+    "created_at": "2025-02-25T13:15:07",
+    "display_type": "standard",
+    "id": 21,
+    "image_filename": "default.jpg",
+    "image_url": "/media/uploads/default.jpg",
+    "location": "Chicago",
+    "section": "Technology",
+    "tags": [
+        "tech",
+        "innovation",
+        "AI"
+    ],
+    "title": "Testing",
+    "updated_at": "2025-02-25T14:08:15",
+    "version_history": [
+        {
+            "content": "This is the content of my first article...",
+            "display_type": "standard",
+            "image_filename": "default.jpg",
+            "location": "Virginia",
+            "section": "Technology",
+            "tags": "[\"tech\", \"innovation\", \"AI\"]",
+            "timestamp": "2025-02-25T13:40:12.415070",
+            "title": "My Article"
+        },
+        {
+            "content": "This is the content of my first article...",
+            "display_type": "standard",
+            "image_filename": "default.jpg",
+            "location": "Virginia",
+            "section": "Technology",
+            "tags": "[\"tech\", \"innovation\", \"AI\"]",
+            "timestamp": "2025-02-25T13:43:45.077229",
+            "title": "My Article updated."
+        },
+        {
+            "content": "Testing",
+            "contributors": "Testing, Demo",
+            "display_type": "standard",
+            "image_filename": "default.jpg",
+            "location": "Chicago",
+            "section": "Technology",
+            "tags": "[\"tech\", \"innovation\", \"AI\"]",
+            "timestamp": "2025-02-25T13:56:41.094906",
+            "title": "Testing"
+        }
+    ],
+    "youtube_embed_url": null
+}
+```
+
+### Delete Article
+Authentication Required
+
+**Request:**
+
+- **Method:** DELETE
+- **URL:** /api/articles/<id>
+- **Body**
+```json
+{
+  "email": "demo@zarknews.com",
+  "password": "StrongPassword1"
+}
+```
+
+- **Example Request** Successful deletion
+- **Body**
+```json
+
+{
+  "email": "demo@zarknews.com",
+  "password": "StrongPassword1"
+}
+```
+
+- **Example Response**
+- **Status Code:**  200 OK
+- **Body**
+```json
+
+{
+    "message": "Article deleted successfully"
+}
+```
+
+
+### Archive Articles : Older than 7 days
+Authentication Required
+- Automatic and Admin Access
+
+**Request:**
+
+- **Method:** POST
+- **URL:** /api/articles/archive
+---
+- **Example Response** Successful Archiving
+- **Status Code:**  200 OK
+- **Body**
+```json
+
+{
+    "message": "Old articles archived successfully"
+}
+```
+
+### Get all archived articles.
+
+**Request:**
+
+- **Method:** GET
+- **URL:** /api/articles/archive
+---
+- **Example Response**
+- **Status Code:**  200 OK
+- **Body**
+```json
+
+{
+    "archived_articles": [
+        {
+            "author_id": 2,
+            "content": "A curated list of the most innovative gadgets this year.",
+            "contributors": "Alice Johnson",
+            "created_at": "2025-02-14T20:15:48.103878",
+            "display_type": "archived",
+            "id": 2,
+            "image_filename": "tech_gadgets.jpg",
+            "image_url": "/media/uploads/tech_gadgets.jpg",
+            "location": "USA",
+            "section": "technology",
+            "tags": [
+                "gadgets",
+                "tech",
+                "2023"
+            ],
+            "title": "Top 10 Tech Gadgets of 2023",
+            "updated_at": "2025-02-25T14:49:12",
+            "version_history": [
+                {
+                    "changes": "Initial version",
+                    "updated_at": "2025-02-13T20:15:48.103893",
+                    "version": 1
+                }
+            ],
+            "youtube_embed_url": "https://www.youtube.com/embed/tech_gadgets"
+        },
+        {
+            "author_id": 3,
+            "content": "How recent policy changes are affecting global markets.",
+            "contributors": "Bob Brown",
+            "created_at": "2025-02-15T20:15:48.103924",
+            "display_type": "archived",
+            "id": 3,
+            "image_filename": "global_markets.jpg",
+            "image_url": "/media/uploads/global_markets.jpg",
+            "location": "International",
+            "section": "business",
+            "tags": [
+                "markets",
+                "policies",
+                "global"
+            ],
+            "title": "Global Markets React to New Policies",
+            "updated_at": "2025-02-25T14:49:12",
+            "version_history": [
+                {
+                    "changes": "Initial version",
+                    "updated_at": "2025-02-13T20:15:48.103927",
+                    "version": 1
+                }
+            ],
+            "youtube_embed_url": "https://www.youtube.com/embed/global_markets"
+        },
+        {
+            "author_id": 4,
+            "content": "E-Sports is becoming a major player in the sports industry.",
+            "contributors": "Charlie Davis",
+            "created_at": "2025-02-16T20:15:48.103948",
+            "display_type": "archived",
+            "id": 4,
+            "image_filename": "esports.jpg",
+            "image_url": "/media/uploads/esports.jpg",
+            "location": "Global",
+            "section": "sports",
+            "tags": [
+                "esports",
+                "gaming",
+                "sports"
+            ],
+            "title": "The Rise of E-Sports",
+            "updated_at": "2025-02-25T14:49:12",
+            "version_history": [
+                {
+                    "changes": "Initial version",
+                    "updated_at": "2025-02-13T20:15:48.103950",
+                    "version": 1
+                }
+            ],
+            "youtube_embed_url": "https://www.youtube.com/embed/esports"
+        }
+    ]
+}
+```
+
+### Get Article archived by ID
+
+**Request:**
+
+- **Method:** GET
+- **URL:** /api/articles/archive/
+
+---
+- **Example Response** 
+- **Status Code:**  200 OK
+- **Body**
+```json
+
+{
+    "author_id": 2,
+    "content": "A curated list of the most innovative gadgets this year.",
+    "contributors": "Alice Johnson",
+    "created_at": "2025-02-14T20:15:48.103878",
+    "display_type": "archived",
+    "id": 2,
+    "image_filename": "tech_gadgets.jpg",
+    "image_url": "/media/uploads/tech_gadgets.jpg",
+    "location": "USA",
+    "section": "technology",
+    "tags": [
+        "gadgets",
+        "tech",
+        "2023"
+    ],
+    "title": "Top 10 Tech Gadgets of 2023",
+    "updated_at": "2025-02-25T14:49:12",
+    "version_history": [
+        {
+            "changes": "Initial version",
+            "updated_at": "2025-02-13T20:15:48.103893",
+            "version": 1
+        }
+    ],
+    "youtube_embed_url": "https://www.youtube.com/embed/tech_gadgets"
+}
+```
+
+### Upload Image
+Authentication Required
+
+**Request:**
+
+- **Method:** POST
+- **URL:** /api/articles/upload
+- **Body** 
+    * form-data
+    * Key: file type: file
+    * Value: /C:/Users/Sama/Desktop/testingUploadRoute.png
+    * Describtion: Testing image upload feature
+
+---
+
+- **Example Request** Successful Image upload
+    * --form 
+    * 'file=@"/C:/Users/Sama/Desktop/testingUploadRoute.png"'
+
+---
+
+- **Example Response**
+- **Status Code:**  200 OK
+
+- **Body**
+```json
+{
+    "url": "/media/uploads/testingUploadRoute.png"
+}
+```
+
+## Subscriptions
+
+### Create Subscription
+
+**Request:**
+
+- **Method:** POST
+- **URL:** /api/subscriptions
+- **Body**
+```json
+{
+    "first_name": "James",
+    "last_name": "Hilton",
+    "email": "james.hilton@example.com",
+    "frequency": "Weekly",
+    "sections": ["world", "technology"],
+    "tags": ["breaking-news", "Apple"]
+}
+```
+
+- **Example Request** Create Subscription
+- **URL:** /api/subscriptions' \
+
+```json
+{
+    "first_name": "Salley",
+    "last_name": "Jones",
+    "email": "salley.jones@example.com",
+    "frequency": "Daily",
+    "sections": ["national", "sports"],
+    "tags": ["breaking-news", "football"]
+}
+```
+- **Status Code:** 201 CREATED
+- **Body**
+```json
+{
+    "email": "salley.jones@example.com",
+    "first_name": "Salley",
+    "frequency": "Daily",
+    "id": 4,
+    "last_name": "Jones",
+    "sections": [
+        "national",
+        "sports"
+    ],
+    "subscribed_at": "2025-02-25T17:35:53",
+    "tags": [
+        "breaking-news",
+        "football"
+    ]
+}
+```
+
+### Delete Subscription by email
+
+**Request:**
+
+- **Method:** DELETE
+- **URL:** /api/subscriptions/<email>
+
+
+**Example Response**
+- **Status Code:**  200 OK
+- **Response**
+- **Body**
+```json
+{
+    "message": "Unsubscribed successfully"
+}
+```
+
+### Update Subscription by email
+
+**Request:**
+
+- **Method:** PUT
+- **URL:** /api/subscriptions/<email>
+- **Body**
+```json
+{
+    "sections": ["technology", "business"],
+    "tags": ["AI", "startups"],
+    "frequency": "Weekly"
+}
+```
+
+- **Example Request** Successful update
+- **Body**
+```json
+{
+    "sections": ["technology", "business"],
+    "tags": ["AI", "startups"],
+    "frequency": "Weekly"
+}
+```
+
+**Example Response**
+- **Status Code:**  200 OK
+- **Body**
+```json
+{
+    "email": "salley.jones@example.com",
+    "first_name": "Salley",
+    "frequency": "Weekly",
+    "id": 4,
+    "last_name": "Jones",
+    "sections": [
+        "technology",
+        "business"
+    ],
+    "subscribed_at": "2025-02-25T17:35:53",
+    "tags": [
+        "AI",
+        "startups"
+    ]
+}
+```
+
+### Get Subscription by email
+
+**Request:**
+
+- **Method:** GET
+- **URL:** /api/subscriptions/<email>
+
+---
+- **Example Response** 
+- **Status Code:**  200 OK
+- **Body**
+```json
+{
+    "email": "salley.jones@example.com",
+    "first_name": "Salley",
+    "frequency": "Weekly",
+    "id": 4,
+    "last_name": "Jones",
+    "sections": [
+        "technology",
+        "business"
+    ],
+    "subscribed_at": "2025-02-25T17:35:53",
+    "tags": [
+        "AI",
+        "startups"
+    ]
+}
+```
+
+## Database Schema
+
+![alt text](db_schema.png)
+
+``` json
+
+Table users {
+    id INT [primary key, increment]
+    first_name VARCHAR(100) [not null]
+    last_name VARCHAR(100) [not null]
+    email VARCHAR(255) [not null, unique]
+    password_hash VARCHAR(255) [not null]
+    role ENUM('editor', 'admin') [not null]
+    created_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Table articles {
+    id INT [primary key, increment]
+    title VARCHAR(255) [not null]
+    display_type VARCHAR(50) [not null]
+    content TEXT [not null]
+    image_filename VARCHAR(255)
+    youtube_embed_url VARCHAR(255)
+    location VARCHAR(255) [not null]
+    contributors TEXT
+    author_id INT [not null]
+    section VARCHAR(50) [not null]
+    tags TEXT [not null, default: '[]']
+    created_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+    updated_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+    version_history TEXT [default: '[]']
+}
+
+Table subscriptions {
+    id INT [primary key, increment]
+    first_name VARCHAR(100) [not null]
+    last_name VARCHAR(100) [not null]
+    email VARCHAR(255) [not null, unique]
+    frequency ENUM('Daily', 'Weekly', 'Monthly') [not null]
+    sections TEXT [default: '[]']
+    tags TEXT [default: '[]']
+    subscribed_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Table search_filters {
+    id INT [primary key, increment]
+    name VARCHAR(255) [not null, unique]
+    type ENUM('category', 'tag', 'location') [not null]
+}
+
+Table article_filters {
+    article_id INT [not null]
+    filter_id INT [not null]
+    primary key (article_id, filter_id)
+}
+
+Table research_diagrams {
+    id INT [primary key, increment]
+    title VARCHAR(255) [not null]
+    description TEXT
+    diagram_url VARCHAR(255) [not null]
+    created_by INT [not null]
+    created_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+    updated_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Table ai_reporters {
+    id INT [primary key, increment]
+    article_id INT [not null]
+    summary TEXT [not null]
+    created_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Ref: articles.author_id > users.id
+Ref: article_filters.article_id > articles.id
+Ref: article_filters.filter_id > search_filters.id
+Ref: research_diagrams.created_by > users.id
+Ref: ai_reporters.article_id > articles.id
+```
