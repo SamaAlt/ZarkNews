@@ -3,5 +3,6 @@ instance
 node_modules
 .env
 .venv
+.flaskenv
 dev.db
 .gitignore

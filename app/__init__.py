@@ -44,6 +44,10 @@ Migrate(app, db)
 # Application Security
 CORS(app)
 
+@app.route('/healthz')
+def health_check():
+    return 'OK', 200
+
 # Serve uploaded media files
 @app.route('/media/uploads/<filename>')
 def uploaded_file(filename):
