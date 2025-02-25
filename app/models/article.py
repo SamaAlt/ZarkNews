@@ -35,7 +35,7 @@ class Article(db.Model):
 
     def to_dict(self):
         """Convert model instance to a dictionary for easy JSON responses."""
-        image_url = f"/static/uploads/{self.image_filename}" if self.image_filename else None
+        image_url = f"/media/uploads/{self.image_filename}" if self.image_filename else None
         return {
             'id': self.id,
             'title': self.title,

@@ -24,9 +24,9 @@ user_routes = Blueprint('users', __name__)
 @login_required
 def get_users():
     """
-    Get all users (only accessible by editors)
+    Get all users 
     """
-    if current_user.role != 'editor' and current_user.role != 'admin':
+    if current_user.role != 'editor':
         return jsonify({"errors": ["Unauthorized"]}), 403
     
     users = User.query.all()
@@ -47,7 +47,7 @@ def get_user(id):
 @login_required
 def update_user(id):
     """
-    Update a user by ID (only accessible by editors or admin)
+    Update a user by ID 
     """
     if current_user.role not in ['editor', 'admin']:
         return jsonify({"errors": ["Unauthorized"]}), 403
@@ -78,9 +78,9 @@ def update_user(id):
 @login_required
 def delete_user(id):
     """
-    Delete a user by ID (only accessible by admins)
+    Delete a user by ID
     """
-    if current_user.role != 'admin':
+    if current_user.role != 'editor':
         return jsonify({"errors": ["Unauthorized"]}), 403
 
     user = User.query.get(id)

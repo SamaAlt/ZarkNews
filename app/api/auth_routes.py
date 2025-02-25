@@ -33,7 +33,7 @@ def login():
 @login_required
 def logout():
     """
-    Logs a user out and redirects to Google.
+    Logs a user out and redirects to login.
     """
     logout_user()
     return redirect('/login')  
@@ -56,9 +56,10 @@ def sign_up():
     last_name = data.get('lastName')
     email = data.get('email')
     password = data.get('password')
+    role = data.get('role')  
 
     # Ensure required fields are present
-    required_fields = [first_name, last_name, email, password]
+    required_fields = [first_name, last_name, email, password, role]
     if not all(required_fields):
         return jsonify({'errors': ['All fields are required']}), 400
 
@@ -69,13 +70,13 @@ def sign_up():
     # Hash the password before saving
     hashed_password = generate_password_hash(password)
 
-    # Create new user with 'editor' as the default role
+    # Create new user 
     user = User(
         first_name=first_name,
         last_name=last_name,
         email=email,
         password_hash=hashed_password,
-        role='editor'  # Default role is 'editor'
+        role=role
     )
 
     db.session.add(user)

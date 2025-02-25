@@ -60,30 +60,52 @@ def create_article():
     """
     Create a new article.
     """
+    # Get JSON data from the request
     data = request.get_json()
 
+    # List of required fields
     required_fields = ['title', 'display_type', 'content', 'location', 'section']
-    if not all(field in data for field in required_fields):
-        return jsonify({"errors": ["All fields are required"]}), 400
+
+    # Validate that all required fields are present and not empty
+    errors = []
+    for field in required_fields:
+        if field not in data or not data[field].strip():  # Check if field is missing or empty (after trimming whitespace)
+            errors.append(f"{field.capitalize()} cannot be empty")
+
+    # If there are validation errors, return them with a 400 status code
+    if errors:
+        return jsonify({"errors": errors}), 400
 
     try:
+        # Create a new Article instance
         article = Article(
-            title=data['title'],
-            display_type=data['display_type'],
-            content=data['content'],
-            location=data['location'],
-            section=data['section'],
-            author_id=current_user.id
+            title=data['title'].strip(),  # Trim whitespace
+            display_type=data['display_type'].strip(),
+            content=data['content'].strip(),
+            location=data['location'].strip(),
+            section=data['section'].strip(),
+            author_id=current_user.id  # Set the author to the current user
         )
 
+        # Optionally handle tags if they are provided
         if 'tags' in data:
             article.set_tags(data['tags'])
 
+        # Add the article to the database session and commit
         db.session.add(article)
         db.session.commit()
+
+        # Return the created article as a JSON response with a 201 status code
         return jsonify(article.to_dict()), 201
+
     except ValueError as e:
+        # Handle any value-related errors (e.g., invalid display_type or section)
         return jsonify({"errors": [str(e)]}), 400
+
+    except Exception as e:
+        # Handle any other unexpected errors
+        db.session.rollback()  # Rollback the session in case of an error
+        return jsonify({"errors": ["An unexpected error occurred while creating the article"]}), 500
 
 @article_routes.route('/<int:id>', methods=['PUT'])
 @login_required
@@ -96,11 +118,17 @@ def update_article(id):
         return jsonify({"errors": ["Article not found"]}), 404
 
     # Allow update if the user is the author OR an admin
-    if (article.author_id != current_user.id or 
+    if (article.author_id != current_user.id and 
         current_user.role != 'admin'):
         return jsonify({"errors": ["Unauthorized"]}), 403
 
     data = request.get_json()
+
+    # Validate that required fields are not empty
+    required_fields = ['title', 'display_type', 'content', 'location', 'section']
+    for field in required_fields:
+        if field in data and not data[field]:
+            return jsonify({"errors": [f"{field} cannot be empty"]}), 400
 
     try:
         if 'title' in data:
@@ -115,11 +143,43 @@ def update_article(id):
             article.set_section(data['section'])
         if 'tags' in data:
             article.set_tags(data['tags'])
+        if 'image_filename' in data:
+            article.image_filename = data['image_filename']
+        if 'contributors' in data:
+            article.contributors = data['contributors']
+
+        # Create a new version history entry if any field is updated
+        if any(field in data for field in ['title', 'content', 'display_type', 'location', 'section', 'tags', 'image_filename', 'contributors']):
+            new_version = {
+                'timestamp': datetime.utcnow().isoformat(),
+                'title': article.title,
+                'content': article.content,
+                'display_type': article.display_type,
+                'location': article.location,
+                'section': article.section,
+                'tags': article.tags,
+                'image_filename': article.image_filename,
+                'contributors': article.contributors
+            }
+
+            # Ensure version_history is a list
+            if not article.version_history:
+                article.version_history = []
+            elif isinstance(article.version_history, str):
+                # Deserialize if it's stored as a string (e.g., JSON)
+                article.version_history = json.loads(article.version_history)
+
+            article.version_history.append(new_version)
+
+            # Serialize version_history back to a JSON string for storage
+            article.version_history = json.dumps(article.version_history)
 
         db.session.commit()
         return jsonify(article.to_dict()), 200
     except ValueError as e:
         return jsonify({"errors": [str(e)]}), 400
+    except json.JSONDecodeError as e:
+        return jsonify({"errors": ["Invalid JSON data"]}), 400
 
 @article_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
@@ -131,7 +191,7 @@ def delete_article(id):
     if not article:
         return jsonify({"errors": ["Article not found"]}), 404
 
-    if article.author_id != current_user.id or current_user.role != 'admin':
+    if article.author_id != current_user.id and current_user.role != 'admin':
         return jsonify({"errors": ["Unauthorized"]}), 403
 
     article.delete_associated_file()
@@ -150,6 +210,38 @@ def archive_articles():
 
     Article.archive_old_articles()
     return jsonify({"message": "Old articles archived successfully"}), 200
+
+@article_routes.route('/archive', methods=['GET'])
+def get_archived_articles():
+    """
+    Get all archived articles.
+    """
+    # Query articles with a `created_at` timestamp older than 7 days
+    archive_threshold = datetime.utcnow() - timedelta(days=7)
+    archived_articles = Article.query.filter(Article.created_at < archive_threshold).all()
+
+    # Return the archived articles as a JSON response
+    return jsonify({'archived_articles': [article.to_dict() for article in archived_articles]}), 200
+
+@article_routes.route('/archive/<int:id>', methods=['GET'])
+def get_archived_article(id):
+    """
+    Get a specific archived article by ID.
+    """
+    # Query the article by ID
+    article = Article.query.get(id)
+
+    # Check if the article exists
+    if not article:
+        return jsonify({"errors": ["Article not found"]}), 404
+
+    # Check if the article is archived (older than 7 days)
+    archive_threshold = datetime.utcnow() - timedelta(days=7)
+    if article.created_at >= archive_threshold:
+        return jsonify({"errors": ["Article is not archived"]}), 400
+
+    # Return the archived article as a JSON response
+    return jsonify(article.to_dict()), 200
 
 @article_routes.route('/upload', methods=['POST'])
 @login_required

@@ -5,106 +5,92 @@
 
 
 # Database Schema
-
 ## users
 | Column Name      | Data Type        | Constraints                                                |
 |------------------|------------------|------------------------------------------------------------|
-| id               | UUID             | PRIMARY KEY                                                |
-| username         | VARCHAR(30)      | NOT NULL, UNIQUE                                           |
-| email            | VARCHAR(255)     | NOT NULL, UNIQUE, CHECK (email LIKE '%@zark.com')          |
-| password_hash    | VARCHAR(255)     | NOT NULL, CHECK (LENGTH(password_hash) >= 12 AND password_hash ~ '[A-Z]' AND password_hash ~ '[a-z]' AND password_hash ~ '\d' AND password_hash ~ '[^\w\d\s]') |
+| id               | INT              | PRIMARY KEY, AUTO_INCREMENT                                |
 | first_name       | VARCHAR(100)     | NOT NULL                                                   |
 | last_name        | VARCHAR(100)     | NOT NULL                                                   |
-| phone_number     | VARCHAR(20)      | UNIQUE, CHECK (phone_number ~ '^\+\d{1,15}$')              |
-| street           | VARCHAR(255)     | NOT NULL                                                   |
-| city             | VARCHAR(100)     | NOT NULL                                                   |
-| state            | VARCHAR(100)     | NOT NULL                                                   |
-| country          | VARCHAR(100)     | NOT NULL                                                   |
-| postal_code      | VARCHAR(20)      | NOT NULL                                                   |
+| email            | VARCHAR(255)     | NOT NULL, UNIQUE                                           |
+| password_hash    | VARCHAR(255)     | NOT NULL                                                   |
+| role             | ENUM('editor', 'admin') | NOT NULL                                            |
 | created_at       | TIMESTAMP        | DEFAULT CURRENT_TIMESTAMP                                  |
-
 
 ## articles
 | Column Name      | Data Type        | Constraints                                                |
 |------------------|------------------|------------------------------------------------------------|
-| id               | UUID             | PRIMARY KEY                                                |
+| id               | INT              | PRIMARY KEY, AUTO_INCREMENT                                |
 | title            | VARCHAR(255)     | NOT NULL                                                   |
+| display_type     | VARCHAR(50)      | NOT NULL                                                   |
 | content          | TEXT             | NOT NULL                                                   |
-| image_url        | VARCHAR(255)     |                                                            |
+| image_filename   | VARCHAR(255)     |                                                            |
 | youtube_embed_url| VARCHAR(255)     |                                                            |
-| tags             | JSON             |                                                            |
-| location         | VARCHAR(255)     |                                                            |
+| location         | VARCHAR(255)     | NOT NULL                                                   |
 | contributors     | TEXT             |                                                            |
-| author_id        | UUID             | NOT NULL, FOREIGN KEY (author_id) REFERENCES users(id)     |
+| author_id        | INT              | NOT NULL, FOREIGN KEY (author_id) REFERENCES users(id)     |
+| section          | VARCHAR(50)      | NOT NULL                                                   |
+| tags             | TEXT             | NOT NULL, DEFAULT '[]'                                     |
 | created_at       | TIMESTAMP        | DEFAULT CURRENT_TIMESTAMP                                  |
 | updated_at       | TIMESTAMP        | DEFAULT CURRENT_TIMESTAMP                                  |
+| version_history  | TEXT             | DEFAULT '[]'                                               |
 
-
-## article_edits
+## subscriptions
 | Column Name      | Data Type        | Constraints                                                |
 |------------------|------------------|------------------------------------------------------------|
-| id               | UUID             | PRIMARY KEY                                                |
-| article_id       | UUID             | NOT NULL, FOREIGN KEY (article_id) REFERENCES articles(id) |
-| editor_id        | UUID             | NOT NULL, FOREIGN KEY (editor_id) REFERENCES users(id)     |
-| previous_content | TEXT             |                                                            |
-| edited_at        | TIMESTAMP        | DEFAULT CURRENT_TIMESTAMP                                  |
-
-
-## newsletters
-| Column Name               | Data Type             | Constraints                                                  |
-|---------------------------|-----------------------|--------------------------------------------------------------|
-| id                        | UUID                  | PRIMARY KEY                                                  |
-| reader_id                 | UUID                  | NOT NULL                                                     |
-| frequency                 | ENUM('daily_morning', 'daily_evening', 'weekly', 'monthly', 'real_time') | NOT NULL  |
-| content_type              | ENUM('top_headlines', 'in_depth', 'opinion', 'trending', 'local_news') | NOT NULL    |
-| topics                    | JSON                  |                                                              |
-| notification_preferences  | JSON                  |                                                              |
-| created_at                | TIMESTAMP             | DEFAULT CURRENT_TIMESTAMP                                    |
-
+| id               | INT              | PRIMARY KEY, AUTO_INCREMENT                                |
+| first_name       | VARCHAR(100)     | NOT NULL                                                   |
+| last_name        | VARCHAR(100)     | NOT NULL                                                   |
+| email            | VARCHAR(255)     | NOT NULL, UNIQUE                                           |
+| frequency        | ENUM('Daily', 'Weekly', 'Monthly') | NOT NULL                                 |
+| sections         | TEXT             | DEFAULT '[]'                                               |
+| tags             | TEXT             | DEFAULT '[]'                                               |
+| subscribed_at    | TIMESTAMP        | DEFAULT CURRENT_TIMESTAMP                                  |
 
 ## search_filters
 | Column Name      | Data Type        | Constraints                                                |
 |------------------|------------------|------------------------------------------------------------|
-| id               | UUID             | PRIMARY KEY                                                |
+| id               | INT              | PRIMARY KEY, AUTO_INCREMENT                                |
 | name             | VARCHAR(255)     | NOT NULL, UNIQUE                                           |
 | type             | ENUM('category', 'tag', 'location') | NOT NULL                                |
-
 
 ## article_filters
 | Column Name      | Data Type        | Constraints                                                       |
 |------------------|------------------|-------------------------------------------------------------------|
-| article_id       | UUID             | NOT NULL, FOREIGN KEY (article_id) REFERENCES articles(id)        |
-| filter_id        | UUID             | NOT NULL, FOREIGN KEY (filter_id) REFERENCES search_filters(id)   |
-| primary key      | (article_id, filter_id) |                                                            |
-
+| article_id       | INT              | NOT NULL, FOREIGN KEY (article_id) REFERENCES articles(id)        |
+| filter_id        | INT              | NOT NULL, FOREIGN KEY (filter_id) REFERENCES search_filters(id)   |
+| PRIMARY KEY      | (article_id, filter_id) |                                                            |
 
 ## research_diagrams
 | Column Name      | Data Type        | Constraints                                                 |
 |------------------|------------------|-------------------------------------------------------------|
-| id               | UUID             | PRIMARY KEY                                                 |
-| username         | VARCHAR(30)      | NOT NULL, unique                                            |
+| id               | INT              | PRIMARY KEY, AUTO_INCREMENT                                 |
+| title            | VARCHAR(255)     | NOT NULL                                                    |
 | description      | TEXT             |                                                             |
 | diagram_url      | VARCHAR(255)     | NOT NULL                                                    |
-| author_id       | UUID             | NOT NULL, FOREIGN KEY (author_id) REFERENCES users(id)       |
+| created_by       | INT              | NOT NULL, FOREIGN KEY (created_by) REFERENCES users(id)     |
 | created_at       | TIMESTAMP        | DEFAULT CURRENT_TIMESTAMP                                   |
 | updated_at       | TIMESTAMP        | DEFAULT CURRENT_TIMESTAMP                                   |
-
 
 ## ai_reporters
 | Column Name      | Data Type        | Constraints                                                |
 |------------------|------------------|------------------------------------------------------------|
-| id               | UUID             | PRIMARY KEY                                                |
-| article_id       | UUID             | NOT NULL, FOREIGN KEY (article_id) REFERENCES articles(id) |
+| id               | INT              | PRIMARY KEY, AUTO_INCREMENT                                |
+| article_id       | INT              | NOT NULL, FOREIGN KEY (article_id) REFERENCES articles(id) |
 | summary          | TEXT             | NOT NULL                                                   |
 | created_at       | TIMESTAMP        | DEFAULT CURRENT_TIMESTAMP                                  |
 
-
+### Relationships
+- `articles.author_id` references `users.id`
+- `article_filters.article_id` references `articles.id`
+- `article_filters.filter_id` references `search_filters.id`
+- `research_diagrams.created_by` references `users.id`
+- `ai_reporters.article_id` references `articles.id`
 ---
 
 
 # DB & Relationships
 
-   ```json
+```json
 
 Table users {
     id INT [primary key, increment]
@@ -112,7 +98,7 @@ Table users {
     last_name VARCHAR(100) [not null]
     email VARCHAR(255) [not null, unique]
     password_hash VARCHAR(255) [not null]
-    role ENUM('editor', 'admin', 'reader') [not null]
+    role ENUM('editor', 'admin') [not null]
     created_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
 }
 
