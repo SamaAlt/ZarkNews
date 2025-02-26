@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 0bf2c67bbadb
+Revision ID: dfd5075936fc
 Revises: 
-Create Date: 2025-02-23 15:15:16.154181
+Create Date: 2025-02-26 02:19:45.776346
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '0bf2c67bbadb'
+revision = 'dfd5075936fc'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -50,12 +50,12 @@ def upgrade():
     sa.Column('youtube_embed_url', sa.String(length=255), nullable=True),
     sa.Column('location', sa.String(length=255), nullable=False),
     sa.Column('contributors', sa.Text(), nullable=True),
+    sa.Column('author_id', sa.Integer(), nullable=False),
     sa.Column('section', sa.String(length=50), nullable=False),
     sa.Column('tags', sa.Text(), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
     sa.Column('version_history', sa.Text(), nullable=True),
-    sa.Column('author_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['author_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
