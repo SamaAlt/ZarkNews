@@ -1,5 +1,6 @@
 from app.models import db, User, environment, SCHEMA
 from werkzeug.security import generate_password_hash
+from sqlalchemy.sql import text  
 
 # Adds a demo user, you can add other users here if you want
 def seed_users():
@@ -46,13 +47,15 @@ def seed_users():
         db.session.rollback()  # Rolls back the transaction on failure
         print(f"Error seeding users: {e}")
 
-# Undo the user seeding (clears the users table)
+
 def undo_users():
     try:
         if environment == "production":
-            db.session.execute(f"TRUNCATE TABLE {SCHEMA}.users RESTART IDENTITY CASCADE;")
+            # Use text() to wrap the raw SQL query
+            db.session.execute(text(f"TRUNCATE TABLE {SCHEMA}.users RESTART IDENTITY CASCADE;"))
         else:
-            db.session.execute("DELETE FROM users")
+            # Use text() to wrap the raw SQL query
+            db.session.execute(text("DELETE FROM users"))
 
         db.session.commit()
         print("Users have been removed!")

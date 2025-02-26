@@ -1,6 +1,8 @@
 from app.models import db, Subscription, environment, SCHEMA
 from datetime import datetime
 import json
+from sqlalchemy.sql import text  
+
 
 # Adds demo subscriptions
 def seed_subscriptions():
@@ -47,16 +49,17 @@ def seed_subscriptions():
         db.session.rollback()  # Rolls back the transaction on failure
         print(f"Error seeding subscriptions: {e}")
 
-# Undo the subscription seeding (clears the subscriptions table)
 def undo_subscriptions():
     try:
         if environment == "production":
-            db.session.execute(f"TRUNCATE TABLE {SCHEMA}.subscriptions RESTART IDENTITY CASCADE;")
+            # Use text() to wrap the raw SQL query
+            db.session.execute(text(f"TRUNCATE TABLE {SCHEMA}.subscriptions RESTART IDENTITY CASCADE;"))
         else:
-            db.session.execute("DELETE FROM subscriptions")
+            # Use text() to wrap the raw SQL query
+            db.session.execute(text("DELETE FROM subscriptions"))
 
         db.session.commit()
         print("Subscriptions have been removed!")
     except Exception as e:
         db.session.rollback()  # Rolls back the transaction on failure
-        print(f"Error undoing subscription seed: {e}")
+        print(f"Error undoing subscriptions seed: {e}")

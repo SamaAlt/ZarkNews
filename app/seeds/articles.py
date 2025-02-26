@@ -1,6 +1,7 @@
 from app.models import db, Article, environment, SCHEMA
 from datetime import datetime, timedelta
 import json
+from sqlalchemy.sql import text  
 
 def seed_articles():
     articles = [
@@ -305,12 +306,20 @@ def seed_articles():
         )
         db.session.add(article)
 
-    db.session.commit()
+    db.session.commit()  # Commit once after all articles are added
+    print("Articles have been seeded!")
 
 def undo_articles():
-    if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.articles RESTART IDENTITY CASCADE;")
-    else:
-        db.session.execute("DELETE FROM articles")
+    try:
+        if environment == "production":
+            # Use text() to wrap the raw SQL query
+            db.session.execute(text(f"TRUNCATE TABLE {SCHEMA}.articles RESTART IDENTITY CASCADE;"))
+        else:
+            # Use text() to wrap the raw SQL query
+            db.session.execute(text("DELETE FROM articles"))
 
-    db.session.commit()
+        db.session.commit()
+        print("Articles have been removed!")
+    except Exception as e:
+        db.session.rollback()  # Rolls back the transaction on failure
+        print(f"Error undoing articles seed: {e}")
