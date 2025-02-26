@@ -23,12 +23,12 @@ six = "==1.16.0"
 sqlalchemy = "==1.4.46"
 werkzeug = "==2.2.2"
 zipp = "==3.17.0"
-marshmallow = "*"
 flask-migrate = "*"
 flask-login = "*"
 wtforms = "*"
 flask-wtf = "*"
 defusedxml = "*"
+marshmallow = "*"
 
 [dev-packages]
 

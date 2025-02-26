@@ -7,8 +7,8 @@ from flask_login import LoginManager
 from  .api import user_routes, auth_routes, article_routes, subscription_routes
 
 from .models import environment, SCHEMA
-from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
+from .api.user_routes import user_routes
 from .api.article_routes import article_routes
 from .api.subscription_routes import subscription_routes
 

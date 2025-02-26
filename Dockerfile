@@ -1,24 +1,26 @@
 FROM python:3.9.18-alpine3.18
 
-RUN apk add build-base
+WORKDIR /usr/local/app
 
-RUN apk add postgresql-dev gcc python3-dev musl-dev
-
-ARG FLASK_APP
-ARG FLASK_ENV
-ARG DATABASE_URL
-ARG SCHEMA
-ARG SECRET_KEY
-
-WORKDIR /var/www
-
+# Install dependencies
 COPY requirements.txt .
-
 RUN pip install -r requirements.txt
-RUN pip install psycopg2
+RUN apk add --no-cache gcc musl-dev postgresql-dev postgresql-client && \
+    pip install --no-cache-dir -r requirements.txt && \
+    apk del gcc musl-dev
 
+# Copy application files
 COPY . .
 
-RUN flask db upgrade
-RUN flask seed all
-CMD gunicorn app:app
+# Set environment variables
+ENV FLASK_APP=app
+ENV FLASK_RUN_HOST=0.0.0.0
+
+EXPOSE 5000
+
+# Run database migrations at runtime
+CMD flask db upgrade && flask seed all && gunicorn -w 4 -b 0.0.0.0:5000 app:app
+
+
+#docker-compose down
+#docker-compose up --build

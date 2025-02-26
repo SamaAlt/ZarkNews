@@ -22,7 +22,7 @@ class Article(db.Model):
     youtube_embed_url = db.Column(String(255))
     location = db.Column(String(255), nullable=False)
     contributors = db.Column(db.Text)
-    author_id = db.Column(Integer, db.ForeignKey('users.id'), nullable=False)
+    author_id = db.Column(Integer, db.ForeignKey(f'{SCHEMA}.users.id' if environment == "production" else 'users.id'), nullable=False)
     section = db.Column(String(50), nullable=False)  # Enforce in Frontend: 'national', 'world', etc.
     tags = db.Column(db.Text, nullable=False, default='[]') 
     created_at = db.Column(DateTime, server_default=db.func.current_timestamp())
@@ -30,7 +30,6 @@ class Article(db.Model):
     version_history = db.Column(db.Text, default='[]')  
 
     # RELATIONSHIPS
-    author_id = db.Column(Integer, db.ForeignKey('users.id'), nullable=False)
     author = db.relationship('User', back_populates='articles')
 
     def to_dict(self):
