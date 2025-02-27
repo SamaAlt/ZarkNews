@@ -66,7 +66,7 @@ export const router = createBrowserRouter([
 
       // LoginFormPage (ProtectedRoute)
       {
-        path: 'login',
+        path: 'access/secure', // Less intuitive path for login
         element: (
           <ProtectedRoute>
             <LoginFormPage />
@@ -76,7 +76,7 @@ export const router = createBrowserRouter([
 
       // SignupFormPage (ProtectedRoute)
       {
-        path: 'signup',
+        path: 'access/register', // Less intuitive path for signup
         element: (
           <ProtectedRoute>
             <SignupFormPage />
@@ -86,7 +86,7 @@ export const router = createBrowserRouter([
 
       // DashboardPage (ProtectedRoute)
       {
-        path: 'dashboard',
+        path: 'admin/control-panel',
         element: (
           <ProtectedRoute>
             <DashboardPage />
@@ -96,7 +96,7 @@ export const router = createBrowserRouter([
 
       // ProfilePage (ProtectedRoute)
       {
-        path: 'profile',
+        path: 'user/settings',
         element: (
           <ProtectedRoute>
             <ProfilePage />
@@ -106,7 +106,7 @@ export const router = createBrowserRouter([
 
       // ArticleManagementPage (ProtectedRoute)
       {
-        path: 'manage-articles',
+        path: 'internal/content-management',
         element: (
           <ProtectedRoute>
             <ArticleManagementPage />
