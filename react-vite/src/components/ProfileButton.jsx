@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaUserCircle } from 'react-icons/fa';
-import { thunkLogout } from "../../redux/session";
-import OpenModalMenuItem from "./OpenModalMenuItem";
-import LoginFormModal from "../LoginFormModal";
-import SignupFormModal from "../SignupFormModal";
+import { thunkLogout } from "../redux/session";
+import OpenModalMenuItem from "./Navigation/OpenModalMenuItem";
+import LoginFormModal from "../components/Login/LoginFormPage/LoginFormPage";
+import SignupFormModal from "../components/Signup/SignupFormPage/SignupFormPage";
+import ManageProfileButton from '../components/Profile/ProfileFormPage/ManageProfileButton'; // Import ManageProfileButton
 
 function ProfileButton() {
   const dispatch = useDispatch();
@@ -50,6 +51,9 @@ function ProfileButton() {
             <>
               <li>{user.username}</li>
               <li>{user.email}</li>
+              <li>
+                <ManageProfileButton /> {/* Use the new ManageProfileButton component */}
+              </li>
               <li>
                 <button onClick={logout}>Log Out</button>
               </li>

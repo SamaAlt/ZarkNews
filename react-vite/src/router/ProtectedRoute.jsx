@@ -1,14 +1,18 @@
-// react-vite/src/components/ProtectedRoute.jsx
-import { Navigate } from 'react-router-dom';
+// src/router/ProtectedRoute.jsx
+import React from 'react';
 import { useSelector } from 'react-redux';
+import { Navigate, Outlet } from 'react-router-dom';
 
-export default function ProtectedRoute({ children }) {
+const ProtectedRoute = () => {
   const user = useSelector((state) => state.session.user);
 
-  // Only allow access if the user is an editor or admin
-  if (!user || (user.role !== 'editor' && user.role !== 'admin')) {
-    return <Navigate to="/" />;
+  if (!user) {
+    // Redirect to login if the user is not authenticated
+    return <Navigate to="/login" replace />;
   }
 
-  return children;
-}
+  // Render the child routes if the user is authenticated
+  return <Outlet />;
+};
+
+export default ProtectedRoute;

@@ -1,3 +1,3 @@
-import LoginFormPage from './LoginFormPage';
+import EmployeePortal from './EmployeePortal';
 
-export default LoginFormPage;
+export default EmployeePortal;

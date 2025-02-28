@@ -36,7 +36,7 @@ def logout():
     Logs a user out and redirects to login.
     """
     logout_user()
-    return redirect('/login')  
+    return jsonify({'message': 'Logout successful'}), 200
 
 @auth_routes.route('/unauthorized', methods=['GET'])
 def unauthorized():

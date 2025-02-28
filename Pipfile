@@ -29,6 +29,7 @@ wtforms = "*"
 flask-wtf = "*"
 defusedxml = "*"
 marshmallow = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 

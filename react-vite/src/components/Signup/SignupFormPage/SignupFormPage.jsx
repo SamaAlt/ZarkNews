@@ -17,7 +17,7 @@ function SignupFormPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   // Redirect if the user is already logged in
-  if (sessionUser) return <Navigate to="/admin/control-panel" replace={true} />;
+  if (sessionUser) return <Navigate to="/dashboard" replace={true} />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -54,7 +54,7 @@ function SignupFormPage() {
     if (serverResponse?.errors) {
       setErrors(serverResponse.errors);
     } else {
-      navigate("/admin/control-panel"); // Redirect after successful signup
+      navigate("/dashboard"); // Redirect after successful signup
     }
   };
 

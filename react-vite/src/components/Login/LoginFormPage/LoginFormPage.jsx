@@ -13,7 +13,7 @@ function LoginFormPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   // Redirect if the user is already logged in
-  if (sessionUser) return <Navigate to="/admin/control-panel" replace={true} />;
+  if (sessionUser) return <Navigate to="/dashboard" replace={true} />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,9 +35,11 @@ function LoginFormPage() {
     setIsLoading(false);
 
     if (serverResponse?.errors) {
-      setErrors(serverResponse.errors);
+      setErrors({
+        server: serverResponse.errors?.server || "Incorrect email or password.",
+      });
     } else {
-      navigate("/admin/control-panel"); // Redirect after successful login
+      navigate("/dashboard"); // Redirect after successful login
     }
   };
 

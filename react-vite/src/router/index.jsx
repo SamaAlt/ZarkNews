@@ -1,88 +1,82 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Layout from './Layout';
-import ProtectedRoute from './ProtectedRoute';
+import NotFoundPage from '../components/NotFoundPage'; 
+import HomePage from '../components/HomePage';
+import SubscriptionPage from '../components/Subscription/SubscriptionFormPage/ReaderSubscribeFormPage';
 import LoginFormPage from '../components/Login/LoginFormPage/LoginFormPage';
 import SignupFormPage from '../components/Signup/SignupFormPage/SignupFormPage';
-import HomePage from '../components/HomePage/HomePageFormPage';
-import CategoryPage from '../components/ArticleViewer/ArticleViewerFormPage/CategoryPage';
-import ArticleDetailPage from '../components/ArticleViewer/ArticleViewerFormPage/ArticleDetailPage';
-import SubscriptionPage from '../components/Subscription/SubscriptionFormPage/SubscriptionPage';
-import EmployeePortalPage from '../components/EmployeePortal/EmployeePortalFormPage/EmployeePortalPage';
-import DashboardPage from '../components/Dashboard/DashboadFormPage/DashboardFormPage';
-import ProfilePage from '../components/Profile/ProfileFormPage/ProfileFormPage';
-import ArticleManagementPage from '../components/ArticleManagement/ArticleManagementFormPage/ArticleManagementPage';
+import LogoutButton from '../components/Logout/LogoutButton';
+import EmployeePortal from '../components/EmployeePortal/EmployeePortalFormPage/EmployeePortal';
+
+import ProtectedRoute from './ProtectedRoute';
+import Dashboard from '../components/Dashboard/DashboadFormPage/Dashboard';
+import ProfileManagement from '../components/Profile/ProfileFormPage/ProfileManagement';
+import ArticleManagement from '../components/ArticleManagement/ArticleManagementFormPage/ArticleManagement';
+import MyArticles from '../components/ArticleManagement/ArticleManagementFormPage/MyArticles';
+import AllArticles from '../components/ArticleManagement/ArticleManagementFormPage/AllArticles';
+import ReaderSubscriptionsAnalytics from '../components/Subscription/SubscriptionFormPage/SubscriptionAnalytics';
 
 export const router = createBrowserRouter([
   {
     element: <Layout />,
     children: [
-      // Public routes
+      {
+        path: '/',
+        element: <HomePage />,
+      },
+      {
+        path: '/subscriptions/subscribe',
+        element: <SubscriptionPage />,
+      },
       {
         path: '/login',
         element: <LoginFormPage />,
       },
       {
-        path: '/signup', 
+        path: '/signup',
         element: <SignupFormPage />,
       },
       {
-        path: '/', 
-        element: <HomePage />,
+        path: '/logout',
+        element: <LogoutButton />,
       },
       {
-        path: 'category/national', 
-        element: <CategoryPage category="national" />,
+        path: '/employee-portal',
+        element: <EmployeePortal />,
       },
       {
-        path: 'category/world', 
-        element: <CategoryPage category="world" />,
-      },
-      {
-        path: 'category/business', 
-        element: <CategoryPage category="business" />,
-      },
-      {
-        path: 'category/sports', 
-        element: <CategoryPage category="sports" />,
-      },
-      {
-        path: 'category/entertainment', 
-        element: <CategoryPage category="entertainment" />,
-      },
-      {
-        path: 'category/technology', 
-        element: <CategoryPage category="technology" />,
-      },
-      {
-        path: 'articles/:id',
-        element: <ArticleDetailPage />,
-      },
-      {
-        path: 'subscribe', // Corresponds to the backend route: POST /subscriptions
-        element: <SubscriptionPage />,
-      },
-
-      // Protected routes
-      {
-        element: <ProtectedRoute />, // Wrapper for protected routes
+        element: <ProtectedRoute />,
         children: [
           {
-            path: 'internal/employee-portal', 
-            element: <EmployeePortalPage />,
+            path: '/dashboard',
+            element: <Dashboard />,
           },
           {
-            path: 'admin/control-panel', 
-            element: <DashboardPage />,
+            path: '/users',
+            element: <ProfileManagement />,
           },
           {
-            path: 'user/settings', // Corresponds to the backend route: GET /users/<int:id> and PUT /users/<int:id>
-            element: <ProfilePage />,
+            path: '/articles',
+            element: <ArticleManagement />,
           },
           {
-            path: 'internal/content-management', // Corresponds to the backend route: GET /articles, POST /articles, PUT /articles/<int:id>, DELETE /articles/<int:id>
-            element: <ArticleManagementPage />,
+            path: '/subscriptions/Analytics',
+            element: <ReaderSubscriptionsAnalytics />,
+          },
+          {
+            path: '/articles/my-articles',
+            element: <MyArticles />,
+          },
+          {
+            path: '/articles/all-articles',
+            element: <AllArticles />,
           },
         ],
+      },
+      // Catch-all route for invalid URLs
+      {
+        path: '*',
+        element: <NotFoundPage />,
       },
     ],
   },
