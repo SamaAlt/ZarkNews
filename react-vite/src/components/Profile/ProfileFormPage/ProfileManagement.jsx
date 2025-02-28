@@ -1,5 +1,4 @@
 // src/components/Dashboard/ProfileManagement.jsx
-import React from 'react';
 import ProfileButton from '../../ProfileButton';
 
 const ProfileManagement = () => {

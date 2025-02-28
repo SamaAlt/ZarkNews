@@ -88,3 +88,13 @@ def sign_up():
 
     login_user(user)
     return jsonify(user.to_dict()), 200
+
+@auth_routes.route('/restore', methods=['GET'])
+@login_required
+def restore():
+    """
+    Restores a user's session if they are already authenticated.
+    """
+    if current_user.is_authenticated:
+        return jsonify(current_user.to_dict()), 200
+    return jsonify({'errors': {'message': 'Unauthorized'}}), 401

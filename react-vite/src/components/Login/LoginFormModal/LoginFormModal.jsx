@@ -1,33 +1,28 @@
-// react-vite/src/components/LoginFormModal.jsx
-import { useState } from "react";
-import { thunkLogin } from "../../../redux/session";
+import { useState } from "react"; // Import useState
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../../context/Modal";
+import { thunkLogin } from "../../../redux/session";
 import "./LoginForm.css";
 
 function LoginFormModal() {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
-  const sessionUser = useSelector((state) => state.session.user);
+  const sessionUser = useSelector((state) => state.session.user); // sessionUser is declared but not used
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const serverResponse = await dispatch(
-      thunkLogin({
-        email,
-        password,
-      })
+      thunkLogin({ email, password })
     );
 
     if (serverResponse) {
       setErrors(serverResponse);
     } else {
-      const user = useSelector((state) => state.session.user);
-      if (user && (user.role === 'editor' || user.role === 'admin')) {
+      // Use the sessionUser from the top level instead of calling useSelector again
+      if (sessionUser && (sessionUser.role === 'editor' || sessionUser.role === 'admin')) {
         closeModal();
       } else {
         setErrors({ server: "Only editors and admins can log in." });

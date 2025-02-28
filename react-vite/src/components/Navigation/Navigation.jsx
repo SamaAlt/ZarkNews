@@ -18,7 +18,7 @@ export default function Navigation({ user }) {
       </div>
       <div>
         {/* Subscription Link */}
-        <Link to="/subscribe">Subscribe</Link>
+        <Link to="/subscriptions/subscribe">Subscribe</Link>
       </div>
       <div>
         {/* Dashboard Link (Only for editors/admins) */}

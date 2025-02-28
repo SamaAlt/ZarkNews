@@ -1,41 +1,20 @@
-// src/main.jsx
-import React, { useEffect } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
-import { Provider as ReduxProvider, useDispatch } from "react-redux";
+import { Provider as ReduxProvider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { RouterProvider } from "react-router-dom";
-import { store, persistor } from "./redux/store"; // Import store and persistor
-import { router } from "./router";
-import * as sessionActions from "./redux/session";
-import { thunkRestoreUser } from "./redux/session"; // Import thunkRestoreUser
+import { store, persistor } from "./redux/store"; 
+import AppWrapper from "./components/AppWrapper"; 
 import "./index.css";
 
-// Wrapper component to handle session restoration
-function AppWrapper() {
-  const dispatch = useDispatch();
-
-  // Restore user session on app load
-  useEffect(() => {
-    dispatch(thunkRestoreUser());
-  }, [dispatch]);
-
-  return (
-    <div>
-      <RouterProvider router={router} />
-    </div>
-  );
-}
-
 if (import.meta.env.MODE !== "production") {
-  window.store = store;
-  window.sessionActions = sessionActions;
+  window.store = store; // Only keep this if you need to access the store in the console
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ReduxProvider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <AppWrapper /> {/* Use the wrapper component */}
+        <AppWrapper /> 
       </PersistGate>
     </ReduxProvider>
   </React.StrictMode>

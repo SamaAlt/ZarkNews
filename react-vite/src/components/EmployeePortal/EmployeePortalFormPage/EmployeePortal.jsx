@@ -1,4 +1,3 @@
-import React from 'react';
 import LoginFormPage from '../../Login/LoginFormPage/LoginFormPage';
 
 const EmployeePortal = () => {

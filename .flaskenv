@@ -1,4 +1,4 @@
 # .flaskenv file
 FLASK_APP=app
-FLASK_DEBUG=true
+FLASK_DEBUG=1 
 FLASK_RUN_PORT=8000

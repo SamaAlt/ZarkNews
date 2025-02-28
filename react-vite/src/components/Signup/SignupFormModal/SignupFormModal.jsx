@@ -1,5 +1,4 @@
-// react-vite/src/components/SignupFormModal.jsx
-import { useState } from "react";
+import { useState } from "react"; // Import useState
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../../context/Modal";
 import { thunkSignup } from "../../../redux/session";
@@ -8,7 +7,7 @@ import "./SignupForm.css";
 function SignupFormModal() {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
-  const sessionUser = useSelector((state) => state.session.user);
+  const sessionUser = useSelector((state) => state.session.user); // sessionUser is declared but not used
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -18,6 +17,7 @@ function SignupFormModal() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Check if passwords match
     if (password !== confirmPassword) {
       return setErrors({
         confirmPassword:
@@ -25,20 +25,22 @@ function SignupFormModal() {
       });
     }
 
+    // Dispatch the signup thunk
     const serverResponse = await dispatch(
       thunkSignup({
         email,
         username,
         password,
-        role: 'editor', // Default role for new signups
+        role: "editor", // Default role for new signups
       })
     );
 
+    // Handle server response
     if (serverResponse) {
       setErrors(serverResponse);
     } else {
-      const user = useSelector((state) => state.session.user);
-      if (user && (user.role === 'editor' || user.role === 'admin')) {
+      // Use the sessionUser from the top level instead of calling useSelector again
+      if (sessionUser && (sessionUser.role === "editor" || sessionUser.role === "admin")) {
         closeModal();
       } else {
         setErrors({ server: "Only editors and admins can sign up." });

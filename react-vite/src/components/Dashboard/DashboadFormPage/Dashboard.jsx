@@ -1,4 +1,3 @@
-import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import ProfileButton from '../../ProfileButton';
 
@@ -13,7 +12,7 @@ const Dashboard = () => {
           <ul>
             <li><Link to="/users">Profile Management</Link></li>
             <li><Link to="/articles">Article Management</Link></li>
-            <li><Link to="/subscriptions">Reader Subscriptions</Link></li>
+            <li><Link to="/subscriptions/Analytics">Subscriber Analytics</Link></li>
             <li><Link to="/articles/my-articles">My Articles</Link></li>
             <li><Link to="/articles/all-articles">All Articles</Link></li>
           </ul>

@@ -2,7 +2,6 @@
 const SET_USER = 'session/setUser';
 const REMOVE_USER = 'session/removeUser';
 const SET_LOADING = 'session/setLoading';
-const LOGOUT = 'session/logout';
 
 // ========================== ACTION CREATORS ================================
 const setUser = (user) => ({
@@ -16,10 +15,6 @@ const removeUser = () => ({
 
 const setLoading = () => ({
   type: SET_LOADING,
-});
-
-const logout = () => ({
-  type: LOGOUT,
 });
 
 // ========================== THUNKS =====================================
@@ -133,7 +128,6 @@ export const thunkSignup = (user) => async (dispatch) => {
 // THUNK: LOGOUT USER
 export const thunkLogout = () => async (dispatch) => {
   try {
-    console.log('Sending logout request to server...');
     const response = await fetch('/api/auth/logout', {
       method: 'POST',
     });
@@ -142,7 +136,6 @@ export const thunkLogout = () => async (dispatch) => {
     if (!ok) {
       throw new Error('Logout failed');
     }
-    console.log('Logout successful. Dispatching removeUser...');
     dispatch(removeUser());
   } catch (error) {
     console.error('Error logging out:', error);
@@ -160,7 +153,6 @@ function sessionReducer(state = initialState, action) {
     case SET_USER:
       return { ...state, user: action.payload, loading: false };
     case REMOVE_USER:
-    case LOGOUT: // Combine REMOVE_USER and LOGOUT cases
       return { ...state, user: null, loading: false };
     case SET_LOADING:
       return { ...state, loading: true };
