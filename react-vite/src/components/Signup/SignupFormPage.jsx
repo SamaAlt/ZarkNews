@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate, Link } from "react-router-dom";
-import { thunkSignup } from "../../../redux/session";
+import { thunkSignup } from "../../redux/session";
 import { validateEmail, validatePassword, validateName } from "./validators";
 
 function SignupFormPage() {

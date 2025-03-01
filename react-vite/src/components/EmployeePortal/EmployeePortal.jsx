@@ -1,4 +1,4 @@
-import LoginFormPage from '../../Login/LoginFormPage/LoginFormPage';
+import LoginFormPage from '../../components/Login/LoginFormPage';
 
 const EmployeePortal = () => {
   return (

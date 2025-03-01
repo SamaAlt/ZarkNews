@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { thunkLogin } from "../../../redux/session";
+import { thunkLogin } from "../../redux/session";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate, Link } from "react-router-dom";
 
@@ -58,7 +58,11 @@ function LoginFormPage() {
             required
             aria-describedby="email-error"
           />
-          {errors.email && <p id="email-error" className="error-message">{errors.email}</p>}
+          {errors.email && (
+            <p id="email-error" className="error-message">
+              {errors.email}
+            </p>
+          )}
         </div>
         <div className="form-group">
           <label htmlFor="password">Password</label>
@@ -70,14 +74,18 @@ function LoginFormPage() {
             required
             aria-describedby="password-error"
           />
-          {errors.password && <p id="password-error" className="error-message">{errors.password}</p>}
+          {errors.password && (
+            <p id="password-error" className="error-message">
+              {errors.password}
+            </p>
+          )}
         </div>
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Logging in..." : "Log In"}
         </button>
       </form>
       <p>
-        <Link to="/signup">Sign up here</Link>.
+        Don’t have an account yet? <Link to="/signup">Sign up here</Link> to get started!
       </p>
     </div>
   );

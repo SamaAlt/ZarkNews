@@ -4,7 +4,7 @@ function ManageProfileButton() {
   const navigate = useNavigate();
 
   const handleManageProfile = () => {
-    navigate('/users'); // Navigate to the profile management page
+    navigate('/users'); // Navigate to the profile settings page
   };
 
   return (

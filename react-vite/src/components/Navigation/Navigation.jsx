@@ -8,13 +8,12 @@ export default function Navigation({ user }) {
         <Link to="/">Home</Link>
       </div>
       <div>
-        {/* Category Links */}
-        <Link to="/category/national">National</Link>
-        <Link to="/category/world">World</Link>
-        <Link to="/category/business">Business</Link>
-        <Link to="/category/sports">Sports</Link>
-        <Link to="/category/entertainment">Entertainment</Link>
-        <Link to="/category/technology">Technology</Link>
+        <Link to="/news/national">National</Link>
+        <Link to="/news/world">World</Link>
+        <Link to="/news/business">Business</Link>
+        <Link to="/news/sports">Sports</Link>
+        <Link to="/news/entertainment">Entertainment</Link>
+        <Link to="/news/technology">Technology</Link>
       </div>
       <div>
         {/* Subscription Link */}
