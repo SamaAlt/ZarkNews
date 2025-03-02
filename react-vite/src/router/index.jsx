@@ -5,6 +5,7 @@ import { FilterProvider } from "../context/FilterContext";
 
 import NotFoundPage from '../components/NotFoundPage'; 
 import HomePage from '../components/HomePage';
+import ArticleReader from '../components/ArticleManagement/ArticleReader';
 
 import Subscribe from '../components/Subscription/SubsciptionManagement/Subscribe';
 import ManageSubscription from '../components/Subscription/SubsciptionManagement/ManageSubscription';
@@ -41,6 +42,10 @@ export const router = createBrowserRouter([
             <HomePage />
           </ArticleProvider>
         ),
+      },
+      {
+        path: '/articles/:id', // Add this route for individual articles
+        element: <ArticleReader />
       },
       {
         path: '/subscriptions/subscribe',
