@@ -38,11 +38,33 @@ def is_svg_safe(file_path):
 
 @article_routes.route('', methods=['GET'])
 def get_articles():
+    page = request.args.get('page', default=1, type=int)
+    per_page = request.args.get('per_page', default=10, type=int)
+    articles = Article.query.paginate(page=page, per_page=per_page, error_out=False)
+    return jsonify({
+        'articles': [article.to_dict() for article in articles.items],
+        'total_pages': articles.pages,
+        'current_page': articles.page
+    }), 200
+
+@article_routes.route('/my-articles', methods=['GET'])
+@login_required
+def get_my_articles():
     """
-    Get all articles.
+    Get articles authored by the currently logged-in user with pagination.
     """
-    articles = Article.query.all()
-    return jsonify({'articles': [article.to_dict() for article in articles]}), 200
+    user_id = current_user.id
+    page = request.args.get('page', default=1, type=int)
+    per_page = request.args.get('per_page', default=10, type=int)
+
+    # Query articles with pagination, sorted by created_at in descending order
+    articles = Article.query.filter_by(author_id=user_id).order_by(Article.created_at.desc()).paginate(page=page, per_page=per_page, error_out=False)
+
+    return jsonify({
+        'articles': [article.to_dict() for article in articles.items],
+        'total_pages': articles.pages,
+        'current_page': articles.page
+    }), 200
 
 @article_routes.route('/<int:id>', methods=['GET'])
 def get_article(id):

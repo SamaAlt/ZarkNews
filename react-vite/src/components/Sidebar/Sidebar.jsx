@@ -10,7 +10,7 @@ const Sidebar = () => {
           <Link to="/users">Profile Settings</Link>
         </li>
         <li>
-          <Link to="/articles">Article Panel</Link>
+          <Link to="/articles/panel">Article Panel</Link>
         </li>
         <li>
           <Link to="/articles/my-articles">My Articles</Link>

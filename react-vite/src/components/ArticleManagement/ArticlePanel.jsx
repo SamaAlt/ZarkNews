@@ -1,91 +1,139 @@
-import { useState } from 'react';
-import axios from 'axios';
-import ProfileButton from '../../components/ProfileButton';
+import { useState, useEffect } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import ProfileButton from '../ProfileButton';
 import Sidebar from '../Sidebar/Sidebar';
-import UpdateArticleModal from './UpdateArticleModal '; // Import the modal component
 
 const ArticlePanel = () => {
+  const [articles, setArticles] = useState([]);
   const [title, setTitle] = useState('');
-  const [displayType, setDisplayType] = useState('');
   const [content, setContent] = useState('');
+  const [displayType, setDisplayType] = useState('');
   const [location, setLocation] = useState('');
   const [section, setSection] = useState('');
   const [tags, setTags] = useState('');
-  const [image, setImage] = useState(null);
-  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-  // State for managing the update modal
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedArticleId, setSelectedArticleId] = useState(null);
+  const VALID_DISPLAY_TYPES = ['headline', 'sidebar_1', 'sidebar_2', 'sidebar_3', 'list', 'ads_1', 'ads_2', 'archived'];
+  const VALID_SECTIONS = ['national', 'world', 'business', 'sports', 'entertainment', 'technology'];
 
-  // Handle creating a new article
-  const handleCreateArticle = async (e) => {
+  // Fetch articles on component mount or when `id` changes
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        if (id) {
+          // Fetch the specific article for editing
+          const response = await fetch(`/api/articles/${id}`);
+          if (!response.ok) throw new Error('Failed to fetch article');
+          const data = await response.json();
+          console.log('Fetched article for editing:', data); // Debugging log
+          setTitle(data.title);
+          setContent(data.content);
+          setDisplayType(data.display_type);
+          setLocation(data.location);
+          setSection(data.section);
+          setTags(data.tags.join(', '));
+        }
+
+        // Fetch the user's articles
+        const articlesResponse = await fetch('/api/articles/my-articles');
+        if (!articlesResponse.ok) throw new Error('Failed to fetch articles');
+        const articlesData = await articlesResponse.json();
+        console.log('Fetched articles:', articlesData); // Debugging log
+        setArticles(articlesData.articles);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching articles:', error); // Debugging log
+        setError(error.message);
+        setLoading(false);
+      }
+    };
+
+    fetchArticles();
+  }, [id]);
+
+  // Handle form submission for creating or updating an article
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const articleData = {
+      title,
+      content,
+      display_type: displayType,
+      location,
+      section,
+      tags: tags.split(',').map(tag => tag.trim()),
+    };
 
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('display_type', displayType);
-    formData.append('content', content);
-    formData.append('location', location);
-    formData.append('section', section);
-    formData.append('tags', tags);
-    if (image) {
-      formData.append('file', image);
+    console.log('Submitting article data:', articleData); // Debugging log
+
+    // Validate display type and section
+    if (!VALID_DISPLAY_TYPES.includes(articleData.display_type)) {
+      setError('Invalid display type');
+      return;
+    }
+    if (!VALID_SECTIONS.includes(articleData.section)) {
+      setError('Invalid section');
+      return;
     }
 
+    const url = id ? `/api/articles/${id}` : '/api/articles';
+    const method = id ? 'PUT' : 'POST';
+
     try {
-      const response = await axios.post('/api/articles', formData, {
+      const response = await fetch(url, {
+        method,
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
         },
+        credentials: 'include',
+        body: JSON.stringify(articleData),
       });
 
-      setMessage('Article created successfully!');
-      setError('');
-      // Clear form fields
-      setTitle('');
-      setDisplayType('');
-      setContent('');
-      setLocation('');
-      setSection('');
-      setTags('');
-      setImage(null);
-    } catch (err) {
-      setError('Failed to create article. Please try again.');
-      setMessage('');
+      if (!response.ok) throw new Error('Failed to save article');
+
+      const data = await response.json();
+      console.log('Article saved successfully:', data); // Debugging log
+
+      // Fetch the updated list of articles
+      const articlesResponse = await fetch('/api/articles/my-articles');
+      if (!articlesResponse.ok) throw new Error('Failed to fetch articles');
+      const articlesData = await articlesResponse.json();
+      console.log('Updated articles list:', articlesData); // Debugging log
+
+      // Update the articles state
+      setArticles(articlesData.articles);
+
+      // Navigate to the "My Articles" page
+      navigate('/articles/my-articles');
+    } catch (error) {
+      console.error('Error saving article:', error); // Debugging log
+      setError(error.message);
     }
   };
 
-  // Handle deleting an article
-  const handleDeleteArticle = async (id) => {
-    try {
-      await axios.delete(`/api/articles/${id}`);
-      setMessage('Article deleted successfully!');
-      setError('');
-    } catch (err) {
-      setError('Failed to delete article. Please try again.');
-      setMessage('');
+  // Handle article deletion
+  const handleDelete = async () => {
+    if (window.confirm('Are you sure you want to delete this article?')) {
+      try {
+        const response = await fetch(`/api/articles/${id}`, {
+          method: 'DELETE',
+          credentials: 'include',
+        });
+
+        if (!response.ok) throw new Error('Failed to delete article');
+
+        // Remove the deleted article from the state
+        setArticles(articles.filter(article => article.id !== parseInt(id)));
+        console.log('Article deleted successfully'); // Debugging log
+
+        navigate('/articles/my-articles');
+      } catch (error) {
+        console.error('Error deleting article:', error); // Debugging log
+        setError(error.message);
+      }
     }
-  };
-
-  // Handle opening the update modal
-  const handleOpenModal = (articleId) => {
-    setSelectedArticleId(articleId);
-    setIsModalOpen(true);
-  };
-
-  // Handle closing the update modal
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedArticleId(null);
-  };
-
-  // Handle successful article update
-  const handleArticleUpdate = (updatedArticle) => {
-    setMessage('Article updated successfully!');
-    setError('');
-    // You can also refetch articles or update the UI here
   };
 
   return (
@@ -94,111 +142,58 @@ const ArticlePanel = () => {
         <ProfileButton />
       </nav>
       <Sidebar />
-      <h1>Article Panel</h1>
-
-      {/* Create New Article Form */}
-      <div>
-        <h2>Create New Article</h2>
-        <form onSubmit={handleCreateArticle}>
-          <div>
-            <label>Title:</label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label>Display Type:</label>
-            <input
-              type="text"
-              value={displayType}
-              onChange={(e) => setDisplayType(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label>Content:</label>
-            <textarea
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label>Location:</label>
-            <input
-              type="text"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label>Section:</label>
-            <input
-              type="text"
-              value={section}
-              onChange={(e) => setSection(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label>Tags (comma-separated):</label>
-            <input
-              type="text"
-              value={tags}
-              onChange={(e) => setTags(e.target.value)}
-            />
-          </div>
-          <div>
-            <label>Upload Image:</label>
-            <input
-              type="file"
-              onChange={(e) => setImage(e.target.files[0])}
-            />
-          </div>
-          <button type="submit">Create Article</button>
-        </form>
-        {message && <p style={{ color: 'green' }}>{message}</p>}
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-      </div>
-
-      {/* Delete Article Form */}
-      <div>
-        <h2>Delete Article</h2>
-        <form onSubmit={(e) => {
-          e.preventDefault();
-          const id = e.target.articleId.value;
-          handleDeleteArticle(id);
-        }}>
-          <div>
-            <label>Article ID:</label>
-            <input
-              type="text"
-              name="articleId"
-              required
-            />
-          </div>
-          <button type="submit">Delete Article</button>
-        </form>
-      </div>
-
-      {/* Update Article Button */}
-      <div>
-        <h2>Update Article</h2>
-        <button onClick={() => handleOpenModal(1)}>Edit Article 1</button>
-      </div>
-
-      {/* Update Article Modal */}
-      {isModalOpen && (
-        <UpdateArticleModal
-          articleId={selectedArticleId}
-          onClose={handleCloseModal}
-          onUpdate={handleArticleUpdate}
-        />
-      )}
+      <h1>{id ? 'Edit Article' : 'Create Article'}</h1>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Title:</label>
+          <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
+        </div>
+        <div>
+          <label>Content:</label>
+          <textarea value={content} onChange={(e) => setContent(e.target.value)} required />
+        </div>
+        <div>
+          <label>Display Type:</label>
+          <select value={displayType} onChange={(e) => setDisplayType(e.target.value)} required>
+            <option value="">Select a display type</option>
+            {VALID_DISPLAY_TYPES.map(type => (
+              <option key={type} value={type}>{type}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label>Location:</label>
+          <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} required />
+        </div>
+        <div>
+          <label>Section:</label>
+          <select value={section} onChange={(e) => setSection(e.target.value)} required>
+            <option value="">Select a section</option>
+            {VALID_SECTIONS.map(section => (
+              <option key={section} value={section}>{section}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label>Tags (comma separated):</label>
+          <input type="text" value={tags} onChange={(e) => setTags(e.target.value)} />
+        </div>
+        <button type="submit">{id ? 'Update Article' : 'Create Article'}</button>
+        {id && <button type="button" onClick={handleDelete}>Delete Article</button>}
+      </form>
+      <h2>My Articles</h2>
+      {loading && <p>Loading...</p>}
+      {!loading && articles.length === 0 && <p>No articles found.</p>}
+      <ul>
+        {articles.map((article) => (
+          <li key={article.id}>
+            <h3>{article.title}</h3>
+            <p>{article.content.substring(0, 100)}...</p>
+            <Link to={`/articles/edit/${article.id}`}>Edit</Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Layout from './Layout';
+import { ArticleProvider } from "../context/ArticleContext";
 
 import NotFoundPage from '../components/NotFoundPage'; 
 import HomePage from '../components/HomePage';
@@ -33,7 +34,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <HomePage />,
+        element: (
+          <ArticleProvider> 
+            <HomePage />
+          </ArticleProvider>
+        ),
       },
       {
         path: '/subscriptions/subscribe',
@@ -72,15 +77,34 @@ export const router = createBrowserRouter([
           },
           {
             path: '/articles/panel',
-            element: <ArticlePanel />,
+            element: (
+              <ArticleProvider> 
+                <ArticlePanel />
+              </ArticleProvider>
+            ),
+          },
+          {
+            path: '/articles/edit/:id',
+            element: (
+              <ArticleProvider> 
+                <ArticlePanel />
+              </ArticleProvider>
+            ),
           },
           {
             path: '/articles/my-articles',
-            element: <MyArticles />,
-          },
+            element: (
+              <ArticleProvider> 
+                <MyArticles />
+              </ArticleProvider>
+            ),          },
           {
             path: '/articles/all-articles',
-            element: <AllArticles />,
+            element: (
+              <ArticleProvider> 
+                <AllArticles />
+              </ArticleProvider>
+            ),
           },
           {
             path: '/subscriptions/analytics',
@@ -91,28 +115,46 @@ export const router = createBrowserRouter([
       // Add routes for each news section
       {
         path: '/news/national',
-        element: <NationalNewsPage />,
-      },
+        element: (
+          <ArticleProvider> 
+            <NationalNewsPage />
+          </ArticleProvider>
+        ),      },
       {
         path: '/news/world',
-        element: <WorldNewsPage />,
-      },
+        element: (
+          <ArticleProvider> 
+            <WorldNewsPage />
+          </ArticleProvider>
+        ),      },
       {
         path: '/news/business',
-        element: <BusinessNewsPage />,
-      },
+        element: (
+          <ArticleProvider> 
+            <BusinessNewsPage />
+          </ArticleProvider>
+        ),      },
       {
         path: '/news/sports',
-        element: <SportsNewsPage />,
-      },
+        element: (
+          <ArticleProvider> 
+            <SportsNewsPage />
+          </ArticleProvider>
+        ),      },
       {
         path: '/news/entertainment',
-        element: <EntertainmentNewsPage />,
-      },
+        element: (
+          <ArticleProvider> 
+            <EntertainmentNewsPage />
+          </ArticleProvider>
+        ),      },
       {
         path: '/news/technology',
-        element: <TechnologyNewsPage />,
-      },
+        element: (
+          <ArticleProvider> 
+            <TechnologyNewsPage />
+          </ArticleProvider>
+        ),      },
       // Catch-all route for invalid URLs
       {
         path: '*',

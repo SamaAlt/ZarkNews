@@ -26,7 +26,7 @@ def seed_users():
                 "last_name": "Waters",
                 "email": "jack@zarknews.com",
                 "password_hash": generate_password_hash('StrongPassword3'),
-                "role": "editor",
+                "role": "admin",
             },
             {
                 "first_name": "Jill",

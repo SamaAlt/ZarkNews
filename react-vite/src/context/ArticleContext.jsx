@@ -1,28 +1,61 @@
-import { createContext, useState, useEffect } from 'react';
-import { fetchArticles } from '../services/articleService';
+import React, { createContext, useState, useContext, useEffect } from 'react';
+import axios from 'axios';
 
-export const ArticleContext = createContext();
+const ArticleContext = createContext();
+
+export const useArticleContext = () => {
+    return useContext(ArticleContext);
+};
 
 export const ArticleProvider = ({ children }) => {
-  const [articles, setArticles] = useState([]);
-  const [recentArticles, setRecentArticles] = useState([]);
+    const [articles, setArticles] = useState([]);
+    const [userArticles, setUserArticles] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const articlesPerPage = 5;
 
-  useEffect(() => {
-    const loadArticles = async () => {
-      const data = await fetchArticles();
-      const presetArticles = data.filter(article => article.displayType);
-      const recentArticles = data.filter(article => !article.displayType);
+    useEffect(() => {
+        fetchArticles(currentPage);
+    }, [currentPage]);
 
-      setArticles(presetArticles);
-      setRecentArticles(recentArticles);
+    const fetchArticles = async (page) => {
+        setLoading(true);
+        try {
+            const response = await axios.get(`/api/articles?page=${page}&limit=${articlesPerPage}&sort=id:desc`);
+            console.log('Fetched articles:', response.data.articles);
+            setArticles(prevArticles => [...prevArticles, ...response.data.articles]);
+        } catch (error) {
+            console.error("Error fetching articles:", error);
+        } finally {
+            setLoading(false);
+        }
     };
 
-    loadArticles();
-  }, []);
+    const fetchUserArticles = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(`/api/articles/user`);
+            console.log('Fetched user articles:', response.data.articles);
+            setUserArticles(response.data.articles);
+        } catch (error) {
+            console.error("Error fetching user articles:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  return (
-    <ArticleContext.Provider value={{ articles, recentArticles }}>
-      {children}
-    </ArticleContext.Provider>
-  );
+    return (
+        <ArticleContext.Provider 
+            value={{ 
+                articles, 
+                userArticles, 
+                loading, 
+                currentPage, 
+                setCurrentPage, 
+                fetchUserArticles 
+            }}
+        >
+            {children}
+        </ArticleContext.Provider>
+    );
 };

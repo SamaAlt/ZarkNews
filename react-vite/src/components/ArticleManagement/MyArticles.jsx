@@ -1,57 +1,57 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import ProfileButton from '../ProfileButton';
 import Sidebar from '../Sidebar/Sidebar';
 
 const MyArticles = () => {
-  const [articles, setArticles] = useState([]);
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
+    const [userArticles, setUserArticles] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-  const fetchArticles = async (pageNumber) => {
-    setLoading(true);
-    try {
-      const response = await axios.get(`/api/articles/my-articles?page=${pageNumber}&limit=50`);
-      const newArticles = response.data.articles;
-      setArticles((prevArticles) => [...prevArticles, ...newArticles]);
-      setHasMore(newArticles.length === 50);
-    } catch (error) {
-      console.error('Error fetching articles:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    useEffect(() => {
+      const fetchUserArticles = async () => {
+          try {
+              const response = await fetch('/api/articles/my-articles', {
+                  credentials: 'include', // Include cookies for authentication
+              });
+              if (response.ok) {
+                  const data = await response.json();
+                  setUserArticles(data.articles);
+              } else {
+                  console.error('Failed to fetch articles:', response.statusText);
+              }
+          } catch (error) {
+              console.error('Error fetching articles:', error);
+          } finally {
+              setLoading(false);
+          }
+      };
+  
+      fetchUserArticles();
+  }, []);
 
-  useEffect(() => {
-    fetchArticles(page);
-  }, [page]);
-
-  const handleReadMore = () => {
-    setPage((prevPage) => prevPage + 1);
-  };
-
-  return (
-    <div>
-      <nav>
-        <ProfileButton />
-      </nav>
-      <Sidebar />
-      <h1>My Articles</h1>
-      <ul>
-        {articles.map((article) => (
-          <li key={article.id}>
-            <h2>{article.title}</h2>
-            <p>{article.content.substring(0, 100)}...</p>
-          </li>
-        ))}
-      </ul>
-      {loading && <p>Loading...</p>}
-      {hasMore && !loading && (
-        <button onClick={handleReadMore}>Read More</button>
-      )}
-    </div>
-  );
+    return (
+        <div>
+            <nav>
+                <ProfileButton />
+            </nav>
+            <Sidebar />
+            <h1>My Articles</h1>
+            {loading && <p>Loading...</p>}
+            {!loading && userArticles.length === 0 && <p>No articles found.</p>}
+            <ul style={{ border: '1px solid red' }}>
+                {userArticles.map((article) => {
+                    console.log('Rendering user article:', article); // Debugging
+                    return (
+                        <li key={article.id} style={{ border: '1px solid blue', margin: '10px', padding: '10px' }}>
+                            <h2>{article.title}</h2>
+                            <p>{article.content.substring(0, 100)}...</p>
+                            <Link to={`/articles/${article.id}`}>Read More</Link>
+                        </li>
+                    );
+                })}
+            </ul>
+        </div>
+    );
 };
 
 export default MyArticles;
