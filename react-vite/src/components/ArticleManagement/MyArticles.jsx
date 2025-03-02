@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import ProfileButton from '../ProfileButton';
-import Sidebar from '../Sidebar/Sidebar';
 
 const MyArticles = () => {
     const [userArticles, setUserArticles] = useState([]);
@@ -31,10 +29,6 @@ const MyArticles = () => {
 
     return (
         <div>
-            <nav>
-                <ProfileButton />
-            </nav>
-            <Sidebar />
             <h1>My Articles</h1>
             {loading && <p>Loading...</p>}
             {!loading && userArticles.length === 0 && <p>No articles found.</p>}

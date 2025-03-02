@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import ProfileButton from '../ProfileButton';
-import Sidebar from '../Sidebar/Sidebar';
 
 const ArticlePanel = () => {
   const [articles, setArticles] = useState([]);
@@ -126,10 +124,6 @@ const ArticlePanel = () => {
 
   return (
     <div>
-      <nav>
-        <ProfileButton />
-      </nav>
-      <Sidebar />
       <h1>{id ? 'Edit Article' : 'Create Article'}</h1>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleSubmit}>

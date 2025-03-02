@@ -1,0 +1,40 @@
+/* styles.css or your preferred CSS file */
+.app-container {
+    display: flex;
+    height: 100vh; /* Full viewport height */
+  }
+  
+  .sidebar {
+    width: 250px; /* Fixed width for the sidebar */
+    background-color: #2c3e50; /* Example background color */
+    color: white;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .sidebar ul li {
+    margin-bottom: 15px;
+  }
+  
+  .sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+  }
+  
+  .sidebar ul li a:hover {
+    text-decoration: underline;
+  }
+  
+  .main-content {
+    flex: 1; /* Takes up the remaining space */
+    padding: 20px;
+    background-color: #f4f4f4; /* Example background color */
+    overflow-y: auto; /* Add scroll if content overflows */
+  }

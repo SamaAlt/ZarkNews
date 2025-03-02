@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaUserCircle } from 'react-icons/fa';
-import { thunkLogout } from "../redux/session";
-import OpenModalMenuItem from "./Navigation/OpenModalMenuItem";
-import LoginFormModal from "../components/Login/LoginFormPage";
-import SignupFormModal from "../components/Signup/SignupFormPage";
-import ManageProfileButton from '../components/Profile/ManageProfileButton'; // Import ManageProfileButton
+import { thunkLogout } from "../../redux/session";
+import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
+import LoginFormModal from "../Login/LoginFormPage";
+import SignupFormModal from "../Signup/SignupFormPage";
+import ManageProfileButton from './ManageProfileButton'; // Import ManageProfileButton
 
 function ProfileButton() {
   const dispatch = useDispatch();

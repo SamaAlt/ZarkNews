@@ -29,7 +29,8 @@ const SubscriptionsAnalytics = () => {
 
     return (
         <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-            <h2 style={{ marginBottom: '20px' }}>Subscriptions Analytics</h2>
+
+            <h2 style={{ marginBottom: '20px' }}>Reader Analytics</h2>
             
             <div style={{ marginBottom: '30px' }}>
                 <h3 style={{ marginBottom: '10px' }}>Sections</h3>

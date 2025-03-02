@@ -1,11 +1,20 @@
-// react-vite/src/components/Navigation/Navigation.jsx
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom'; // Import useLocation
+import './Navigation.css'; // Import the CSS file
+import logo from './logo.png'; // Adjust the path to your logo file
+import ProfileButton from '../Profile/ProfileButton'; // Import the ProfileButton component
 
 export default function Navigation({ user }) {
+  const location = useLocation(); // Get the current route
+
+  // Conditionally render the ProfileButton
+  const showProfileButton = user || location.pathname === '/employee-portal';
+
   return (
     <nav>
       <div>
-        <Link to="/">Home</Link>
+        <Link to="/">
+          <img src={logo} alt="Logo" className="logo" /> {/* Add the logo */}
+        </Link>
       </div>
       <div>
         <Link to="/news/national">National</Link>
@@ -23,6 +32,12 @@ export default function Navigation({ user }) {
           <Link to="/dashboard">Dashboard</Link>
         )}
       </div>
+      {/* Conditionally render the ProfileButton */}
+      {showProfileButton && (
+        <div className="profile-button-container">
+          <ProfileButton />
+        </div>
+      )}
     </nav>
   );
 }

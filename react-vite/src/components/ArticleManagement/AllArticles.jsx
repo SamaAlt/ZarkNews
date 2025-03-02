@@ -1,8 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useArticleContext } from '../../context/ArticleContext';
-import ProfileButton from '../ProfileButton';
-import Sidebar from '../Sidebar/Sidebar';
 
 const AllArticles = () => {
     const { articles, loading, currentPage, setCurrentPage } = useArticleContext();
@@ -24,10 +22,6 @@ const AllArticles = () => {
 
     return (
         <div>
-            <nav>
-                <ProfileButton />
-            </nav>
-            <Sidebar />
             <h1>All Articles</h1>
             {loading && <p>Loading...</p>}
             {!loading && displayedArticles.length === 0 && <p>No articles found.</p>}

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ProfileButton from '../ProfileButton';
-import Sidebar from '../Sidebar/Sidebar';
+import ProfileButton from './ProfileButton';
 import { thunkUpdateUser, thunkDeleteUser } from '../../redux/session';
+import './ProfileButton.css';
 
 const ProfileSettings = () => {
   const dispatch = useDispatch();
@@ -74,7 +74,6 @@ const ProfileSettings = () => {
       <nav>
         <ProfileButton />
       </nav>
-      <Sidebar />
       <h1>Profile Settings</h1>
 
       <form onSubmit={handleSubmit}>
