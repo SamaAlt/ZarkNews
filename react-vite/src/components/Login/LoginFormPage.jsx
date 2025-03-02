@@ -17,7 +17,7 @@ function LoginFormPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     // Client-side validation
     const newErrors = {};
     if (!email) newErrors.email = "Email is required.";
@@ -26,23 +26,25 @@ function LoginFormPage() {
       setErrors(newErrors);
       return;
     }
-
+  
     setIsLoading(true);
     setErrors({});
-
+  
     const serverResponse = await dispatch(thunkLogin({ email, password }));
-
+  
     setIsLoading(false);
-
+  
     if (serverResponse?.errors) {
+      // Display server errors
       setErrors({
-        server: serverResponse.errors?.server || "Incorrect email or password.",
+        ...serverResponse.errors,
+        ...(serverResponse.errors.server && { server: serverResponse.errors.server }),
       });
     } else {
       navigate("/dashboard"); // Redirect after successful login
     }
   };
-
+  
   return (
     <div className="login-form-container">
       <h1>Log In</h1>

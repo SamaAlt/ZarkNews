@@ -17,7 +17,7 @@ const setLoading = () => ({
   type: SET_LOADING,
 });
 
-// ========================== THUNKS =====================================
+// ========================== HELPER FUNCTIONS ===============================
 
 // Helper function to check if the response is HTML
 const isHtmlResponse = (responseText) => {
@@ -41,6 +41,8 @@ const handleServerResponse = async (response) => {
     throw new Error('Invalid JSON response from server.');
   }
 };
+
+// ========================== THUNKS =====================================
 
 // THUNK: RESTORE USER SESSION
 export const thunkRestoreUser = () => async (dispatch) => {
@@ -90,12 +92,14 @@ export const thunkLogin = (credentials) => async (dispatch) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(credentials),
     });
-    const { data, ok } = await handleServerResponse(response);
 
-    if (ok) {
-      dispatch(setUser(data));
+    const responseData = await response.json();
+
+    if (response.ok) {
+      dispatch(setUser(responseData)); // Dispatch the user data on success
+      return {}; // No errors
     } else {
-      return { errors: data };
+      return { errors: responseData.errors || { server: 'Incorrect email or password.' } }; // Return errors
     }
   } catch (error) {
     console.error('Error logging in:', error);
@@ -117,7 +121,7 @@ export const thunkSignup = (user) => async (dispatch) => {
     if (ok) {
       dispatch(setUser(data));
     } else {
-      return { errors: data };
+      return { errors: data.errors || { server: 'Something went wrong. Please try again.' } };
     }
   } catch (error) {
     console.error('Error signing up:', error);
@@ -139,6 +143,52 @@ export const thunkLogout = () => async (dispatch) => {
     dispatch(removeUser());
   } catch (error) {
     console.error('Error logging out:', error);
+  }
+};
+
+// THUNK: UPDATE USER
+export const thunkUpdateUser = (userId, updatedData) => async (dispatch) => {
+  dispatch(setLoading());
+  try {
+    if (process.env.NODE_ENV === 'development') {
+      console.log("Payload being sent to backend:", updatedData); // Debugging
+    }
+    const response = await fetch(`/api/users/${userId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedData),
+    });
+    const { data, ok } = await handleServerResponse(response);
+
+    if (ok) {
+      dispatch(setUser(data)); // Update the user in the Redux store
+      return { success: true };
+    } else {
+      return { errors: data.errors || { server: 'Something went wrong. Please try again.' } };
+    }
+  } catch (error) {
+    console.error('Error updating user:', error);
+    return { errors: { server: 'Something went wrong. Please try again' } };
+  }
+};
+
+// THUNK: DELETE USER
+export const thunkDeleteUser = (userId) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/users/${userId}`, {
+      method: 'DELETE',
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.errors ? errorData.errors.join(', ') : 'Failed to delete user');
+    }
+
+    dispatch(removeUser()); // Remove the user from the Redux store
+    return { success: true };
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    return { errors: { server: error.message } };
   }
 };
 

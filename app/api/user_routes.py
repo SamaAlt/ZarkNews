@@ -24,21 +24,22 @@ user_routes = Blueprint('users', __name__)
 @login_required
 def get_users():
     """
-    Get all users 
+    Get all users (excluding deleted users).
     """
     if current_user.role != 'editor':
         return jsonify({"errors": ["Unauthorized"]}), 403
-    
-    users = User.query.all()
+
+    # Exclude users marked as deleted
+    users = User.query.filter(~User.email.startswith('deleted-')).all()
     return jsonify({'users': [user.to_dict() for user in users]}), 200
 
 @user_routes.route('/<int:id>', methods=['GET'])
 @login_required
 def get_user(id):
     """
-    Get a specific user by ID
+    Get a specific user by ID (excluding deleted users).
     """
-    user = User.query.get(id)
+    user = User.query.filter(User.id == id, ~User.email.startswith('deleted-')).first()
     if not user:
         return jsonify({"errors": ["User not found"]}), 404
     return jsonify(user.to_dict()), 200
@@ -46,9 +47,6 @@ def get_user(id):
 @user_routes.route('/<int:id>', methods=['PUT'])
 @login_required
 def update_user(id):
-    """
-    Update a user by ID 
-    """
     if current_user.role not in ['editor', 'admin']:
         return jsonify({"errors": ["Unauthorized"]}), 403
 
@@ -56,27 +54,93 @@ def update_user(id):
     if not user:
         return jsonify({"errors": ["User not found"]}), 404
 
-    # Load the request data and validate it
     schema = UserUpdateSchema()
     try:
         data = schema.load(request.get_json())  # Validate and deserialize
     except ValidationError as err:
         return jsonify({"errors": err.messages}), 400
 
-    # Apply valid updates to the user
+    # Log incoming data
+    print("Incoming data from frontend:", data)
+
+    # Apply updates to the user
     for key, value in data.items():
         if hasattr(user, key):
-            if key == 'password' and value:  # If password is included, hash it
-                user.password_hash = generate_password_hash(value)
+            if key == 'password' and value:
+                print("Updating password...")
+                user.password = value  # Use the password setter
+                print("Hashed password:", user.password_hash)  # Log hashed password
             else:
                 setattr(user, key, value)
 
-    db.session.commit()
+    # Log updated user object
+    print("Updated user object:", user.to_dict())
+
+    try:
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        print("Error committing to database:", str(e))
+        return jsonify({"errors": ["Database error"]}), 500
+
     return jsonify(user.to_dict()), 200
+
 
 @user_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
 def delete_user(id):
+    """
+    Soft delete a user by ID.
+    """
+    if current_user.role != 'editor':
+        return jsonify({"errors": ["Unauthorized"]}), 403
+
+    user = User.query.get(id)
+    if not user:
+        return jsonify({"errors": ["User not found"]}), 404
+
+    try:
+        # Mark the user as deleted by prefixing their email
+        user.email = f"deleted-{user.email}"
+        db.session.commit()
+        return jsonify({"message": "User account deactivated successfully"}), 200
+    except Exception as e:
+        db.session.rollback()
+        print("Error soft-deleting user:", str(e))
+        return jsonify({"errors": ["Database error: " + str(e)]}), 500
+    if current_user.role != 'editor':
+        return jsonify({"errors": ["Unauthorized"]}), 403
+
+    user = User.query.get(id)
+    if not user:
+        return jsonify({"errors": ["User not found"]}), 404
+
+    try:
+        # Mark the user as deleted by prefixing their email
+        user.email = f"deleted-{user.email}"
+        db.session.commit()
+        return jsonify({"message": "User account deactivated successfully"}), 200
+    except Exception as e:
+        db.session.rollback()
+        print("Error soft-deleting user:", str(e))
+        return jsonify({"errors": ["Database error: " + str(e)]}), 500  
+
+    if current_user.role != 'editor':
+        return jsonify({"errors": ["Unauthorized"]}), 403
+
+    user = User.query.get(id)
+    if not user:
+        return jsonify({"errors": ["User not found"]}), 404
+
+    try:
+        # Soft delete the user
+        user.deleted = True
+        db.session.commit()
+        return jsonify({"message": "User account deactivated successfully"}), 200
+    except Exception as e:
+        db.session.rollback()
+        print("Error soft-deleting user:", str(e))
+        return jsonify({"errors": ["Database error: " + str(e)]}), 500
     """
     Delete a user by ID
     """
@@ -86,7 +150,12 @@ def delete_user(id):
     user = User.query.get(id)
     if not user:
         return jsonify({"errors": ["User not found"]}), 404
-    
-    db.session.delete(user)
-    db.session.commit()
-    return jsonify({"message": "User deleted successfully"}), 200
+
+    try:
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify({"message": "User deleted successfully"}), 200
+    except Exception as e:
+        db.session.rollback()
+        print("Error deleting user:", str(e))  # Log the error
+        return jsonify({"errors": ["Database error: " + str(e)]}), 500

@@ -5,15 +5,6 @@ from werkzeug.security import generate_password_hash
 
 auth_routes = Blueprint('auth', __name__)
 
-@auth_routes.route('', methods=['GET'])
-def authenticate():
-    """
-    Authenticates a user.
-    """
-    if current_user.is_authenticated:
-        return jsonify(current_user.to_dict()), 200
-    return jsonify({'errors': {'message': 'Unauthorized'}}), 401
-
 @auth_routes.route('/login', methods=['POST'])
 def login():
     """
@@ -25,9 +16,20 @@ def login():
 
     user = User.query.filter(User.email == email).first()
     if user and user.check_password(password):
+        if user.email.startswith('deleted-'):  # Check if the user is marked as deleted
+            return jsonify({'errors': {'message': 'This account has been deactivated'}}), 403
         login_user(user)
         return jsonify(user.to_dict()), 200
     return jsonify({'errors': {'message': 'Invalid credentials'}}), 401
+
+@auth_routes.route('', methods=['GET'])
+def authenticate():
+    """
+    Authenticates a user.
+    """
+    if current_user.is_authenticated and not current_user.deleted:
+        return jsonify(current_user.to_dict()), 200
+    return jsonify({'errors': {'message': 'Unauthorized'}}), 401
 
 @auth_routes.route('/logout', methods=['POST'])
 @login_required
@@ -63,7 +65,7 @@ def sign_up():
     if not all(required_fields):
         return jsonify({'errors': ['All fields are required']}), 400
 
-    # Check if email is already used
+    # Check if email is already used (excluding deleted users)
     if User.query.filter(User.email == email).first():
         return jsonify({'errors': ['Email address is already in use.']}), 400
 
@@ -95,6 +97,6 @@ def restore():
     """
     Restores a user's session if they are already authenticated.
     """
-    if current_user.is_authenticated:
+    if current_user.is_authenticated and not current_user.deleted:
         return jsonify(current_user.to_dict()), 200
     return jsonify({'errors': {'message': 'Unauthorized'}}), 401
