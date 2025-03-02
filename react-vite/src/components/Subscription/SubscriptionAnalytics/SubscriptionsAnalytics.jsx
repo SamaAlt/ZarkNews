@@ -1,84 +1,60 @@
-import { useEffect, useState } from 'react';
-import ProfileButton from '../../ProfileButton';
-import Sidebar from '../../Sidebar/Sidebar';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const SubscriptionsAnalytics = () => {
-  const [sectionCounts, setSectionCounts] = useState({});
-  const [tagCounts, setTagCounts] = useState({});
-  const [totalSubscribers, setTotalSubscribers] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+    const [stats, setStats] = useState({ sections: {}, tags: {} });
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch section counts
-        const sectionResponse = await fetch('/api/subscriptions/sections/count');
-        if (!sectionResponse.ok) throw new Error('Failed to fetch section counts');
-        const sectionData = await sectionResponse.json();
-        setSectionCounts(sectionData);
+    useEffect(() => {
+        // Fetch subscription stats from the backend
+        axios.get('/api/subscriptions/stats')
+            .then(response => {
+                setStats(response.data);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the subscription stats!", error);
+                setError("Failed to load subscription statistics. Please try again later.");
+                setLoading(false);
+            });
+    }, []);
 
-        // Fetch tag counts
-        const tagResponse = await fetch('/api/subscriptions/tags/count');
-        if (!tagResponse.ok) throw new Error('Failed to fetch tag counts');
-        const tagData = await tagResponse.json();
-        setTagCounts(tagData);
+    if (loading) {
+        return <div>Loading subscription statistics...</div>;
+    }
 
-        // Fetch total subscribers
-        const totalResponse = await fetch('/api/subscriptions/count');
-        if (!totalResponse.ok) throw new Error('Failed to fetch total subscribers');
-        const totalData = await totalResponse.json();
-        setTotalSubscribers(totalData.total_subscribers);
+    if (error) {
+        return <div style={{ color: 'red' }}>{error}</div>;
+    }
 
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
-      }
-    };
+    return (
+        <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+            <h2 style={{ marginBottom: '20px' }}>Subscriptions Analytics</h2>
+            
+            <div style={{ marginBottom: '30px' }}>
+                <h3 style={{ marginBottom: '10px' }}>Sections</h3>
+                <ul style={{ listStyleType: 'none', padding: 0 }}>
+                    {Object.entries(stats.sections).map(([section, count]) => (
+                        <li key={section} style={{ marginBottom: '5px' }}>
+                            <strong>{section}</strong>: {count} subscriber{count !== 1 ? 's' : ''}
+                        </li>
+                    ))}
+                </ul>
+            </div>
 
-    fetchData();
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-
-  return (
-    <div>
-      <nav>
-        <ProfileButton />
-      </nav>
-      <Sidebar />
-      <h1>Reader Subscriptions Analytics</h1>
-
-      <section>
-        <h2>Subscribers by Section</h2>
-        <ul>
-          {Object.entries(sectionCounts).map(([section, count]) => (
-            <li key={section}>
-              {section}: {count} subscribers
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section>
-        <h2>Subscribers by Tag</h2>
-        <ul>
-          {Object.entries(tagCounts).map(([tag, count]) => (
-            <li key={tag}>
-              {tag}: {count} subscribers
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section>
-        <h2>Total Subscribers</h2>
-        <p>{totalSubscribers} subscribers</p>
-      </section>
-    </div>
-  );
+            <div>
+                <h3 style={{ marginBottom: '10px' }}>Tags</h3>
+                <ul style={{ listStyleType: 'none', padding: 0 }}>
+                    {Object.entries(stats.tags).map(([tag, count]) => (
+                        <li key={tag} style={{ marginBottom: '5px' }}>
+                            <strong>{tag}</strong>: {count} subscriber{count !== 1 ? 's' : ''}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </div>
+    );
 };
 
 export default SubscriptionsAnalytics;
