@@ -40,7 +40,7 @@ def is_svg_safe(file_path):
 def get_articles():
     page = request.args.get('page', default=1, type=int)
     per_page = request.args.get('per_page', default=10, type=int)
-    articles = Article.query.paginate(page=page, per_page=per_page, error_out=False)
+    articles = Article.query.order_by(Article.created_at.desc()).paginate(page=page, per_page=per_page, error_out=False)
     return jsonify({
         'articles': [article.to_dict() for article in articles.items],
         'total_pages': articles.pages,
@@ -75,6 +75,34 @@ def get_article(id):
     if not article:
         return jsonify({"errors": ["Article not found"]}), 404
     return jsonify(article.to_dict()), 200
+
+@article_routes.route('/filter', methods=['GET'])
+def filter_articles():
+    """
+    Filter articles by display_type and section.
+    Returns the most recent articles matching the filters.
+    """
+    display_type = request.args.get('display_type', default=None, type=str)
+    section = request.args.get('section', default=None, type=str)
+
+    # Base query
+    query = Article.query
+
+    # Apply filters if provided
+    if display_type:
+        query = query.filter_by(display_type=display_type)
+    if section:
+        query = query.filter_by(section=section)
+
+    # Order by most recent and ensure unique articles
+    articles = query.order_by(Article.created_at.desc()).all()
+
+    # Log the articles being returned
+    print("Filtered Articles:", [article.id for article in articles])
+
+    return jsonify({
+        'articles': [article.to_dict() for article in articles]
+    }), 200
 
 @article_routes.route('', methods=['POST'])
 @login_required
@@ -235,34 +263,20 @@ def archive_articles():
 
 @article_routes.route('/archive', methods=['GET'])
 def get_archived_articles():
-    """
-    Get all archived articles.
-    """
-    # Query articles with a `created_at` timestamp older than 7 days
     archive_threshold = datetime.utcnow() - timedelta(days=7)
-    archived_articles = Article.query.filter(Article.created_at < archive_threshold).all()
-
-    # Return the archived articles as a JSON response
+    archived_articles = Article.query.filter(Article.created_at < archive_threshold).order_by(Article.created_at.desc()).all()
     return jsonify({'archived_articles': [article.to_dict() for article in archived_articles]}), 200
 
 @article_routes.route('/archive/<int:id>', methods=['GET'])
 def get_archived_article(id):
-    """
-    Get a specific archived article by ID.
-    """
-    # Query the article by ID
     article = Article.query.get(id)
-
-    # Check if the article exists
     if not article:
         return jsonify({"errors": ["Article not found"]}), 404
 
-    # Check if the article is archived (older than 7 days)
     archive_threshold = datetime.utcnow() - timedelta(days=7)
     if article.created_at >= archive_threshold:
         return jsonify({"errors": ["Article is not archived"]}), 400
 
-    # Return the archived article as a JSON response
     return jsonify(article.to_dict()), 200
 
 @article_routes.route('/upload', methods=['POST'])

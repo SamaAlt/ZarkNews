@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Layout from './Layout';
 import { ArticleProvider } from "../context/ArticleContext";
+import { FilterProvider } from "../context/FilterContext";
 
 import NotFoundPage from '../components/NotFoundPage'; 
 import HomePage from '../components/HomePage';
@@ -27,6 +28,7 @@ import BusinessNewsPage from '../components/BusinessNewsPage';
 import SportsNewsPage from '../components/SportsNewsPage';
 import EntertainmentNewsPage from '../components/EntertainmentNewsPage';
 import TechnologyNewsPage from '../components/TechnologyNewsPage';
+import Archive from '../components/Archive/Archive';
 
 export const router = createBrowserRouter([
   {
@@ -116,45 +118,50 @@ export const router = createBrowserRouter([
       {
         path: '/news/national',
         element: (
-          <ArticleProvider> 
+          <FilterProvider> 
             <NationalNewsPage />
-          </ArticleProvider>
+          </FilterProvider>
         ),      },
       {
         path: '/news/world',
         element: (
-          <ArticleProvider> 
+          <FilterProvider> 
             <WorldNewsPage />
-          </ArticleProvider>
+          </FilterProvider>
         ),      },
       {
         path: '/news/business',
         element: (
-          <ArticleProvider> 
+          <FilterProvider> 
             <BusinessNewsPage />
-          </ArticleProvider>
+          </FilterProvider>
         ),      },
       {
         path: '/news/sports',
         element: (
-          <ArticleProvider> 
+          <FilterProvider> 
             <SportsNewsPage />
-          </ArticleProvider>
+          </FilterProvider>
         ),      },
       {
         path: '/news/entertainment',
         element: (
-          <ArticleProvider> 
+          <FilterProvider> 
             <EntertainmentNewsPage />
-          </ArticleProvider>
+          </FilterProvider>
         ),      },
-      {
-        path: '/news/technology',
-        element: (
-          <ArticleProvider> 
+        {
+          path: '/news/technology',
+          element: (
+            <FilterProvider> 
             <TechnologyNewsPage />
-          </ArticleProvider>
-        ),      },
+          </FilterProvider>
+          ),      },
+          {
+            path: '/articles/archive',
+            element: (
+                <Archive />
+            ),      },
       // Catch-all route for invalid URLs
       {
         path: '*',

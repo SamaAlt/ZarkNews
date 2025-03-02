@@ -27,7 +27,7 @@ def authenticate():
     """
     Authenticates a user.
     """
-    if current_user.is_authenticated and not current_user.deleted:
+    if current_user.is_authenticated:
         return jsonify(current_user.to_dict()), 200
     return jsonify({'errors': {'message': 'Unauthorized'}}), 401
 
@@ -97,6 +97,6 @@ def restore():
     """
     Restores a user's session if they are already authenticated.
     """
-    if current_user.is_authenticated and not current_user.deleted:
+    if current_user.is_authenticated:
         return jsonify(current_user.to_dict()), 200
     return jsonify({'errors': {'message': 'Unauthorized'}}), 401
