@@ -151,7 +151,6 @@ export const thunkUpdateUser = (userId, updatedData) => async (dispatch) => {
   dispatch(setLoading());
   try {
     if (process.env.NODE_ENV === 'development') {
-      console.log("Payload being sent to backend:", updatedData); // Debugging
     }
     const response = await fetch(`/api/users/${userId}`, {
       method: 'PUT',

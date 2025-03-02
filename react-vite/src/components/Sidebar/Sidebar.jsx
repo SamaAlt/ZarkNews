@@ -1,6 +1,5 @@
 // Sidebar.jsx
 import { Link } from 'react-router-dom';
-import './Sidebar.css'; // Import the CSS file
 
 const Sidebar = () => {
   return (

@@ -9,7 +9,6 @@ const AllArticles = () => {
     const [displayedArticles, setDisplayedArticles] = useState([]);
 
     useEffect(() => {
-        // Filter out duplicates based on `id`
         const uniqueArticles = articles.reduce((acc, article) => {
             if (!acc.some(a => a.id === article.id)) {
                 acc.push(article);
@@ -34,7 +33,6 @@ const AllArticles = () => {
             {!loading && displayedArticles.length === 0 && <p>No articles found.</p>}
             <ul style={{ border: '1px solid red' }}>
                 {displayedArticles.map((article) => {
-                    console.log('Rendering article:', article); // Debugging
                     return (
                         <li key={`${article.id}-${article.created_at}`} style={{ border: '1px solid blue', margin: '10px', padding: '10px' }}>
                             <h2>{article.title}</h2>

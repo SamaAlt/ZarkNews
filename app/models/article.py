@@ -45,7 +45,11 @@ class Article(db.Model):
             'youtube_embed_url': self.youtube_embed_url,
             'location': self.location,
             'contributors': self.contributors,
-            'author_id': self.author_id,
+            'author': {
+                'id': self.author.id,
+                'first_name': self.author.first_name,
+                'last_name': self.author.last_name,
+            },            
             'section': self.section,
             'tags': json.loads(self.tags) if self.tags else [],  
             'created_at': self.created_at.isoformat() if self.created_at else None,

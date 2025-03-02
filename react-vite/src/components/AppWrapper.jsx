@@ -7,7 +7,6 @@ import { router } from "../router";
 const AppWrapper = () => {
   const dispatch = useDispatch();
 
-  // Restore user session on app load
   useEffect(() => {
     dispatch(thunkRestoreUser());
   }, [dispatch]);

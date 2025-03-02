@@ -42,8 +42,7 @@ const Subscribe = () => {
     setErrors({});
     setMessage('');
   
-    // Client-side validation
-    if (!formData.first_name || !formData.last_name || !formData.email || !formData.frequency) {
+     if (!formData.first_name || !formData.last_name || !formData.email || !formData.frequency) {
       setErrors({ general: 'All fields are required except sections and tags.' });
       setLoading(false);
       return;

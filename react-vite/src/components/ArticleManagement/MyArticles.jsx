@@ -40,8 +40,7 @@ const MyArticles = () => {
             {!loading && userArticles.length === 0 && <p>No articles found.</p>}
             <ul style={{ border: '1px solid red' }}>
                 {userArticles.map((article) => {
-                    console.log('Rendering user article:', article); // Debugging
-                    return (
+                     return (
                         <li key={article.id} style={{ border: '1px solid blue', margin: '10px', padding: '10px' }}>
                             <h2>{article.title}</h2>
                             <p>{article.content.substring(0, 100)}...</p>

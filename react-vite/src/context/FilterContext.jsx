@@ -11,13 +11,10 @@ const FilterProvider = ({ children }) => {
     const fetchFilteredArticles = useCallback(async (filters = {}) => {
         try {
             const params = { ...filters };
-            console.log('Fetching filtered articles with params:', params);
             const response = await axios.get('/api/articles/filter', { params });
     
-            // Check if the new articles are different from the current ones
-            if (JSON.stringify(response.data.articles) !== JSON.stringify(articles)) {
+             if (JSON.stringify(response.data.articles) !== JSON.stringify(articles)) {
                 setArticles(response.data.articles);
-                console.log('Fetched filtered articles:', response.data.articles);
             }
         } catch (error) {
             console.error("Failed to fetch filtered articles:", error);

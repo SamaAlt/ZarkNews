@@ -16,14 +16,12 @@ function SignupFormPage() {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-  // Redirect if the user is already logged in
-  if (sessionUser) return <Navigate to="/dashboard" replace={true} />;
+   if (sessionUser) return <Navigate to="/dashboard" replace={true} />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Client-side validation
-    const newErrors = {};
+     const newErrors = {};
     if (!validateName(firstName)) newErrors.firstName = "First name is required.";
     if (!validateName(lastName)) newErrors.lastName = "Last name is required.";
     if (!validateEmail(email)) newErrors.email = "Invalid email address.";
@@ -38,8 +36,7 @@ function SignupFormPage() {
     setIsLoading(true);
     setErrors({});
 
-    // Send signup data to the backend
-    const serverResponse = await dispatch(
+     const serverResponse = await dispatch(
       thunkSignup({
         firstName,
         lastName,

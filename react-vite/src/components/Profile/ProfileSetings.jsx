@@ -29,35 +29,28 @@ const ProfileSettings = () => {
     setErrors({});
     setSuccessMessage('');
   
-    // Check if passwords match
-    if (formData.password && formData.password !== formData.confirmPassword) {
+     if (formData.password && formData.password !== formData.confirmPassword) {
       setErrors({ confirmPassword: 'Passwords do not match' });
       return;
     }
   
-    // Prepare the updated user data
-    const updatedUser = {
+     const updatedUser = {
       first_name: formData.firstName,
       last_name: formData.lastName,
       email: formData.email,
     };
   
-    // Only include the password if it's provided
-    if (formData.password) {
+     if (formData.password) {
       updatedUser.password = formData.password;
     }
   
-    // Debugging: Log the payload being sent to the backend
-    console.log("Payload being sent to backend:", updatedUser);
   
-    // Dispatch the update thunk
-    const response = await dispatch(thunkUpdateUser(user.id, updatedUser));
+     const response = await dispatch(thunkUpdateUser(user.id, updatedUser));
     if (response?.errors) {
       setErrors(response.errors);
     } else {
       setSuccessMessage('Profile updated successfully!');
-      // Clear password fields after successful update
-      setFormData({
+       setFormData({
         ...formData,
         password: '',
         confirmPassword: '',
@@ -71,8 +64,7 @@ const ProfileSettings = () => {
       if (response?.errors) {
         setErrors(response.errors);
       } else {
-        // Redirect or perform any other action after successful deletion
-        window.location.href = '/'; // Example: Redirect to home page
+         window.location.href = '/'; // Example: Redirect to home page
       }
     }
   };

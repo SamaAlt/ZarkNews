@@ -22,7 +22,6 @@ export const ArticleProvider = ({ children }) => {
         setLoading(true);
         try {
             const response = await axios.get(`/api/articles?page=${page}&limit=${articlesPerPage}&sort=id:desc`);
-            console.log('Fetched articles:', response.data.articles);
             setArticles(prevArticles => [...prevArticles, ...response.data.articles]);
         } catch (error) {
             console.error("Error fetching articles:", error);
@@ -35,7 +34,6 @@ export const ArticleProvider = ({ children }) => {
         setLoading(true);
         try {
             const response = await axios.get(`/api/articles/user`);
-            console.log('Fetched user articles:', response.data.articles);
             setUserArticles(response.data.articles);
         } catch (error) {
             console.error("Error fetching user articles:", error);

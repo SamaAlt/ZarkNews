@@ -3,13 +3,12 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const ArticleReader = () => {
-  const { id } = useParams(); // Get the article ID from the URL
+  const { id } = useParams();
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fetch the article by ID
     const fetchArticle = async () => {
       try {
         const response = await axios.get(`/api/articles/${id}`);
@@ -40,7 +39,7 @@ const ArticleReader = () => {
     <div className="article-reader">
       <h1>{article.title}</h1>
       <p className="metadata">
-        <span>Author: {article.author?.username || 'Unknown'}</span>
+        <span>Author: {article.author ? `${article.author.first_name} ${article.author.last_name}` : 'Unknown'}</span>
         <span>Published: {new Date(article.created_at).toLocaleDateString()}</span>
       </p>
       <div className="content">

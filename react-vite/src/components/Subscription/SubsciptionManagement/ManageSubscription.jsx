@@ -18,10 +18,7 @@ const ManageSubscription = () => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    console.log('Subscription ID from URL:', subscription_id); // Debugging log
-
-    // Check if subscription_id is missing or invalid
-    if (!subscription_id || isNaN(subscription_id)) {
+     if (!subscription_id || isNaN(subscription_id)) {
       setMessage('Invalid subscription ID. Redirecting...');
       navigate('/subscribe'); // Redirect to the subscribe page
       return;
@@ -32,7 +29,6 @@ const ManageSubscription = () => {
       setMessage(''); // Clear any previous messages
       try {
         const response = await axios.get(`/api/subscriptions/${subscription_id}`);
-        console.log('Subscription data:', response.data); // Debugging log
         if (response.status === 200) {
           setFormData({
             ...response.data,
@@ -43,8 +39,7 @@ const ManageSubscription = () => {
       } catch (error) {
         console.error('Error fetching subscription:', error); // Debugging log
         if (error.response) {
-          // Handle specific HTTP errors
-          if (error.response.status === 404) {
+           if (error.response.status === 404) {
             setMessage('Subscription not found. Please check the subscription ID.');
           } else if (error.response.status === 500) {
             setMessage('Server error. Please try again later.');
@@ -52,11 +47,9 @@ const ManageSubscription = () => {
             setMessage('Failed to fetch subscription details.');
           }
         } else if (error.request) {
-          // Handle network errors
-          setMessage('Network error. Please check your connection.');
+           setMessage('Network error. Please check your connection.');
         } else {
-          // Handle other errors
-          setMessage('An unexpected error occurred.');
+           setMessage('An unexpected error occurred.');
         }
       } finally {
         setLoading(false);
@@ -101,11 +94,7 @@ const ManageSubscription = () => {
     setErrors({});
     setMessage('');
 
-    console.log('Form Data:', formData); // Debugging log
-
-    // Validate required fields
-    if (!formData.frequency) {
-      console.log('Validation failed: Frequency is required'); // Debugging log
+     if (!formData.frequency) {
       setErrors({
         ...errors,
         frequency: !formData.frequency ? 'Frequency is required' : '',
@@ -123,10 +112,7 @@ const ManageSubscription = () => {
         tags: formData.tags,
       };
 
-      console.log('Payload being sent:', payload); // Debugging log
-
       const response = await axios.put(`/api/subscriptions/${subscription_id}`, payload);
-      console.log('Response from server:', response); // Debugging log
 
       if (response.status === 200) {
         setMessage('Subscription updated successfully!');
@@ -134,7 +120,6 @@ const ManageSubscription = () => {
     } catch (error) {
       console.error('Error during update:', error); // Debugging log
       if (error.response && error.response.data.errors) {
-        console.log('Backend validation errors:', error.response.data.errors); // Debugging log
         setErrors(error.response.data.errors);
       } else {
         setMessage('Failed to update subscription.');

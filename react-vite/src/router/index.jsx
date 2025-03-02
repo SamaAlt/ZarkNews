@@ -23,12 +23,12 @@ import ArticlePanel from '../components/ArticleManagement/ArticlePanel';
 import MyArticles from '../components/ArticleManagement/MyArticles';
 import AllArticles from '../components/ArticleManagement/AllArticles';
 
-import NationalNewsPage from '../components/NationalNewsPage';
-import WorldNewsPage from '../components/WorldNewsPage';
-import BusinessNewsPage from '../components/BusinessNewsPage';
-import SportsNewsPage from '../components/SportsNewsPage';
-import EntertainmentNewsPage from '../components/EntertainmentNewsPage';
-import TechnologyNewsPage from '../components/TechnologyNewsPage';
+import NationalNewsPage from '../components/Sections/NationalNewsPage';
+import WorldNewsPage from '../components/Sections/WorldNewsPage';
+import BusinessNewsPage from '../components/Sections/BusinessNewsPage';
+import SportsNewsPage from '../components/Sections/SportsNewsPage';
+import EntertainmentNewsPage from '../components/Sections/EntertainmentNewsPage';
+import TechnologyNewsPage from '../components/Sections/TechnologyNewsPage';
 import Archive from '../components/Archive/Archive';
 
 export const router = createBrowserRouter([
@@ -38,9 +38,9 @@ export const router = createBrowserRouter([
       {
         path: '/',
         element: (
-          <ArticleProvider> 
+          <FilterProvider> 
             <HomePage />
-          </ArticleProvider>
+          </FilterProvider>
         ),
       },
       {
@@ -119,8 +119,7 @@ export const router = createBrowserRouter([
           }
         ],
       },
-      // Add routes for each news section
-      {
+       {
         path: '/news/national',
         element: (
           <FilterProvider> 
@@ -167,7 +166,6 @@ export const router = createBrowserRouter([
             element: (
                 <Archive />
             ),      },
-      // Catch-all route for invalid URLs
       {
         path: '*',
         element: <NotFoundPage />,

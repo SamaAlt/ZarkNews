@@ -19,16 +19,13 @@ const ArticlePanel = () => {
   const VALID_DISPLAY_TYPES = ['headline', 'sidebar_1', 'sidebar_2', 'sidebar_3', 'list', 'ads_1', 'ads_2', 'archived'];
   const VALID_SECTIONS = ['national', 'world', 'business', 'sports', 'entertainment', 'technology'];
 
-  // Fetch articles on component mount or when `id` changes
   useEffect(() => {
     const fetchArticles = async () => {
       try {
         if (id) {
-          // Fetch the specific article for editing
           const response = await fetch(`/api/articles/${id}`);
           if (!response.ok) throw new Error('Failed to fetch article');
           const data = await response.json();
-          console.log('Fetched article for editing:', data); // Debugging log
           setTitle(data.title);
           setContent(data.content);
           setDisplayType(data.display_type);
@@ -37,11 +34,9 @@ const ArticlePanel = () => {
           setTags(data.tags.join(', '));
         }
 
-        // Fetch the user's articles
         const articlesResponse = await fetch('/api/articles/my-articles');
         if (!articlesResponse.ok) throw new Error('Failed to fetch articles');
         const articlesData = await articlesResponse.json();
-        console.log('Fetched articles:', articlesData); // Debugging log
         setArticles(articlesData.articles);
         setLoading(false);
       } catch (error) {
@@ -54,7 +49,6 @@ const ArticlePanel = () => {
     fetchArticles();
   }, [id]);
 
-  // Handle form submission for creating or updating an article
   const handleSubmit = async (e) => {
     e.preventDefault();
     const articleData = {
@@ -66,9 +60,6 @@ const ArticlePanel = () => {
       tags: tags.split(',').map(tag => tag.trim()),
     };
 
-    console.log('Submitting article data:', articleData); // Debugging log
-
-    // Validate display type and section
     if (!VALID_DISPLAY_TYPES.includes(articleData.display_type)) {
       setError('Invalid display type');
       return;
@@ -94,13 +85,11 @@ const ArticlePanel = () => {
       if (!response.ok) throw new Error('Failed to save article');
 
       const data = await response.json();
-      console.log('Article saved successfully:', data); // Debugging log
 
       // Fetch the updated list of articles
       const articlesResponse = await fetch('/api/articles/my-articles');
       if (!articlesResponse.ok) throw new Error('Failed to fetch articles');
       const articlesData = await articlesResponse.json();
-      console.log('Updated articles list:', articlesData); // Debugging log
 
       // Update the articles state
       setArticles(articlesData.articles);
@@ -126,8 +115,7 @@ const ArticlePanel = () => {
 
         // Remove the deleted article from the state
         setArticles(articles.filter(article => article.id !== parseInt(id)));
-        console.log('Article deleted successfully'); // Debugging log
-
+ 
         navigate('/articles/my-articles');
       } catch (error) {
         console.error('Error deleting article:', error); // Debugging log

@@ -53,7 +53,7 @@ function ProfileButton() {
               <li>{user.username}</li>
               <li>{user.email}</li>
               <li>
-                <ManageProfileButton /> {/* Use the new ManageProfileButton component */}
+                <ManageProfileButton />  
               </li>
               <li>
                 <button onClick={logout}>Log Out</button>

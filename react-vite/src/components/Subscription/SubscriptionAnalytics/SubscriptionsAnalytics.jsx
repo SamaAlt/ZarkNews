@@ -7,8 +7,7 @@ const SubscriptionsAnalytics = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Fetch subscription stats from the backend
-        axios.get('/api/subscriptions/stats')
+         axios.get('/api/subscriptions/stats')
             .then(response => {
                 setStats(response.data);
                 setLoading(false);

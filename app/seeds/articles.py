@@ -78,7 +78,7 @@ def seed_articles():
         },
         {
             "title": "The Impact of AI on Healthcare",
-            "display_type": "headline",
+            "display_type": "ads_2",
             "content": "How AI is revolutionizing the healthcare industry. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "image_filename": "ai_healthcare.jpg",
             "youtube_embed_url": "https://www.youtube.com/embed/ai_healthcare",
@@ -134,7 +134,7 @@ def seed_articles():
         },
         {
             "title": "The Rise of Plant-Based Diets",
-            "display_type": "headline",
+            "display_type": "ads_2",
             "content": "How plant-based diets are becoming more popular. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "image_filename": "plant_based.jpg",
             "youtube_embed_url": "https://www.youtube.com/embed/plant_based",
@@ -316,7 +316,7 @@ def seed_articles():
         },
         {
             "title": "The Evolution of Quantum Computing",
-            "display_type": "headline",
+            "display_type": "ads_1",
             "content": "How quantum computing is set to transform the tech landscape. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "image_filename": "default_technology.WebP ",
             "youtube_embed_url": "https://www.youtube.com/embed/quantum_computing",
@@ -414,7 +414,7 @@ def seed_articles():
         },
         {
             "title": "The Rise of Smart Cities",
-            "display_type": "headline",
+            "display_type": "ads_1",
             "content": "How technology is making cities smarter and more efficient. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
             "image_filename": "default_national.jpg",
             "youtube_embed_url": "https://www.youtube.com/embed/smart_cities",

@@ -7,7 +7,6 @@ const Archive = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Fetch archived articles from the API
         const fetchArchivedArticles = async () => {
             try {
                 const response = await axios.get('/api/articles/archive');

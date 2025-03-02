@@ -12,14 +12,12 @@ function LoginFormPage() {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-  // Redirect if the user is already logged in
-  if (sessionUser) return <Navigate to="/dashboard" replace={true} />;
+   if (sessionUser) return <Navigate to="/dashboard" replace={true} />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    // Client-side validation
-    const newErrors = {};
+     const newErrors = {};
     if (!email) newErrors.email = "Email is required.";
     if (!password) newErrors.password = "Password is required.";
     if (Object.keys(newErrors).length > 0) {
@@ -35,13 +33,12 @@ function LoginFormPage() {
     setIsLoading(false);
   
     if (serverResponse?.errors) {
-      // Display server errors
-      setErrors({
+       setErrors({
         ...serverResponse.errors,
         ...(serverResponse.errors.server && { server: serverResponse.errors.server }),
       });
     } else {
-      navigate("/dashboard"); // Redirect after successful login
+      navigate("/dashboard");  
     }
   };
   
