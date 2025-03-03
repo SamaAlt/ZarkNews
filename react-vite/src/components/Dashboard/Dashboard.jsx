@@ -11,7 +11,7 @@ import {
   faGlobe,
   faBriefcase,
   faFootballBall,
-  faFilm,
+  // faFilm,
   faLaptop,
   faArchive, // Added for the archive link
 } from '@fortawesome/free-solid-svg-icons';

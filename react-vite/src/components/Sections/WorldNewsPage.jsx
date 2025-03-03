@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import { FilterContext } from '../../context/FilterContext';
 import { Link } from 'react-router-dom';
 import './Sections.css';

@@ -1,4 +1,3 @@
-import React from 'react';
 import Headline from './Headline'; // Ensure the path is correct
 import ListArticles from './ListArticles';
 import Ads from './Ads'; // Ensure the path is correct

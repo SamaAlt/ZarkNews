@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useCallback } from 'react';
+import { useContext, useEffect, useCallback } from 'react';
 import { FilterContext } from '../../context/FilterContext';
 import { Link } from 'react-router-dom';
 import './Headline.css';
