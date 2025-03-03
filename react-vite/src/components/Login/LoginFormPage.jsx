@@ -45,6 +45,9 @@ function LoginFormPage() {
   return (
     <div className="login-form-container">
       <h1>Log In</h1>
+      <h2>DEMO USER:</h2>
+      <p>demo@example.com</p>
+      <p>Demopassword1</p>
       {errors.server && <p className="error-message">{errors.server}</p>}
       <form onSubmit={handleSubmit} noValidate>
         <div className="form-group">

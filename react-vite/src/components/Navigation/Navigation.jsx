@@ -26,9 +26,13 @@ export default function Navigation({ user }) {
         <Link to="/news/sports" className={isActive('/news/sports') ? 'active' : ''}>Sports</Link>
         <Link to="/news/entertainment" className={isActive('/news/entertainment') ? 'active' : ''}>Entertainment</Link>
         <Link to="/news/technology" className={isActive('/news/technology') ? 'active' : ''}>Technology</Link>
+        <Link to="/subscriptions/subscribe" className={isActive('/subscriptions/subscribe') ? 'active' : ''}>Subscribe</Link>
+
       </div>
       <div>
-        <Link to="/subscriptions/subscribe" className={isActive('/subscriptions/subscribe') ? 'active' : ''}>Subscribe</Link>
+        {/* <Link to="/subscriptions/subscribe" className={isActive('/subscriptions/subscribe') ? 'active' : ''}>Subscribe</Link> */}
+        <Link to="/employee-portal" className={isActive('/employee-portal') ? 'active' : ''}>DEMO USER</Link>        
+
       </div>
       <div>
         {user && (user.role === 'editor' || user.role === 'admin') && (
