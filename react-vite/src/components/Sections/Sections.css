@@ -1,0 +1,125 @@
+.section-container {
+    background-color: rgba(255, 255, 255, 0.612);
+    padding: 50px 45px; /* Top and bottom padding remains 30px, side padding increases to 50px */
+    margin: 30px;
+    box-sizing: border-box;
+    color: rgb(0, 0, 0);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.hero {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 100px;
+    height: 350px;
+    padding: 60px 10px;
+    border-radius: 4px;
+    background-color: #1c1a1a;
+    box-shadow: 0 2px rgba(178, 0, 0, 0.404);
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+  }
+
+ 
+  .hero:hover {
+    box-shadow: 0 4px 4px rgba(145, 0, 0, 0.337); /* Enhanced hover effect */
+  }
+  
+  .hero-image {
+    width: 50%;
+    height: auto;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+  
+  .hero-content {
+    padding-top: 50px;
+    width: 50%;
+    padding-left: 10px;
+  }
+  
+  .hero-content h2 {
+    margin: 20px;
+    font-size: 1.5em;
+    font-weight: 900;
+    color: white;
+  }
+  
+  .hero-content p {
+    padding: 20px;
+    font-size: 19px;
+    color: #ff0000bc;
+  }
+  
+  .hero-content a {
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+  
+  .hero-content a:hover {
+    text-decoration: none;
+  }
+  
+  .hero-link {
+    display: flex;
+    align-items: flex-start;
+    text-decoration: none;
+    color: inherit; /* Inherit color from parent elements */
+  }
+  
+
+  .list-container {
+    width: 100%;
+    max-width: 1200px; /* Adjust as needed */
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.list-card {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Adjust the gap between items */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.article-card {
+    flex: 1 1 calc(33.333% - 20px); /* Three items per row with gap */
+    box-sizing: border-box;
+    background: #fff; /* Optional: Add background color */
+    border: 1px solid #e0e0e0; /* Optional: Add border */
+    border-radius: 8px; /* Optional: Add rounded corners */
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    padding: 10px;
+    box-shadow: 0 2px rgba(178, 0, 0, 0.404);
+
+}
+
+
+
+.list-content {
+    flex: 1; /* Takes up the left half */
+    display: flex;
+    flex-direction: column;
+}
+
+.list-content h3 {
+    font-size: 1rem;
+    margin: 0 5px;
+}
+
+.list-content p {
+    margin: 0;
+    font-size: 0.80rem;
+    color: #555;
+}
+
+.list-image {
+    width: 50%; /* Takes up the right half */
+    height: auto; /* Adjust height automatically */
+    object-fit: cover; /* Ensure the image covers the area */
+}

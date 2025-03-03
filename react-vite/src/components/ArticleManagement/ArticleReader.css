@@ -1,0 +1,50 @@
+.article-card {
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    max-width: 75%;
+    margin: 60px auto;
+    box-shadow: 0 2px rgba(178, 0, 0, 0.404);
+    background-color: #fff;
+  }
+  
+  .article-content {
+    flex: 1;
+    margin: 50px;
+  }
+  
+  .article-image {
+    width: 200px;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+  
+  h1 {
+    margin-bottom: 50;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .metadata {
+    font-size: 14px;
+    color: #666;
+    margin: 10px 0;
+  }
+  
+  .metadata span {
+    margin-right: 10px;
+  }
+  
+  .content {
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 20px;
+    color: #444;
+  }
+  
+  .tags {
+    font-size: 14px;
+    color: #888;
+    margin-top: 10px;
+  }

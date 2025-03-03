@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import './Subscribe.css';
 const SubscriptionComponent = () => {
     const VALID_FREQUENCIES = ['Daily', 'Weekly', 'Monthly'];
     const VALID_SECTIONS = ['national', 'world', 'business', 'sports', 'entertainment', 'technology'];
@@ -94,9 +94,9 @@ const SubscriptionComponent = () => {
     };
 
     return (
-        <div>
-            <h2>Subscription Form</h2>
-            <form onSubmit={handleSubmit}>
+        <div className="subscription-container">
+            <h2>Subscribe for our latest news</h2>
+            <form onSubmit={handleSubmit} className="subscription-form">
                 <div>
                     <label>First Name:</label>
                     <input type="text" name="first_name" value={formData.first_name} onChange={handleChange} required />
@@ -113,7 +113,7 @@ const SubscriptionComponent = () => {
                         value={formData.email} 
                         onChange={handleChange} 
                         required 
-                        disabled={isSubmitted}  // Disable the email field after submission
+                        disabled={isSubmitted}
                     />
                 </div>
                 <div>
@@ -139,16 +139,18 @@ const SubscriptionComponent = () => {
                 </div>
                 <button type="submit">Create Subscription</button>
             </form>
-            <h2>Manage Subscription</h2>
-            <div>
-                <label>Email:</label>
-                <input type="email" name="email" onChange={handleChange} />
-                <button onClick={() => fetchSubscription(formData.email)}>Fetch Subscription</button>
+            <h4>Manage your Subscription</h4>
+            <div className="manage-subscription">
+                <div>
+                    <label>Email:</label>
+                    <input type="email" name="email" onChange={handleChange} />
+                    <button onClick={() => fetchSubscription(formData.email)}>Fetch Subscription</button>
+                </div>
+                <button onClick={() => handleUpdate(formData.email)}>Update Subscription</button>
+                <button className="delete-button" onClick={() => handleDelete(formData.email)}>Delete Subscription</button>
             </div>
-            <button onClick={() => handleUpdate(formData.email)}>Update Subscription</button>
-            <button onClick={() => handleDelete(formData.email)}>Delete Subscription</button>
             <ToastContainer />
-        </div>
+        </div>   
     );
 };
 

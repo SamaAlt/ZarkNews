@@ -5,7 +5,7 @@ nav {
     align-items: center;
     width: 100%; /* Ensures the navbar spans the full width */
     margin: 0 auto; /* Centers the navbar */
-    height: 80px; /* Set a fixed height for the navbar */
+    height: 90px; /* Set a fixed height for the navbar */
 }
 
 /* Logo styling */

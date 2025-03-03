@@ -1,0 +1,122 @@
+/* General Styles */
+.subscription-container {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 50px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.subscription-container h2 {
+    color: #b10202;
+    margin-bottom: 20px;
+    font-size: 1.75rem;
+}
+.subscription-container h4 {
+    color: #b10202;
+    margin: 45px;
+}
+
+/* Form Styles */
+.subscription-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.subscription-form div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.subscription-form label {
+    font-weight: bold;
+    color: #555;
+}
+
+.subscription-form input,
+.subscription-form select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.subscription-form select[multiple] {
+    height: 100px;
+}
+
+.subscription-form button {
+    padding: 10px 15px;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.subscription-form button:hover {
+    background-color: #595959;
+}
+
+/* Manage Subscription Styles */
+.manage-subscription {
+    margin-top: 30px;
+}
+
+.manage-subscription div {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.manage-subscription input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.manage-subscription button {
+    padding: 8px 12px;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.manage-subscription button:hover {
+    background-color: #595959;
+}
+
+.manage-subscription button.delete-button {
+    background-color: #a50011;
+}
+
+.manage-subscription button.delete-button:hover {
+    background-color: #c82333;
+}
+
+/* Toast Notification Styles */
+.Toastify__toast-container {
+    font-size: 14px;
+}
+
+.Toastify__toast--success {
+    background-color: #28a745;
+}
+
+.Toastify__toast--error {
+    background-color: #dc3545;
+}
+
+.Toastify__toast--info {
+    background-color: #17a2b8;
+}

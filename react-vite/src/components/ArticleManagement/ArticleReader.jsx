@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import './ArticleReader.css'; // Import the CSS file
 
 const ArticleReader = () => {
   const { id } = useParams();
@@ -36,14 +37,21 @@ const ArticleReader = () => {
   }
 
   return (
-    <div className="article-reader">
-      <h1>{article.title}</h1>
-      <p className="metadata">
-        <span>Author: {article.author ? `${article.author.first_name} ${article.author.last_name}` : 'Unknown'}</span>
-        <span>Published: {new Date(article.created_at).toLocaleDateString()}</span>
-      </p>
-      <div className="content">
-        {article.content}
+    <div className="article-card">
+      <div className="article-content">
+        <h1>{article.title}</h1>
+        <p className="metadata">
+          <span>Author: {article.author ? `${article.author.first_name} ${article.author.last_name}` : 'Unknown'}</span>
+          <span>Published: {new Date(article.created_at).toLocaleDateString()}</span>
+        </p>
+        <div className="content">
+          {article.content}
+        </div>
+        {article.tags && (
+          <div className="tags">
+            <strong>Tags:</strong> {article.tags.join(', ')}
+          </div>
+        )}
       </div>
       {article.image_filename && (
         <img
@@ -51,11 +59,6 @@ const ArticleReader = () => {
           alt={article.title}
           className="article-image"
         />
-      )}
-      {article.tags && (
-        <div className="tags">
-          <strong>Tags:</strong> {article.tags.join(', ')}
-        </div>
       )}
     </div>
   );

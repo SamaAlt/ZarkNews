@@ -1,6 +1,6 @@
 .homepage-container {
-    background-color: rgb(255, 255, 255);
-    padding: 60px 45px; /* Top and bottom padding remains 30px, side padding increases to 50px */
+    background-color: rgba(255, 255, 255, 0.612);
+    padding: 50px 45px; /* Top and bottom padding remains 30px, side padding increases to 50px */
     margin: 30px;
     box-sizing: border-box;
     color: rgb(0, 0, 0);
