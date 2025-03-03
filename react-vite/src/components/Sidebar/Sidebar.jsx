@@ -1,32 +1,31 @@
-// Sidebar.jsx
 import { Link } from 'react-router-dom';
-import './Sidebar.css';
 
 const Sidebar = () => {
   return (
     <div className="sidebar">
-      <ul>
-       <li>
-          <Link to="/dashboard">Dashboard</Link>
+      <ul className="sidebar-menu">
+        <li className="sidebar-item">
+          <Link to="/dashboard" className="sidebar-link">Dashboard</Link>
         </li>
-        <li>
-          <Link to="/articles/panel">Article Panel</Link>
+        <li className="sidebar-item">
+          <Link to="/subscriptions/analytics" className="sidebar-link">Zark Readers</Link>
         </li>
-        <li>
-          <Link to="/articles/my-articles">My Articles</Link>
+        <li className="sidebar-item">
+          <Link to="/articles/panel" className="sidebar-link">Article Panel</Link>
         </li>
-        <li>
-          <Link to="/articles/archive">Archieves</Link>
+        <li className="sidebar-item">
+          <Link to="/articles/my-articles" className="sidebar-link">My Articles</Link>
         </li>
-        <li>
-          <Link to="/articles/all-articles">All Articles</Link>
+        <li className="sidebar-item">
+          <Link to="/articles/archive" className="sidebar-link">Archives</Link>
         </li>
-        <li>
-          <Link to="/users">Profile Settings</Link>
+        <li className="sidebar-item">
+          <Link to="/articles/all-articles" className="sidebar-link">All Articles</Link>
         </li>
-        <li>
-          <Link to="/subscriptions/analytics">Zark Readers</Link>
-        </li>      </ul>
+        <li className="sidebar-item">
+          <Link to="/users" className="sidebar-link">Profile Settings</Link>
+        </li>
+      </ul>
     </div>
   );
 };

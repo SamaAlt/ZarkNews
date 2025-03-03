@@ -1,6 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'; // Import useLocation
-import './Navigation.css'; // Import the CSS file
-import logo from './logo.png'; // Adjust the path to your logo file
+// import logo from './logo.png'; // Adjust the path to your logo file
 import ProfileButton from '../Profile/ProfileButton'; // Import the ProfileButton component
 
 export default function Navigation({ user }) {
@@ -12,9 +11,9 @@ export default function Navigation({ user }) {
   return (
     <nav>
       <div>
-        <Link to="/">
-          <img src={logo} alt="Logo" className="logo" /> {/* Add the logo */}
-        </Link>
+        {/* <Link to="/">
+          <img src={logo} alt="Logo" className="logo" /> 
+        </Link> */}
       </div>
       <div>
         <Link to="/news/national">National</Link>

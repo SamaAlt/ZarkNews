@@ -50,33 +50,6 @@ def unsubscribe(email):
     except ValueError as e:
         return jsonify({"errors": [str(e)]}), 404
 
-
-@subscription_routes.route('/stats', methods=['GET'])
-def get_subscription_stats():
-    """
-    Get the number of subscribers for each tag and section.
-    """
-    # Query the database to get the count of subscribers for each section
-    section_counts = db.session.query(
-        Subscription.sections,
-        db.func.count(Subscription.id)
-    ).group_by(Subscription.sections).all()
-
-    # Query the database to get the count of subscribers for each tag
-    tag_counts = db.session.query(
-        Subscription.tags,
-        db.func.count(Subscription.id)
-    ).group_by(Subscription.tags).all()
-
-    # Format the results
-    sections = {section: count for section, count in section_counts}
-    tags = {tag: count for tag, count in tag_counts}
-
-    return jsonify({
-        'sections': sections,
-        'tags': tags
-    }), 200
-
 @subscription_routes.route('/<string:email>', methods=['PUT'])
 def update_subscription(email):
     """
@@ -88,6 +61,10 @@ def update_subscription(email):
 
     data = request.get_json()
     try:
+        if 'first_name' in data:
+            subscription.first_name = data['first_name']
+        if 'last_name' in data:
+            subscription.last_name = data['last_name']
         if 'sections' in data:
             subscription.set_sections(data['sections'])
         if 'tags' in data:
@@ -98,7 +75,7 @@ def update_subscription(email):
         return jsonify(subscription.to_dict()), 200
     except ValueError as e:
         return jsonify({"errors": [str(e)]}), 400
-
+    
 @subscription_routes.route('/<string:email>', methods=['GET'])
 def get_subscription(email):
     """

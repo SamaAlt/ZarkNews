@@ -7,7 +7,7 @@ const SubscriptionsAnalytics = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-         axios.get('/api/subscriptions/stats')
+        axios.get('/api/subscriptions/stats')
             .then(response => {
                 setStats(response.data);
                 setLoading(false);
@@ -20,34 +20,33 @@ const SubscriptionsAnalytics = () => {
     }, []);
 
     if (loading) {
-        return <div>Loading subscription statistics...</div>;
+        return <div className="loading">Loading subscription statistics...</div>;
     }
 
     if (error) {
-        return <div style={{ color: 'red' }}>{error}</div>;
+        return <div className="error">{error}</div>;
     }
 
     return (
-        <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-
-            <h2 style={{ marginBottom: '20px' }}>Reader Analytics</h2>
+        <div className="analytics-container">
+            <h2>Reader Analytics</h2>
             
-            <div style={{ marginBottom: '30px' }}>
-                <h3 style={{ marginBottom: '10px' }}>Sections</h3>
-                <ul style={{ listStyleType: 'none', padding: 0 }}>
+            <div className="section">
+                <h3>Sections</h3>
+                <ul>
                     {Object.entries(stats.sections).map(([section, count]) => (
-                        <li key={section} style={{ marginBottom: '5px' }}>
+                        <li key={section}>
                             <strong>{section}</strong>: {count} subscriber{count !== 1 ? 's' : ''}
                         </li>
                     ))}
                 </ul>
             </div>
 
-            <div>
-                <h3 style={{ marginBottom: '10px' }}>Tags</h3>
-                <ul style={{ listStyleType: 'none', padding: 0 }}>
+            <div className="section">
+                <h3>Tags</h3>
+                <ul>
                     {Object.entries(stats.tags).map(([tag, count]) => (
-                        <li key={tag} style={{ marginBottom: '5px' }}>
+                        <li key={tag}>
                             <strong>{tag}</strong>: {count} subscriber{count !== 1 ? 's' : ''}
                         </li>
                     ))}

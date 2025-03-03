@@ -22,6 +22,7 @@ export default function Layout() {
     '/dashboard',
     '/users',
     '/articles/panel',
+    '/articles/archive',
     '/articles/edit/:id',
     '/articles/my-articles',
     '/articles/all-articles',

@@ -18,7 +18,7 @@ import EmployeePortal from '../components/EmployeePortal/EmployeePortal';
 
 import ProtectedRoute from './ProtectedRoute';
 import Dashboard from '../components/Dashboard/Dashboard';
-import ProfileSettings from '../components/Profile/ProfileSetings';
+import ProfileSettings from '../components/Profile/ProfileSettings';
 import ArticlePanel from '../components/ArticleManagement/ArticlePanel';
 import MyArticles from '../components/ArticleManagement/MyArticles';
 import AllArticles from '../components/ArticleManagement/AllArticles';
@@ -114,6 +114,12 @@ export const router = createBrowserRouter([
             ),
           },
           {
+            path: '/articles/archive',
+            element: (
+                <Archive />
+            ),      
+          },
+          {
             path: '/subscriptions/analytics',
             element: <SubscriptionsAnalytics />,
           }
@@ -161,11 +167,6 @@ export const router = createBrowserRouter([
             <TechnologyNewsPage />
           </FilterProvider>
           ),      },
-          {
-            path: '/articles/archive',
-            element: (
-                <Archive />
-            ),      },
       {
         path: '*',
         element: <NotFoundPage />,

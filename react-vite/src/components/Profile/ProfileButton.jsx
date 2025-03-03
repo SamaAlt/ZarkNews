@@ -50,14 +50,14 @@ function ProfileButton() {
         <ul className={"profile-dropdown"} ref={ulRef}>
           {user ? (
             <>
-              <li>{user.username}</li>
-              <li>{user.email}</li>
-              <li>
+              <ul>{user.username}</ul>
+              <ul>{user.email}</ul>
+              <ul>
                 <ManageProfileButton />  
-              </li>
-              <li>
+              </ul>
+              <ul>
                 <button onClick={logout}>Log Out</button>
-              </li>
+              </ul>
             </>
           ) : (
             <>

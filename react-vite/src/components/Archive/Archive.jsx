@@ -22,20 +22,20 @@ const Archive = () => {
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div className="loading">Loading...</div>;
     }
 
     if (error) {
-        return <div>Error: {error}</div>;
+        return <div className="error">Error: {error}</div>;
     }
 
     return (
-        <div>
+        <div className="archive-container">
             <h1>Archived News</h1>
             {archivedArticles.length > 0 ? (
-                <ul>
+                <ul className="articles-list">
                     {archivedArticles.map((article) => (
-                        <li key={article.id}>
+                        <li key={article.id} className="article-item">
                             <h2>{article.title}</h2>
                             <p>{article.content}</p>
                             <p><strong>Location:</strong> {article.location}</p>
@@ -46,14 +46,14 @@ const Archive = () => {
                                 <img 
                                     src={`/media/uploads/${article.image_filename}`} 
                                     alt={article.title} 
-                                    style={{ maxWidth: '100%', height: 'auto' }}
+                                    className="article-image"
                                 />
                             )}
                         </li>
                     ))}
                 </ul>
             ) : (
-                <p>No archived articles found.</p>
+                <p className="no-articles">No archived articles found.</p>
             )}
         </div>
     );

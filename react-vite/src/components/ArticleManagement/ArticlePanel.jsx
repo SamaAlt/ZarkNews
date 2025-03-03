@@ -38,7 +38,7 @@ const ArticlePanel = () => {
         setArticles(articlesData.articles);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching articles:', error); // Debugging log
+        console.error('Error fetching articles:', error);
         setError(error.message);
         setLoading(false);
       }
@@ -84,23 +84,18 @@ const ArticlePanel = () => {
 
       const data = await response.json();
 
-      // Fetch the updated list of articles
       const articlesResponse = await fetch('/api/articles/my-articles');
       if (!articlesResponse.ok) throw new Error('Failed to fetch articles');
       const articlesData = await articlesResponse.json();
 
-      // Update the articles state
       setArticles(articlesData.articles);
-
-      // Navigate to the "My Articles" page
       navigate('/articles/my-articles');
     } catch (error) {
-      console.error('Error saving article:', error); // Debugging log
+      console.error('Error saving article:', error);
       setError(error.message);
     }
   };
 
-  // Handle article deletion
   const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete this article?')) {
       try {
@@ -111,31 +106,29 @@ const ArticlePanel = () => {
 
         if (!response.ok) throw new Error('Failed to delete article');
 
-        // Remove the deleted article from the state
         setArticles(articles.filter(article => article.id !== parseInt(id)));
- 
         navigate('/articles/my-articles');
       } catch (error) {
-        console.error('Error deleting article:', error); // Debugging log
+        console.error('Error deleting article:', error);
         setError(error.message);
       }
     }
   };
 
   return (
-    <div>
+    <div className="article-panel">
       <h1>{id ? 'Edit Article' : 'Create Article'}</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div>
+      {error && <p className="error">{error}</p>}
+      <form onSubmit={handleSubmit} className="article-form">
+        <div className="form-group">
           <label>Title:</label>
           <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
         </div>
-        <div>
+        <div className="form-group">
           <label>Content:</label>
           <textarea value={content} onChange={(e) => setContent(e.target.value)} required />
         </div>
-        <div>
+        <div className="form-group">
           <label>Display Type:</label>
           <select value={displayType} onChange={(e) => setDisplayType(e.target.value)} required>
             <option value="">Select a display type</option>
@@ -144,11 +137,11 @@ const ArticlePanel = () => {
             ))}
           </select>
         </div>
-        <div>
+        <div className="form-group">
           <label>Location:</label>
           <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} required />
         </div>
-        <div>
+        <div className="form-group">
           <label>Section:</label>
           <select value={section} onChange={(e) => setSection(e.target.value)} required>
             <option value="">Select a section</option>
@@ -157,22 +150,22 @@ const ArticlePanel = () => {
             ))}
           </select>
         </div>
-        <div>
+        <div className="form-group">
           <label>Tags (comma separated):</label>
           <input type="text" value={tags} onChange={(e) => setTags(e.target.value)} />
         </div>
-        <button type="submit">{id ? 'Update Article' : 'Create Article'}</button>
-        {id && <button type="button" onClick={handleDelete}>Delete Article</button>}
+        <button type="submit" className="submit-button">{id ? 'Update Article' : 'Create Article'}</button>
+        {id && <button type="button" onClick={handleDelete} className="delete-button">Delete Article</button>}
       </form>
       <h2>My Articles</h2>
       {loading && <p>Loading...</p>}
       {!loading && articles.length === 0 && <p>No articles found.</p>}
-      <ul>
+      <ul className="article-list">
         {articles.map((article) => (
-          <li key={article.id}>
+          <li key={article.id} className="article-item">
             <h3>{article.title}</h3>
             <p>{article.content.substring(0, 100)}...</p>
-            <Link to={`/articles/edit/${article.id}`}>Edit</Link>
+            <Link to={`/articles/edit/${article.id}`} className="edit-link">Edit</Link>
           </li>
         ))}
       </ul>

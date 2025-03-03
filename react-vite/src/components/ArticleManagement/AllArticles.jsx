@@ -21,23 +21,23 @@ const AllArticles = () => {
     };
 
     return (
-        <div>
+        <div className="all-articles-container">
             <h1>All Articles</h1>
-            {loading && <p>Loading...</p>}
-            {!loading && displayedArticles.length === 0 && <p>No articles found.</p>}
-            <ul style={{ border: '1px solid red' }}>
+            {loading && <p className="loading">Loading...</p>}
+            {!loading && displayedArticles.length === 0 && <p className="no-articles">No articles found.</p>}
+            <ul className="articles-list">
                 {displayedArticles.map((article) => {
                     return (
-                        <li key={`${article.id}-${article.created_at}`} style={{ border: '1px solid blue', margin: '10px', padding: '10px' }}>
+                        <li key={`${article.id}-${article.created_at}`} className="article-item">
                             <h2>{article.title}</h2>
                             <p>{article.content.substring(0, 100)}...</p>
-                            <Link to={`/articles/${article.id}`}>Read More</Link>
+                            <Link to={`/articles/${article.id}`} className="read-more-link">Read More</Link>
                         </li>
                     );
                 })}
             </ul>
             {displayedArticles.length >= 5 && !loading && (
-                <button onClick={handleLoadMore}>Load More</button>
+                <button className="load-more-button" onClick={handleLoadMore}>Load More</button>
             )}
         </div>
     );

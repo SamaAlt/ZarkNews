@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import { thunkUpdateUser, thunkDeleteUser } from '../../redux/session';
-import './ProfileButton.css';
 
 const ProfileSettings = () => {
   const dispatch = useDispatch();
@@ -28,29 +27,28 @@ const ProfileSettings = () => {
     e.preventDefault();
     setErrors({});
     setSuccessMessage('');
-  
-     if (formData.password && formData.password !== formData.confirmPassword) {
+
+    if (formData.password && formData.password !== formData.confirmPassword) {
       setErrors({ confirmPassword: 'Passwords do not match' });
       return;
     }
-  
-     const updatedUser = {
+
+    const updatedUser = {
       first_name: formData.firstName,
       last_name: formData.lastName,
       email: formData.email,
     };
-  
-     if (formData.password) {
+
+    if (formData.password) {
       updatedUser.password = formData.password;
     }
-  
-  
-     const response = await dispatch(thunkUpdateUser(user.id, updatedUser));
+
+    const response = await dispatch(thunkUpdateUser(user.id, updatedUser));
     if (response?.errors) {
       setErrors(response.errors);
     } else {
       setSuccessMessage('Profile updated successfully!');
-       setFormData({
+      setFormData({
         ...formData,
         password: '',
         confirmPassword: '',
@@ -64,20 +62,20 @@ const ProfileSettings = () => {
       if (response?.errors) {
         setErrors(response.errors);
       } else {
-         window.location.href = '/'; // Example: Redirect to home page
+        window.location.href = '/'; // Example: Redirect to home page
       }
     }
   };
 
   return (
-    <div>
+    <div className="profile-settings-container">
       <nav>
         <ProfileButton />
       </nav>
       <h1>Profile Settings</h1>
 
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form onSubmit={handleSubmit} className="profile-form">
+        <div className="form-group">
           <label>First Name</label>
           <input
             type="text"
@@ -86,7 +84,7 @@ const ProfileSettings = () => {
             onChange={handleChange}
           />
         </div>
-        <div>
+        <div className="form-group">
           <label>Last Name</label>
           <input
             type="text"
@@ -95,7 +93,7 @@ const ProfileSettings = () => {
             onChange={handleChange}
           />
         </div>
-        <div>
+        <div className="form-group">
           <label>Email</label>
           <input
             type="email"
@@ -104,7 +102,7 @@ const ProfileSettings = () => {
             onChange={handleChange}
           />
         </div>
-        <div>
+        <div className="form-group">
           <label>New Password</label>
           <input
             type="password"
@@ -114,7 +112,7 @@ const ProfileSettings = () => {
             placeholder="Leave blank to keep current password"
           />
         </div>
-        <div>
+        <div className="form-group">
           <label>Confirm Password</label>
           <input
             type="password"
@@ -123,15 +121,15 @@ const ProfileSettings = () => {
             onChange={handleChange}
             placeholder="Leave blank to keep current password"
           />
-          {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+          {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
         </div>
-        <button type="submit">Update Profile</button>
+        <button type="submit" className="update-button">Update Profile</button>
       </form>
 
-      {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-      {errors.server && <p style={{ color: 'red' }}>{errors.server}</p>}
+      {successMessage && <p className="success-message">{successMessage}</p>}
+      {errors.server && <p className="error-message">{errors.server}</p>}
 
-      <button onClick={handleDeleteAccount} style={{ marginTop: '20px', color: 'red' }}>
+      <button onClick={handleDeleteAccount} className="delete-button">
         Delete Account
       </button>
     </div>

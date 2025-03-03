@@ -1,6 +1,4 @@
-// react-vite/src/components/Footer/Footer.jsx
 import { Link } from 'react-router-dom';
-import './Footer.css'; // Assuming you have a CSS file for styling
 
 export default function Footer() {
   return (
