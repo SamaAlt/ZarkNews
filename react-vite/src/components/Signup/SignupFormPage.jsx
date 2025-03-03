@@ -16,7 +16,7 @@ function SignupFormPage() {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-   if (sessionUser) return <Navigate to="/dashboard" replace={true} />;
+   if (sessionUser) return <Navigate to="" replace={true} />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,7 +51,7 @@ function SignupFormPage() {
     if (serverResponse?.errors) {
       setErrors(serverResponse.errors);
     } else {
-      navigate("/dashboard"); // Redirect after successful signup
+      navigate(""); // Redirect after successful signup
     }
   };
 

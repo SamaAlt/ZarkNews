@@ -4,6 +4,7 @@
   color: rgb(255, 0, 0);
   padding: 20px 0;
   font-family: Arial, sans-serif;
+  z-index: 1001; /* Ensure it stays above other content */
 }
 
 /* Footer content container */

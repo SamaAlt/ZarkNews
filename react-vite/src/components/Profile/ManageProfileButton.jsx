@@ -9,7 +9,7 @@ function ManageProfileButton() {
 
   return (
     <button onClick={handleManageProfile}>
-      Manage Profile
+      Profile
     </button>
   );
 }

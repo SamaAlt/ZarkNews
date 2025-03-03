@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import './ArticlePanel.css';
 
 const ArticlePanel = () => {
   const [articles, setArticles] = useState([]);
@@ -118,19 +119,35 @@ const ArticlePanel = () => {
   return (
     <div className="article-panel">
       <h1>{id ? 'Edit Article' : 'Create Article'}</h1>
-      {error && <p className="error">{error}</p>}
+      {error && <p className="error-message">{error}</p>}
       <form onSubmit={handleSubmit} className="article-form">
         <div className="form-group">
           <label>Title:</label>
-          <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="form-input"
+            required
+          />
         </div>
         <div className="form-group">
           <label>Content:</label>
-          <textarea value={content} onChange={(e) => setContent(e.target.value)} required />
+          <textarea
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            className="form-input"
+            required
+          />
         </div>
         <div className="form-group">
           <label>Display Type:</label>
-          <select value={displayType} onChange={(e) => setDisplayType(e.target.value)} required>
+          <select
+            value={displayType}
+            onChange={(e) => setDisplayType(e.target.value)}
+            className="form-input"
+            required
+          >
             <option value="">Select a display type</option>
             {VALID_DISPLAY_TYPES.map(type => (
               <option key={type} value={type}>{type}</option>
@@ -139,11 +156,22 @@ const ArticlePanel = () => {
         </div>
         <div className="form-group">
           <label>Event Location:</label>
-          <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} required />
+          <input
+            type="text"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            className="form-input"
+            required
+          />
         </div>
         <div className="form-group">
           <label>Section:</label>
-          <select value={section} onChange={(e) => setSection(e.target.value)} required>
+          <select
+            value={section}
+            onChange={(e) => setSection(e.target.value)}
+            className="form-input"
+            required
+          >
             <option value="">Select a section</option>
             {VALID_SECTIONS.map(section => (
               <option key={section} value={section}>{section}</option>
@@ -152,10 +180,21 @@ const ArticlePanel = () => {
         </div>
         <div className="form-group">
           <label>Tags (comma separated):</label>
-          <input type="text" value={tags} onChange={(e) => setTags(e.target.value)} />
+          <input
+            type="text"
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+            className="form-input"
+          />
         </div>
-        <button type="submit" className="submit-button">{id ? 'Update Article' : 'Create Article'}</button>
-        {id && <button type="button" onClick={handleDelete} className="delete-button">Delete Article</button>}
+        <button type="submit" className="submit-button">
+          {id ? 'Update Article' : 'Create Article'}
+        </button>
+        {id && (
+          <button type="button" onClick={handleDelete} className="delete-button">
+            Delete Article
+          </button>
+        )}
       </form>
       <h2>My Articles</h2>
       {loading && <p>Loading...</p>}

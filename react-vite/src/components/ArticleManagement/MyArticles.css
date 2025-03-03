@@ -1,0 +1,97 @@
+.my-articles-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.loading, .no-articles {
+    text-align: center;
+    color: #666;
+    font-size: 18px;
+}
+
+.articles-list {
+    list-style: none;
+    padding: 0;
+}
+
+.article-item {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: box-shadow 0.3s ease;
+}
+
+.article-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.article-item h2 {
+    margin: 0 0 10px;
+    color: #333;
+    font-size: 24px;
+}
+
+.article-item p {
+    margin: 0 0 15px;
+    color: #666;
+    font-size: 16px;
+}
+
+.article-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.read-more-link, .edit-link {
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.read-more-link {
+    background-color: #007bff;
+    color: white;
+}
+
+.read-more-link:hover {
+    background-color: #0057b376;
+}
+
+.edit-link {
+    background-color: #28a745;
+    color: white;
+}
+
+.edit-link:hover {
+    background-color: #218837bf;
+    color: white;
+}
+
+.load-more-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.load-more-button:hover {
+    background-color: #0057b38f;
+}

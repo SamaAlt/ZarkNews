@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './SubscriptionsAnalytics.css';
+
 
 const SubscriptionsAnalytics = () => {
     const [stats, setStats] = useState({ sections: {}, tags: {} });
@@ -31,7 +33,7 @@ const SubscriptionsAnalytics = () => {
         <div className="analytics-container">
             <h2>Reader Analytics</h2>
             
-            <div className="section">
+            <div className="section sections">
                 <h3>Sections</h3>
                 <ul>
                     {Object.entries(stats.sections).map(([section, count]) => (
@@ -42,7 +44,7 @@ const SubscriptionsAnalytics = () => {
                 </ul>
             </div>
 
-            <div className="section">
+            <div className="section tags">
                 <h3>Tags</h3>
                 <ul>
                     {Object.entries(stats.tags).map(([tag, count]) => (

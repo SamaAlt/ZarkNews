@@ -26,8 +26,6 @@ const SportsNewsPage = () => {
 
     return (
       <div className='section-container'>
-          <h1>Business News</h1>
-
           {mostRecentArticle && (
               <div className="hero">
                   <Link to={`/articles/${mostRecentArticle.id}`} className="hero-link">

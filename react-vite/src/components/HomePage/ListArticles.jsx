@@ -5,38 +5,42 @@ import './ListArticles.css';
 
 const ListArticles = () => {
   const [listArticles, setListArticles] = useState([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+
+  const fetchListArticles = async (page) => {
+    try {
+      const listResponse = await axios.get('/api/articles', {
+        params: {
+          display_type: 'list',
+          per_page: 15,
+          page: page,
+        },
+      });
+
+      const fetchedListArticles = listResponse.data.articles;
+
+      if (fetchedListArticles.length < 15) {
+        setHasMore(false);
+      }
+
+      if (page === 1) {
+        setListArticles(fetchedListArticles);
+      } else {
+        setListArticles((prevArticles) => [...prevArticles, ...fetchedListArticles]);
+      }
+    } catch (error) {
+      console.error('Error fetching list articles:', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchListArticles = async () => {
-      try {
-        const listResponse = await axios.get('/api/articles', {
-          params: {
-            display_type: 'list',
-            per_page: 15,
-          },
-        });
+    fetchListArticles(page);
+  }, [page]);
 
-        const fetchedListArticles = listResponse.data.articles;
-
-        if (fetchedListArticles.length < 15) {
-          const latestResponse = await axios.get('/api/articles', {
-            params: {
-              per_page: 15 - fetchedListArticles.length,
-              exclude_ids: fetchedListArticles.map(article => article.id),
-            },
-          });
-
-          setListArticles([...fetchedListArticles, ...latestResponse.data.articles]);
-        } else {
-          setListArticles(fetchedListArticles);
-        }
-      } catch (error) {
-        console.error('Error fetching list articles:', error);
-      }
-    };
-
-    fetchListArticles();
-  }, []);
+  const handleLoadMore = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
 
   return (
     <div className="list-card">
@@ -51,10 +55,15 @@ const ListArticles = () => {
           )}
           <div className="list-content">
             <h3>{article.title}</h3>
-            <p>{article.content.substring(0, 100)}...</p>
+            <p>{article.content.substring(0, 200)}...</p>
           </div>
         </Link>
       ))}
+      {hasMore && (
+        <button onClick={handleLoadMore} className="load-more-button">
+          Load More
+        </button>
+      )}
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ProfileButton from './ProfileButton';
 import { thunkUpdateUser, thunkDeleteUser } from '../../redux/session';
+import './ProfileSettings.css';
 
 const ProfileSettings = () => {
   const dispatch = useDispatch();
@@ -69,9 +69,6 @@ const ProfileSettings = () => {
 
   return (
     <div className="profile-settings-container">
-      <nav>
-        <ProfileButton />
-      </nav>
       <h1>Profile Settings</h1>
 
       <form onSubmit={handleSubmit} className="profile-form">
@@ -82,6 +79,7 @@ const ProfileSettings = () => {
             name="firstName"
             value={formData.firstName}
             onChange={handleChange}
+            className="form-input"
           />
         </div>
         <div className="form-group">
@@ -91,6 +89,7 @@ const ProfileSettings = () => {
             name="lastName"
             value={formData.lastName}
             onChange={handleChange}
+            className="form-input"
           />
         </div>
         <div className="form-group">
@@ -100,6 +99,7 @@ const ProfileSettings = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
+            className="form-input"
           />
         </div>
         <div className="form-group">
@@ -110,6 +110,7 @@ const ProfileSettings = () => {
             value={formData.password}
             onChange={handleChange}
             placeholder="Leave blank to keep current password"
+            className="form-input"
           />
         </div>
         <div className="form-group">
@@ -120,6 +121,7 @@ const ProfileSettings = () => {
             value={formData.confirmPassword}
             onChange={handleChange}
             placeholder="Leave blank to keep current password"
+            className="form-input"
           />
           {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
         </div>
@@ -129,7 +131,7 @@ const ProfileSettings = () => {
       {successMessage && <p className="success-message">{successMessage}</p>}
       {errors.server && <p className="error-message">{errors.server}</p>}
 
-      <button onClick={handleDeleteAccount} className="delete-button">
+      <button onClick={handleDeleteAccount} className="del-button">
         Delete Account
       </button>
     </div>

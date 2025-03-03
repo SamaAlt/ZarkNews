@@ -119,7 +119,7 @@
 }
 
 .list-image {
-    width: 50%; /* Takes up the right half */
+    width: 30%; /* Takes up the right half */
     height: auto; /* Adjust height automatically */
-    object-fit: cover; /* Ensure the image covers the area */
+    object-fit: contain; /* Ensure the image covers the area */
 }

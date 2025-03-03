@@ -1,0 +1,103 @@
+/* Container for analytics */
+.analytics-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+.analytics-container h2 {
+    font-size: 2rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Loading message */
+.loading {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+}
+
+/* Error message */
+.error {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #ff4d4d;
+}
+
+/* Sections and Tags containers */
+.section {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.section h3 {
+    font-size: 1.5rem;
+    color: #444;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.section h3::before {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    margin-right: 10px;
+    color: #007bff;
+}
+
+.section.sections h3::before {
+    content: '\f022'; /* FontAwesome folder icon for sections */
+}
+
+.section.tags h3::before {
+    content: '\f02b'; /* FontAwesome tag icon for tags */
+}
+
+/* List styling */
+.section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.section ul li {
+    font-size: 1rem;
+    color: #555;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+}
+
+.section ul li:last-child {
+    border-bottom: none;
+}
+
+.section ul li::before {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    margin-right: 10px;
+    color: #007bff;
+}
+
+.section.sections ul li::before {
+    content: '\f15c'; /* FontAwesome file icon for sections */
+}
+
+.section.tags ul li::before {
+    content: '\f02b'; /* FontAwesome tag icon for tags */
+}
+
+.section ul li strong {
+    color: #333;
+    margin-right: 5px;
+}

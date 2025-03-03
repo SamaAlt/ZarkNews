@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useArticleContext } from '../../context/ArticleContext';
+import './AllArticles.css';
 
 const AllArticles = () => {
     const { articles, loading, currentPage, setCurrentPage } = useArticleContext();

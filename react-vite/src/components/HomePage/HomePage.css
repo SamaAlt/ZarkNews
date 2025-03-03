@@ -1,35 +1,35 @@
 .homepage-container {
-    background-color: rgba(255, 255, 255, 0.612);
-    padding: 50px 45px; /* Top and bottom padding remains 30px, side padding increases to 50px */
-    margin: 30px;
-    box-sizing: border-box;
-    color: rgb(0, 0, 0);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.612);
+  padding: 50px 45px; /* Top and bottom padding remains 30px, side padding increases to 50px */
+  margin: 30px;
+  box-sizing: border-box;
+  color: rgb(0, 0, 0);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 
 .top-container {
-    display: flex;
-    gap: 20px; /* Adds space between the headline and sidebars */
+  display: flex;
+  gap: 20px; /* Adds space between the headline and sidebars */
 }
 
 .headline {
-    flex-basis: 75%; /* Takes 75% of the container's width */
+  flex-basis: 75%; /* Takes 75% of the container's width */
 }
 
 .sidebars {
-    flex-basis: 25%; /* Takes 25% of the container's width */
+  flex-basis: 25%; /* Takes 25% of the container's width */
 }
 
 .bottom-container {
-    display: flex;
-    gap: 20px; /* Adds space between the content and ads */
+  display: flex;
+  gap: 20px; /* Adds space between the content and ads */
 }
 
 .content {
-    flex-basis: 75%; /* Takes 75% of the container's width */
+  flex-basis: 75%; /* Takes 75% of the container's width */
 }
 
 .ads {
-    flex-basis: 25%; /* Takes 25% of the container's width */
+  flex-basis: 25%; /* Takes 25% of the container's width */
 }

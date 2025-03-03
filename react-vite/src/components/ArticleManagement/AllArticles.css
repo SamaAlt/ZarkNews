@@ -1,0 +1,118 @@
+/* Container for all articles */
+.all-articles-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Heading */
+.all-articles-container h1 {
+    font-size: 2.5rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Loading message */
+.loading {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+}
+
+/* No articles message */
+.no-articles {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+}
+
+/* Articles list */
+.articles-list {
+    list-style: none;
+    padding: 0;
+}
+
+/* Individual article item */
+.article-item {
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.article-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Article title */
+.article-item h2 {
+    font-size: 1.8rem;
+    color: #222;
+    margin-bottom: 10px;
+}
+
+/* Article content preview */
+.article-item p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* Read More link */
+.read-more-link {
+    display: inline-block;
+    font-size: 1rem;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s ease;
+}
+
+.read-more-link:hover {
+    color: #0056b3;
+}
+
+.read-more-link::after {
+    content: '\f061'; /* FontAwesome arrow-right icon */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    margin-left: 8px;
+    transition: margin-left 0.2s ease;
+}
+
+.read-more-link:hover::after {
+    margin-left: 12px;
+}
+
+/* Load More button */
+.load-more-button {
+    display: block;
+    width: 100%;
+    max-width: 200px;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.load-more-button:hover {
+    background-color: #0056b3;
+}
+
+.load-more-button::before {
+    content: '\f1d8'; /* FontAwesome sync icon */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    margin-right: 8px;
+}

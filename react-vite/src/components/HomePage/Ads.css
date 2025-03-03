@@ -38,7 +38,7 @@
   .ads .ad-image {
     width: 100%;
     height: 75%; /* Make the image take up 75% of the card's height */
-    object-fit: cover; /* Ensure the image covers the entire space without stretching */
+    object-fit: contain; /* Ensure the image covers the entire space without stretching */
     padding: 10px 0;
     border-bottom: 1px solid #ddd; /* Soft line under the image section */
   }

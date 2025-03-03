@@ -1,8 +1,9 @@
 import LoginFormPage from '../../components/Login/LoginFormPage';
+import './EmployeePortal.css';
 
 const EmployeePortal = () => {
   return (
-    <div className="employee-portal">
+    <div className="portal">
       <LoginFormPage />
       <div className="portal-content">
         <h1>Welcome to the Employee Portal</h1>

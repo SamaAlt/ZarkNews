@@ -6,7 +6,12 @@ nav {
     width: 100%; /* Ensures the navbar spans the full width */
     margin: 0 auto; /* Centers the navbar */
     height: 90px; /* Set a fixed height for the navbar */
-}
+    z-index: 1001; /* Ensure it stays above other content */
+    position: sticky;
+    top: 0;
+    padding: 10px;
+
+    }
 
 /* Logo styling */
 .logo {
