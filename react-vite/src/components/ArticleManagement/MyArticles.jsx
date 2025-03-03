@@ -38,7 +38,10 @@ const MyArticles = () => {
                         <li key={article.id} className="article-item">
                             <h2>{article.title}</h2>
                             <p>{article.content.substring(0, 100)}...</p>
-                            <Link to={`/articles/${article.id}`} className="read-more-link">Read More</Link>
+                            <div className="article-actions">
+                                <Link to={`/articles/${article.id}`} className="read-more-link">Read More</Link>
+                                <Link to={`/articles/edit/${article.id}`} className="edit-link">Edit</Link>
+                            </div>
                         </li>
                     );
                 })}

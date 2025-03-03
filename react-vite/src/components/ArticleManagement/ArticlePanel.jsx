@@ -138,7 +138,7 @@ const ArticlePanel = () => {
           </select>
         </div>
         <div className="form-group">
-          <label>Location:</label>
+          <label>Event Location:</label>
           <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} required />
         </div>
         <div className="form-group">

@@ -10,8 +10,8 @@ def seed_users():
             {
                 "first_name": "Demo",
                 "last_name": "User",
-                "email": "demo@zarknews.com",
-                "password_hash": generate_password_hash('StrongPassword1'),
+                "email": "demo@example.com",
+                "password_hash": generate_password_hash('Demopassword1'),
                 "role": "editor",
             },
             {
