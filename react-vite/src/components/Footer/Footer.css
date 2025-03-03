@@ -1,103 +1,70 @@
-/* General Styles */
+/* Footer container */
 .footer {
-  background-color: #2c3e50;
-  color: #ecf0f1;
-  padding: 40px 20px;
+  background-color: black;
+  color: rgb(255, 0, 0);
+  padding: 20px 0;
   font-family: Arial, sans-serif;
 }
 
+/* Footer content container */
 .footer-content {
   display: flex;
+  justify-content: space-around;
   flex-wrap: wrap;
-  justify-content: space-between;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
+/* Footer sections */
 .footer-section {
-  flex: 1;
-  min-width: 200px;
   margin-bottom: 20px;
 }
 
 .footer-section h4 {
-  font-size: 1.25rem;
-  margin-bottom: 15px;
-  color: #f1c40f;
+  font-size: 15px;
+  margin-bottom: 10px;
 }
 
 .footer-section ul {
   list-style: none;
   padding: 0;
-  margin: 0;
 }
 
 .footer-section ul li {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
-.footer-section ul li a {
-  color: #ecf0f1;
+/* Link styling */
+.footer-section a {
+  color: white;
   text-decoration: none;
-  transition: color 0.3s ease;
+  font-size: 13px;
+  transition: color 0.3s ease; /* Smooth transition for hover effect */
 }
 
-.footer-section ul li a:hover {
-  color: #f1c40f;
+/* Hover link styling */
+.footer-section a:hover {
+  color: red;
 }
 
-/* Social Links */
-.social-links li a {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.social-links li a::before {
-  content: '';
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  background-size: cover;
-  transition: opacity 0.3s ease;
-}
-
-.social-links li a[href*="facebook.com"]::before {
-  background-image: url('path-to-facebook-icon.png'); /* Add your icon path */
-}
-
-.social-links li a[href*="twitter.com"]::before {
-  background-image: url('path-to-twitter-icon.png'); /* Add your icon path */
-}
-
-.social-links li a[href*="instagram.com"]::before {
-  background-image: url('path-to-instagram-icon.png'); /* Add your icon path */
-}
-
-.social-links li a[href*="linkedin.com"]::before {
-  background-image: url('path-to-linkedin-icon.png'); /* Add your icon path */
-}
-
-/* Footer Bottom */
+/* Footer bottom section */
 .footer-bottom {
   text-align: center;
+  padding: 10px 0;
+  border-top: 1px solid #444;
   margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px solid #34495e;
-  font-size: 0.9rem;
-  color: #bdc3c7;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .footer-content {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-  }
+.footer-bottom p {
+  margin: 0;
+  font-size: 14px;
+  color: white;
+}
 
-  .footer-section {
-      margin-bottom: 30px;
-  }
+/* Specific styling for Quick Links section */
+.footer-section:first-child ul {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two columns */
+  gap: 10px; /* Spacing between items */
 }

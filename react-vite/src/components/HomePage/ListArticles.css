@@ -1,0 +1,41 @@
+.list-card {
+    align-items: flex-start;
+    margin: 50px;
+    padding: 70px;
+    border-radius: 4px;
+    box-shadow: 0 2px rgba(178, 0, 0, 0.404);
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+    min-height: 300px; /* Increased height */
+}
+
+.list-card a {
+    display: flex;
+    width: 100%;
+    height: 200px; /* Increased height */
+    text-decoration: none;
+    color: inherit;
+}
+
+.list-image {
+    width: 30%;
+    height: 200px; /* Increased height */
+    margin-right: 10px;
+    object-fit: cover; /* Ensures the image scales properly */
+}
+
+.list-content {
+    flex: 1;
+}
+
+.list-content h3 {
+    margin: 15px;
+    padding: 10px;
+    font-size: 1.5em;
+    font-weight: 700;
+  }
+  
+  .list-content p {
+    margin: 20px;
+    font-size: 15px;
+  }

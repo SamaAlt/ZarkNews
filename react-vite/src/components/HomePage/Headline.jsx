@@ -1,16 +1,17 @@
 import React, { useContext, useEffect, useCallback } from 'react';
 import { FilterContext } from '../../context/FilterContext';
 import { Link } from 'react-router-dom';
+import './Headline.css';
 
 const Headline = () => {
   const { articles, fetchFilteredArticles, setDisplayType } = useContext(FilterContext);
 
   const fetchHeadlineArticles = useCallback(() => {
-     fetchFilteredArticles({ display_type: 'headline' });
+    fetchFilteredArticles({ display_type: 'headline' });
   }, [fetchFilteredArticles]);
 
   useEffect(() => {
-     setDisplayType('headline');
+    setDisplayType('headline');
     fetchHeadlineArticles();
   }, [setDisplayType, fetchHeadlineArticles]);
 
@@ -18,13 +19,21 @@ const Headline = () => {
 
   return (
     <div>
-      <h1>Headline</h1>
       <ul>
         {headlineArticles.length > 0 && (
-          <li key={headlineArticles[0].id}>
-            <h2>{headlineArticles[0].title}</h2>
-            <p>{headlineArticles[0].content.substring(0, 150)}...</p>
-            <Link to={`/articles/${headlineArticles[0].id}`}>Read More</Link>
+          <li key={headlineArticles[0].id} className="headline-card">
+            <Link to={`/articles/${headlineArticles[0].id}`} className="headline-link">
+              {headlineArticles[0].image_url && (
+                <img
+                  src={headlineArticles[0].image_url}
+                  alt={headlineArticles[0].title}
+                />
+              )}
+              <div className="headline-content">
+                <h2>{headlineArticles[0].title}</h2>
+                <p>{headlineArticles[0].content.substring(0, 150)}...</p>
+              </div>
+            </Link>
           </li>
         )}
       </ul>

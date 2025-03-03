@@ -1,0 +1,43 @@
+/* Navigation bar container */
+nav {
+    background-color: black;
+    display: flex;
+    align-items: center;
+    width: 100%; /* Ensures the navbar spans the full width */
+    margin: 0 auto; /* Centers the navbar */
+    height: 80px; /* Set a fixed height for the navbar */
+}
+
+/* Logo styling */
+.logo {
+    height: 55px; /* Adjust the height of the logo */
+    transform: scale(1.5); /* Increase the size of the logo */
+    transform-origin: left center; /* Ensure the logo scales from the left */
+}
+
+/* Links container */
+nav > div {
+    display: flex;
+    justify-content: space-evenly; /* Spreads the links evenly */
+    flex-grow: 1; /* Takes up remaining space */
+    margin: 0 ; /* Adds some spacing on the sides */
+}
+
+/* Link styling */
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Hover and active link styling */
+nav a:hover,
+nav a.active {
+    color: red;
+}
+
+/* Profile button container */
+.profile-button-container {
+    margin-left: auto; /* Pushes the profile button to the right */
+}

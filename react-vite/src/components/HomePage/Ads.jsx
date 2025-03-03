@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import './Ads.css'; // Make sure to create and import a CSS file for styling
 
 const Ads = () => {
   const [adsArticles, setAdsArticles] = useState([]);
@@ -11,7 +12,7 @@ const Ads = () => {
         const response = await axios.get('/api/articles', {
           params: {
             display_type: ['ads_1', 'ads_2'],
-            per_page: 2, 
+            per_page: 2,
           },
         });
 
@@ -20,8 +21,8 @@ const Ads = () => {
         if (fetchedArticles.length < 2) {
           const latestResponse = await axios.get('/api/articles', {
             params: {
-              per_page: 2 - fetchedArticles.length, 
-              exclude_ids: fetchedArticles.map(article => article.id), 
+              per_page: 2 - fetchedArticles.length,
+              exclude_ids: fetchedArticles.map(article => article.id),
             },
           });
 
@@ -39,13 +40,19 @@ const Ads = () => {
 
   return (
     <div className="ads">
-      <h2>Ads</h2>
       <ul>
         {adsArticles.map((article, index) => (
           <li key={article.id}>
-            <h3>{`Ad ${index + 1}: ${article.title}`}</h3>
-            <p>{article.content.substring(0, 100)}...</p>
-            <Link to={`/articles/${article.id}`}>Read More</Link>
+            <Link to={`/articles/${article.id}`} className="ad-link">
+              {article.image_url && (
+                <img
+                  src={article.image_url}
+                  alt={`Ad ${index + 1}`}
+                  className="ad-image"
+                />
+              )}
+              <h3>{`${article.title}`}</h3>
+            </Link>
           </li>
         ))}
       </ul>

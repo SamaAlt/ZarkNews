@@ -1,31 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import './ListArticles.css';
 
 const ListArticles = () => {
   const [listArticles, setListArticles] = useState([]);
 
-   useEffect(() => {
+  useEffect(() => {
     const fetchListArticles = async () => {
       try {
-         const listResponse = await axios.get('/api/articles', {
+        const listResponse = await axios.get('/api/articles', {
           params: {
             display_type: 'list',
-            per_page: 15, // Fetch up to 15 articles
+            per_page: 15,
           },
         });
 
         const fetchedListArticles = listResponse.data.articles;
 
-         if (fetchedListArticles.length < 15) {
+        if (fetchedListArticles.length < 15) {
           const latestResponse = await axios.get('/api/articles', {
             params: {
-              per_page: 15 - fetchedListArticles.length, // Fetch the remaining articles
-              exclude_ids: fetchedListArticles.map(article => article.id), // Exclude already fetched articles
+              per_page: 15 - fetchedListArticles.length,
+              exclude_ids: fetchedListArticles.map(article => article.id),
             },
           });
 
-           setListArticles([...fetchedListArticles, ...latestResponse.data.articles]);
+          setListArticles([...fetchedListArticles, ...latestResponse.data.articles]);
         } else {
           setListArticles(fetchedListArticles);
         }
@@ -38,17 +39,22 @@ const ListArticles = () => {
   }, []);
 
   return (
-    <div className="list-articles">
-      <h2>List Articles</h2>
-      <ul>
-        {listArticles.map((article) => (
-          <li key={article.id}>
+    <div className="list-card">
+      {listArticles.map((article) => (
+        <Link to={`/articles/${article.id}`} key={article.id} className="sidebar-card">
+          {article.image_url && (
+            <img
+              src={article.image_url}
+              alt={article.title}
+              className="list-image"
+            />
+          )}
+          <div className="list-content">
             <h3>{article.title}</h3>
             <p>{article.content.substring(0, 100)}...</p>
-            <Link to={`/articles/${article.id}`}>Read More</Link>
-          </li>
-        ))}
-      </ul>
+          </div>
+        </Link>
+      ))}
     </div>
   );
 };

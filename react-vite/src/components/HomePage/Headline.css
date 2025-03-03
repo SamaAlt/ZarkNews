@@ -1,0 +1,61 @@
+.headline-card {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    height: 450px;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #1c1a1a;
+    box-shadow: 0 2px rgba(178, 0, 0, 0.404);
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .headline-card:hover {
+    box-shadow: 0 4px 4px rgba(145, 0, 0, 0.337); /* Enhanced hover effect */
+  }
+  
+  .headline-card img {
+    width: 50%;
+    height: auto;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+  
+  .headline-content {
+    padding-top: 50px;
+    width: 50%;
+    padding-left: 10px;
+  }
+  
+  .headline-content h2 {
+    margin: 20px;
+    font-size: 1.5em;
+    font-weight: 900;
+    color: white;
+  }
+  
+  .headline-content p {
+    padding: 20px;
+    font-size: 19px;
+    color: #ff0000bc;
+  }
+  
+  .headline-content a {
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+  
+  .headline-content a:hover {
+    text-decoration: none;
+  }
+  
+  .headline-link {
+    display: flex;
+    align-items: flex-start;
+    text-decoration: none;
+    color: inherit; /* Inherit color from parent elements */
+  }
+  
