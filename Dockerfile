@@ -22,5 +22,5 @@ EXPOSE 5000
 CMD flask db upgrade && flask seed all && gunicorn -w 4 -b 0.0.0.0:5000 app:app
 
 
-#docker-compose down
-#docker-compose up --build
+#docker-compose down # Stop and remove any existing containers
+#docker-compose up --build # Rebuild and start all services
