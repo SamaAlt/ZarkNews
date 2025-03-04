@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate, Link } from "react-router-dom";
 import { thunkSignup } from "../../redux/session";
 import { validateEmail, validatePassword, validateName } from "./validators";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function SignupFormPage() {
   const dispatch = useDispatch();
@@ -16,12 +18,12 @@ function SignupFormPage() {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-   if (sessionUser) return <Navigate to="" replace={true} />;
+  if (sessionUser) return <Navigate to="" replace={true} />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-     const newErrors = {};
+    const newErrors = {};
     if (!validateName(firstName)) newErrors.firstName = "First name is required.";
     if (!validateName(lastName)) newErrors.lastName = "Last name is required.";
     if (!validateEmail(email)) newErrors.email = "Invalid email address.";
@@ -30,34 +32,42 @@ function SignupFormPage() {
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
+      Object.values(newErrors).forEach((error) => toast.error(error));
       return;
     }
 
     setIsLoading(true);
     setErrors({});
 
-     const serverResponse = await dispatch(
-      thunkSignup({
-        firstName,
-        lastName,
-        email,
-        password,
-        role: 'editor', // Default role for new signups
-      })
-    );
+    try {
+      const serverResponse = await dispatch(
+        thunkSignup({
+          firstName,
+          lastName,
+          email,
+          password,
+          role: 'editor', // Default role for new signups
+        })
+      );
 
-    setIsLoading(false);
-
-    if (serverResponse?.errors) {
-      setErrors(serverResponse.errors);
-    } else {
-      navigate(""); // Redirect after successful signup
+      if (serverResponse?.errors) {
+        setErrors(serverResponse.errors);
+        Object.values(serverResponse.errors).forEach((error) => toast.error(error));
+      } else {
+        toast.success("Signup successful! Redirecting...");
+        setTimeout(() => navigate(""), 2000); // Redirect after 2 seconds
+      }
+    } catch (error) {
+      toast.error("An unexpected error occurred. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="signup-form-container">
       <h1>Sign Up</h1>
+      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
       {errors.server && <p className="error-message">{errors.server}</p>}
       <form onSubmit={handleSubmit} noValidate>
         <div className="form-group">

@@ -104,19 +104,3 @@
     background-color: #c82333;
 }
 
-/* Toast Notification Styles */
-.Toastify__toast-container {
-    font-size: 14px;
-}
-
-.Toastify__toast--success {
-    background-color: #28a745;
-}
-
-.Toastify__toast--error {
-    background-color: #dc3545;
-}
-
-.Toastify__toast--info {
-    background-color: #17a2b8;
-}
