@@ -10,7 +10,7 @@ def seed_users():
             {
                 "first_name": "Demo",
                 "last_name": "User",
-                "email": "demo@example.com",
+                "email": "demo@user.io",
                 "password_hash": generate_password_hash('Demopassword1'),
                 "role": "editor",
             },

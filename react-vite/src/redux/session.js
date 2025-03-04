@@ -191,6 +191,28 @@ export const thunkDeleteUser = (userId) => async (dispatch) => {
   }
 };
 
+// THUNK: DEMO LOGIN
+export const thunkDemoLogin = (id) => async (dispatch) => {
+  dispatch(setLoading()); // Set loading state
+  try {
+    const response = await fetch(`/api/users/demo/${id}`, {
+      method: "POST",
+    });
+
+    const { data, ok } = await handleServerResponse(response); // Use helper function
+
+    if (ok) {
+      dispatch(setUser(data)); // Dispatch the user data on success
+      return {}; // No errors
+    } else {
+      return { errors: data.errors || { server: 'Something went wrong. Please try again.' } };
+    }
+  } catch (error) {
+    console.error('Error during demo login:', error);
+    return { errors: { server: 'Something went wrong. Please try again.' } };
+  }
+};
+
 // ========================== REDUCER =====================================
 const initialState = {
   user: null,

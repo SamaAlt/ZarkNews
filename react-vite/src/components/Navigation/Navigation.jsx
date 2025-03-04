@@ -31,7 +31,7 @@ export default function Navigation({ user }) {
       </div>
       <div>
         {/* <Link to="/subscriptions/subscribe" className={isActive('/subscriptions/subscribe') ? 'active' : ''}>Subscribe</Link> */}
-        <Link to="/employee-portal" className={isActive('/employee-portal') ? 'active' : ''}>DEMO USER</Link>        
+        <Link to="/login" className={isActive('/login') ? 'active' : ''}>DEMO USER</Link>        
 
       </div>
       <div>

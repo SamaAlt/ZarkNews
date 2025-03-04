@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from flask_login import login_required, current_user
+from flask_login import login_required, current_user, login_user
 from app.models import User, db
 from marshmallow import Schema, fields, validate, ValidationError
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -84,6 +84,16 @@ def update_user(id):
         return jsonify({"errors": ["Database error"]}), 500
 
     return jsonify(user.to_dict()), 200
+
+@user_routes.route('/demo/<int:id>', methods=['POST'])
+def demo_login(id):
+    if id > 1:
+        return {"errors": {"message": "Unauthorized"}}, 401
+    user = User.query.get(id)
+    if user:
+        login_user(user)
+        return user.to_dict()
+    return {"errors": {"message": 'Unable to find user'}}, 404
 
 
 @user_routes.route('/<int:id>', methods=['DELETE'])

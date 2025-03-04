@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { thunkLogin } from "../../redux/session";
+import { thunkLogin, thunkDemoLogin } from "../../redux/session";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate, Link } from "react-router-dom";
+import './LoginFormPage.css';
 
 function LoginFormPage() {
   const navigate = useNavigate();
@@ -12,42 +13,59 @@ function LoginFormPage() {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-   if (sessionUser) return <Navigate to="/dashboard" replace={true} />;
+  if (sessionUser) return <Navigate to="/dashboard" replace={true} />;
+
+  const demoSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setErrors({});
+  
+    // Pass the demo user ID (assuming ID is 1 for demo login)
+    const serverResponse = await dispatch(thunkDemoLogin(1));
+    setIsLoading(false);
+  
+    if (serverResponse?.errors) {
+      setErrors({
+        ...serverResponse.errors,
+        ...(serverResponse.errors.server && { server: serverResponse.errors.server }),
+      });
+    } else {
+      navigate("/dashboard");
+    }
+  };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-     const newErrors = {};
+
+    const newErrors = {};
     if (!email) newErrors.email = "Email is required.";
     if (!password) newErrors.password = "Password is required.";
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-  
+
     setIsLoading(true);
     setErrors({});
-  
+
     const serverResponse = await dispatch(thunkLogin({ email, password }));
-  
+
     setIsLoading(false);
-  
+
     if (serverResponse?.errors) {
-       setErrors({
+      setErrors({
         ...serverResponse.errors,
         ...(serverResponse.errors.server && { server: serverResponse.errors.server }),
       });
     } else {
-      navigate("/dashboard");  
+      navigate("/dashboard");
     }
   };
-  
+
   return (
     <div className="login-form-container">
       <h1>Log In</h1>
-      <h2>DEMO USER:</h2>
-      <p>demo@example.com</p>
-      <p>Demopassword1</p>
       {errors.server && <p className="error-message">{errors.server}</p>}
       <form onSubmit={handleSubmit} noValidate>
         <div className="form-group">
@@ -86,6 +104,16 @@ function LoginFormPage() {
           {isLoading ? "Logging in..." : "Log In"}
         </button>
       </form>
+
+      {/* Demo Login Button */}
+      <button
+        onClick={demoSubmit}
+        disabled={isLoading}
+        className="demo-login-button"
+      >
+        {isLoading ? "Logging in..." : "Demo Login"}
+      </button>
+
       <p>
         Don’t have an account yet? <Link to="/signup">Sign up here</Link> to get started!
       </p>
