@@ -55,7 +55,7 @@ function SignupFormPage() {
         Object.values(serverResponse.errors).forEach((error) => toast.error(error));
       } else {
         toast.success("Signup successful! Redirecting...");
-        setTimeout(() => navigate(""), 2000); // Redirect after 2 seconds
+        setTimeout(() => navigate("/dashboard"), 2000); // Redirect after 2 seconds
       }
     } catch (error) {
       toast.error("An unexpected error occurred. Please try again.");
