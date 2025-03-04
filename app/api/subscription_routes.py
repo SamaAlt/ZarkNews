@@ -26,6 +26,11 @@ def subscribe():
     except ValidationError as err:
         return jsonify({"errors": err.messages}), 400
 
+    # Check if a subscription with the provided email already exists
+    existing_subscription = Subscription.query.filter_by(email=data['email']).first()
+    if existing_subscription:
+        return jsonify({"errors": ["A subscription with this email already exists."]}), 409  # 409 Conflict
+
     try:
         subscription = Subscription.subscribe(
             first_name=data['first_name'],
@@ -39,6 +44,7 @@ def subscribe():
     except ValueError as e:
         return jsonify({"errors": [str(e)]}), 400
 
+        
 @subscription_routes.route('/<string:email>', methods=['DELETE'])
 def unsubscribe(email):
     """
