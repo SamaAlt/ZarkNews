@@ -1,97 +1,101 @@
+/* MyArticles.css */
+
+/* Container for the entire component */
 .my-articles-container {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
     font-family: Arial, sans-serif;
-}
-
-h1 {
-    text-align: center;
     color: #333;
-    margin-bottom: 20px;
 }
 
+/* Loading and no articles message */
 .loading, .no-articles {
     text-align: center;
+    font-size: 1.2em;
+    margin-top: 20px;
     color: #666;
-    font-size: 18px;
 }
 
+/* List of articles */
 .articles-list {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
-.article-item {
-    background: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+/* Individual article item */
+.my-article-item {
+    margin-bottom: 20px;
     padding: 15px;
-    margin-bottom: 15px;
-    transition: box-shadow 0.3s ease;
+    border-bottom: 1px solid #e0e0e0;
 }
 
-.article-item:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.my-article-item:last-child {
+    border-bottom: none;
 }
 
-.article-item h2 {
+.my-article-item h2 {
+    font-size: 1.4em;
     margin: 0 0 10px;
-    color: #333;
-    font-size: 24px;
+    color: #222;
 }
 
-.article-item p {
-    margin: 0 0 15px;
-    color: #666;
-    font-size: 16px;
+.my-article-item p {
+    margin: 0 0 10px;
+    font-size: 0.95em;
+    color: #555;
 }
 
+/* Article actions (Read More and Edit links) */
 .article-actions {
     display: flex;
     gap: 10px;
+    margin-top: 10px;
 }
 
-.read-more-link, .edit-link {
+.my-read-more-link, .my-edit-link {
     text-decoration: none;
-    padding: 8px 12px;
+    font-size: 0.9em;
+    padding: 5px 10px;
     border-radius: 4px;
-    font-size: 14px;
     transition: background-color 0.3s ease;
 }
 
-.read-more-link {
+.my-read-more-link {
+    color: #007bff;
+    border: 1px solid #007bff;
+}
+
+.my-read-more-link:hover {
     background-color: #007bff;
-    color: white;
+    color: #fff;
 }
 
-.read-more-link:hover {
-    background-color: #0057b376;
+.my-edit-link {
+    color: #28a745;
+    border: 1px solid #28a745;
 }
 
-.edit-link {
+.my-edit-link:hover {
     background-color: #28a745;
-    color: white;
+    color: #fff;
 }
 
-.edit-link:hover {
-    background-color: #218837bf;
-    color: white;
-}
-
+/* Load more button */
 .load-more-button {
     display: block;
     margin: 20px auto;
     padding: 10px 20px;
+    font-size: 1em;
+    color: #fff;
     background-color: #007bff;
-    color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 16px;
     transition: background-color 0.3s ease;
 }
 
 .load-more-button:hover {
-    background-color: #0057b38f;
+    background-color: #0056b3;
 }

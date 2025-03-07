@@ -1,40 +1,72 @@
-.list-card {
-    align-items: flex-start;
-    border-radius: 4px;
-    box-shadow: 0 2px rgba(178, 0, 0, 0.404);
-    cursor: pointer;
-    transition: box-shadow 0.3s ease;
-    min-height: 300px; /* Increased height */
+/* ListArticles.css */
+
+.home-list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  margin-top: 20px;
 }
 
-.list-card a {
-    display: flex;
-    width: 75%;
-    height: 250px; /* Increased height */
-    text-decoration: none;
-    margin-left: 70px;
-    color: inherit;
+.home-list-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Three columns */
+  grid-template-rows: repeat(5, auto); /* Five rows */
+  gap: 20px; /* Space between grid items */
+  width: 100%;
+  max-width: 1200px; /* Adjust based on your design */
+  margin-bottom: 20px;
 }
 
-.list-image {
-    width: 30%;
-    height: 200px; /* Increased height */
-    margin-right: 10px;
-    object-fit: contain; /* Ensures the image scales properly */
+.home-list-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.list-content {
-    flex: 1;
+.home-list-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.list-content h3 {
-    margin: 20px;
-    padding: 20px;
-    font-size: 1.5em;
-    font-weight: 700;
-  }
-  
-  .list-content p {
-    margin: 20px;
-    font-size: 17px;
-  }
+.home-list-image {
+  width: 100%;
+  object-fit: cover;
+}
+
+.home-list-content {
+  padding: 15px;
+}
+
+.home-list-content h3 {
+  margin: 0 0 10px;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.home-list-content p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.load-more-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.load-more-button:hover {
+  background-color: #0056b3;
+}

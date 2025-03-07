@@ -1,61 +1,31 @@
 .headline-card {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 20px;
-    height: 450px;
-    padding: 10px;
-    border-radius: 4px;
-    background-color: #1c1a1a;
-    box-shadow: 0 2px rgba(178, 0, 0, 0.404);
-    cursor: pointer;
-    transition: box-shadow 0.3s ease;
-  }
-  
-  .headline-card:hover {
-    box-shadow: 0 4px 4px rgba(145, 0, 0, 0.337); /* Enhanced hover effect */
-  }
-  
-  .headline-card img {
-    width: 50%;
-    height: auto;
-    border-radius: 4px;
-    margin-right: 10px;
-  }
-  
-  .headline-content {
-    padding-top: 50px;
-    width: 50%;
-    padding-left: 10px;
-  }
-  
-  .headline-content h2 {
-    margin: 20px;
-    font-size: 1.5em;
-    font-weight: 900;
-    color: white;
-  }
-  
-  .headline-content p {
-    padding: 20px;
-    font-size: 19px;
-    color: #ff0000bc;
-  }
-  
-  .headline-content a {
-    text-decoration: none;
-    color: #007BFF;
-    font-weight: 600;
-    transition: color 0.3s ease;
-  }
-  
-  .headline-content a:hover {
-    text-decoration: none;
+    margin: 0 auto; /* Center the card horizontally */
+    width: 65%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for better visual appeal */
+    background-color: #fff; /* Optional: Set a background color */
   }
   
   .headline-link {
-    display: flex;
-    align-items: flex-start;
-    text-decoration: none;
-    color: inherit; /* Inherit color from parent elements */
+    text-decoration: none; /* Remove underline from the link */
+    color: inherit; /* Inherit the text color */
+    display: block; /* Make the link a block element to fill the card */
   }
   
+  .headline-link img {
+    width: 100%; /* Make the image take up the full width of the card */
+    height: auto; /* Maintain the aspect ratio of the image */
+  }
+  
+  .headline-content {
+    padding: 15px; /* Add padding inside the content area */
+  }
+  
+  .headline-content h2 {
+    margin-top: 0; /* Remove the top margin from the heading */
+    font-size: 1.5em; /* Set the font size for the heading */
+  }
+  
+  .headline-content p {
+    font-size: 1em; /* Set the font size for the paragraph */
+    color: #555; /* Set a slightly lighter color for the paragraph */
+  }

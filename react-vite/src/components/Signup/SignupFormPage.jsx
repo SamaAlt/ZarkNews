@@ -5,7 +5,7 @@ import { thunkSignup } from "../../redux/session";
 import { validateEmail, validatePassword, validateName } from "./validators";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import './SignupFormPage.css';
 function SignupFormPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();

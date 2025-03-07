@@ -1,138 +1,121 @@
+/* ArticlePanel.css */
+
 .article-panel {
-    padding: 20px;
-    background-color: #f0f0f0;
-    min-height: 100vh;
-  }
-  
-  .article-panel h1 {
-    font-size: 2.5rem;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  .article-panel h2 {
-    font-size: 2rem;
-    color: #333;
-    margin-top: 40px;
-    margin-bottom: 20px;
-  }
-  
-  .article-form {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    max-width: 800px;
-    margin: 0 auto;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-group label {
-    display: block;
-    font-size: 1rem;
-    color: #333;
-    margin-bottom: 5px;
-  }
-  
-  .form-input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .form-input:focus {
-    border-color: #ff4d4d;
-    box-shadow: 0 0 8px rgba(255, 77, 77, 0.3);
-    outline: none;
-  }
-  
-  .submit-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #ff4d4d;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-  
-  .submit-button:hover {
-    background-color: #e63939;
-    transform: translateY(-2px);
-  }
-  
-  .delete-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-  
-  .delete-button:hover {
-    background-color: #222;
-    transform: translateY(-2px);
-  }
-  
-  .error-message {
-    color: #ff4d4d;
-    font-size: 0.9rem;
-    margin-top: 5px;
-  }
-  
-  .article-list {
-    list-style: none;
-    padding: 0;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-  
-  .article-item {
-    background-color: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin-bottom: 15px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .article-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-  }
-  
-  .article-item h3 {
-    font-size: 1.5rem;
-    color: #333;
-    margin-bottom: 10px;
-  }
-  
-  .article-item p {
-    font-size: 1rem;
-    color: #666;
-    margin-bottom: 10px;
-  }
-  
-  .edit-link {
-    color: #ff4d4d;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s ease;
-  }
-  
-  .edit-link:hover {
-    color: #e63939;
-  }
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.article-panel h1,
+.article-panel h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.article-form {
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-input {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid black;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: black;
+}
+
+textarea.form-input {
+  height: 150px;
+  resize: vertical;
+}
+
+.error-message {
+  color: black;
+  font-size: 12px;
+  margin-top: 5px;
+  font-weight: bold;
+}
+
+.submit-button,
+.delete-button {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  border: 1px solid black;
+  border-radius: 4px;
+  background-color: rgb(0, 0, 0);
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.delete-button {
+  background-color: black;
+  color: white;
+}
+
+.submit-button:disabled,
+.delete-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.article-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.article-item {
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 15px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.article-item h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.article-item p {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.edit-link {
+  color: rgb(31, 0, 206);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.edit-link:hover {
+  text-decoration: underline;
+}
+
+p {
+  font-size: 14px;
+  margin-top: 20px;
+}

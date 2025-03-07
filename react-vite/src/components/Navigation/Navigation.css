@@ -1,48 +1,67 @@
-/* Navigation bar container */
 nav {
-    background-color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+    padding: 10px 10px;
+    font-family: sans-serif;
+  }
+  
+  .logo {
+    height: 150px; 
+    width: 150px;
+  }
+  
+  nav > div {
     display: flex;
     align-items: center;
-    width: 100%; /* Ensures the navbar spans the full width */
-    margin: 0 auto; /* Centers the navbar */
-    height: 90px; /* Set a fixed height for the navbar */
-    z-index: 1001; /* Ensure it stays above other content */
-    position: sticky;
-    top: 0;
-    padding: 10px;
-
-    }
-
-/* Logo styling */
-.logo {
-    height: 55px; /* Adjust the height of the logo */
-    transform: scale(1.5); /* Increase the size of the logo */
-    transform-origin: left center; /* Ensure the logo scales from the left */
-}
-
-/* Links container */
-nav > div {
-    display: flex;
-    justify-content: space-evenly; /* Spreads the links evenly */
-    flex-grow: 1; /* Takes up remaining space */
-    margin: 0 ; /* Adds some spacing on the sides */
-}
-
-/* Link styling */
-nav a {
-    color: white;
+  }
+  
+  nav a {
     text-decoration: none;
-    font-size: 16px;
-    transition: color 0.3s ease; /* Smooth transition for hover effect */
-}
-
-/* Hover and active link styling */
-nav a:hover,
-nav a.active {
-    color: red;
-}
-
-/* Profile button container */
-.profile-button-container {
-    margin-left: auto; /* Pushes the profile button to the right */
-}
+    color: rgba(0, 0, 0, 0.507);
+    font-size: 1em;
+    text-transform: uppercase;
+    margin: 0 15px;  
+  }
+  
+  nav a:hover,
+  nav a.active {
+    text-decoration: none;
+    color: black;
+  }
+  
+  .profile-button-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .profile-button {
+    height: 40px;  
+    margin-left: 10px;  
+  }
+  
+  
+  @media (max-width: 768px) {
+    nav {
+      flex-direction: column;  
+      align-items: flex-start;  
+    }
+  
+    .logo {
+      margin-bottom: 10px;  
+    }
+  
+    nav > div {
+      flex-direction: column;  
+      align-items: flex-start;  
+    }
+  
+    nav a {
+      margin: 5px 0; 
+    }
+  
+    .profile-button-container {
+      margin-top: 10px;  
+    }
+  }

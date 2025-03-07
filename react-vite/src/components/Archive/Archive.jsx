@@ -36,19 +36,19 @@ const Archive = () => {
     }
 
     return (
-        <div className="archive-container">
+        <div className="arc-container">
             <h1>Archived News</h1>
             {archivedArticles.length > 0 ? (
                 <>
-                    <ul className="articles-list">
+                    <ul className="arc-articles-list">
                         {archivedArticles.slice(0, visibleArticles).map((article) => (
-                            <li key={article.id} className="article-item">
+                            <li key={article.id} className="arc-article-item">
                                 <h2>{article.title}</h2>
                                 {article.image_filename && (
                                     <img 
                                         src={`/media/uploads/${article.image_filename}`} 
                                         alt={article.title} 
-                                        className="article-image"
+                                        className="arc-article-image"
                                     />
                                 )}
                                 <p>{article.content}</p>

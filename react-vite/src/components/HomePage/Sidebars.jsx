@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import './Sidebars.css'; // Make sure to create and import a CSS file for styling
+import './Sidebars.css';
 
 const Sidebars = () => {
   const [sidebarArticles, setSidebarArticles] = useState([]);

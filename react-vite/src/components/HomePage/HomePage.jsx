@@ -6,23 +6,18 @@ import './HomePage.css';
 
 const HomePage = () => {
   return (
-    <div className="homepage-container">
-      <div className="top-container">
-        <div className="headline">
-          <Headline />
-        </div>
-        <div className="sidebars">
-          <Sidebars />
-        </div>
+    <div className="container">
+      <div className="headline">
+        <Headline />
       </div>
-      
-      <div className="bottom-container">
-        <div className="content">
-          <ListArticles />
-        </div>
-        <div className="ads">
-          <Ads />
-        </div>
+      <div className="sidebars">
+        <Sidebars />
+      </div>
+      <div className="listarticles">
+        <ListArticles />
+      </div>
+      <div className="ads">
+        <Ads />
       </div>
     </div>
   );

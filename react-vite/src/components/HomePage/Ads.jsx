@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import './Ads.css'; // Make sure to create and import a CSS file for styling
+import './Ads.css'; // Import the CSS file
 
 const Ads = () => {
   const [adsArticles, setAdsArticles] = useState([]);
@@ -40,9 +40,9 @@ const Ads = () => {
 
   return (
     <div className="ads">
-      <ul>
+      <ul className="ads-list">
         {adsArticles.map((article, index) => (
-          <li key={article.id}>
+          <li key={article.id} className="ads-item">
             <Link to={`/articles/${article.id}`} className="ad-link">
               {article.image_url && (
                 <img
@@ -51,7 +51,7 @@ const Ads = () => {
                   className="ad-image"
                 />
               )}
-              <h3>{`${article.title}`}</h3>
+              <h3 className="ad-title">{`${article.title}`}</h3>
             </Link>
           </li>
         ))}

@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'; // Import useLocation
-import logo from './logo.png'; // Adjust the path to your logo file
+import logo from './logo.webp'; // Adjust the path to your logo file
 import ProfileButton from '../Profile/ProfileButton'; // Import the ProfileButton component
 import './Navigation.css'; // Import the CSS file
 
@@ -19,7 +19,7 @@ export default function Navigation({ user }) {
           <img src={logo} alt="Logo" className="logo" /> 
         </Link>
       </div>
-      <div>
+      <div className='nav-links'>
         <Link to="/news/national" className={isActive('/news/national') ? 'active' : ''}>National</Link>
         <Link to="/news/world" className={isActive('/news/world') ? 'active' : ''}>World</Link>
         <Link to="/news/business" className={isActive('/news/business') ? 'active' : ''}>Business</Link>

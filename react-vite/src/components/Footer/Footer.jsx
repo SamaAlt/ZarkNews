@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="footer">
       <div className="footer-content">
         <div className="footer-section">
-          <h4>Quick Links</h4>
+          <h4 className='quicklink'>Quick Links</h4>
           <ul>
             <li><Link to="/">Home</Link></li>
             <li><Link to="/news/national">National</Link></li>

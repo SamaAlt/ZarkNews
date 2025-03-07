@@ -31,7 +31,7 @@ const Headline = () => {
               )}
               <div className="headline-content">
                 <h2>{headlineArticles[0].title}</h2>
-                <p>{headlineArticles[0].content.substring(0, 150)}...</p>
+                <p>{headlineArticles[0].content.substring(0, 500)}...</p>
               </div>
             </Link>
           </li>

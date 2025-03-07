@@ -1,13 +1,13 @@
-/* LoginFormPage.css */
+/* SignupFormPage.css */
 
-.login-form-container {
+.signup-form-container {
     max-width: 400px;
     margin: 0 auto;
     padding: 20px;
     text-align: center;
   }
   
-  .login-form-container h1 {
+  .signup-form-container h1 {
     font-size: 24px;
     margin-bottom: 20px;
     font-weight: bold;
@@ -61,15 +61,6 @@
   button:disabled {
     opacity: 0.7;
     cursor: not-allowed;
-  }
-  
-  .demo-login-button {
-    background-color: black;
-    color: white;
-  }
-  
-  .demo-login-button:disabled {
-    background-color: #555;
   }
   
   p {

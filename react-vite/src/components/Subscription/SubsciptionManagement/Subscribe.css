@@ -1,106 +1,85 @@
-/* General Styles */
+/* Subscribe.css */
+
 .subscription-container {
     max-width: 600px;
-    margin: 30px auto;
-    padding: 50px;
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.subscription-container h2 {
-    color: #b10202;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .subscription-container h2,
+  .subscription-container h4 {
+    font-size: 24px;
     margin-bottom: 20px;
-    font-size: 1.75rem;
-}
-.subscription-container h4 {
-    color: #b10202;
-    margin: 45px;
-}
-
-/* Form Styles */
-.subscription-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.subscription-form div {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.subscription-form label {
     font-weight: bold;
-    color: #555;
-}
-
-.subscription-form input,
-.subscription-form select {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+  }
+  
+  .subscription-form,
+  .manage-subscription {
+    margin-bottom: 30px;
+    text-align: left;
+  }
+  
+  .subscription-form div,
+  .manage-subscription div {
+    margin-bottom: 15px;
+  }
+  
+  .subscription-form label,
+  .manage-subscription label {
+    display: block;
     font-size: 14px;
-}
-
-.subscription-form select[multiple] {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .subscription-form input,
+  .subscription-form select,
+  .manage-subscription input {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid black;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .subscription-form input:focus,
+  .subscription-form select:focus,
+  .manage-subscription input:focus {
+    outline: none;
+    border-color: black;
+  }
+  
+  .subscription-form select[multiple] {
     height: 100px;
-}
-
-.subscription-form button {
-    padding: 10px 15px;
-    background-color: #000000;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.subscription-form button:hover {
-    background-color: #595959;
-}
-
-/* Manage Subscription Styles */
-.manage-subscription {
-    margin-top: 30px;
-}
-
-.manage-subscription div {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.manage-subscription input {
-    flex: 1;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    resize: vertical;
+  }
+  
+  .subscription-form button,
+  .manage-subscription button {
+    width: 100%;
+    padding: 10px;
     font-size: 14px;
-}
-
-.manage-subscription button {
-    padding: 8px 12px;
-    background-color: #000000;
-    color: white;
-    border: none;
+    font-weight: bold;
+    border: 1px solid black;
     border-radius: 4px;
+    background-color: rgb(0, 0, 0);
     cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .manage-subscription button.delete-button {
+    background-color: rgba(255, 0, 0, 0.74);
+    color: white;
+  }
+  
+  .subscription-form button:disabled,
+  .manage-subscription button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  .ToastContainer {
     font-size: 14px;
-}
-
-.manage-subscription button:hover {
-    background-color: #595959;
-}
-
-.manage-subscription button.delete-button {
-    background-color: #a50011;
-}
-
-.manage-subscription button.delete-button:hover {
-    background-color: #c82333;
-}
-
+  }

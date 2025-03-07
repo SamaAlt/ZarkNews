@@ -43,22 +43,24 @@ const ListArticles = () => {
   };
 
   return (
-    <div className="list-card">
-      {listArticles.map((article) => (
-        <Link to={`/articles/${article.id}`} key={article.id} className="sidebar-card">
-          {article.image_url && (
-            <img
-              src={article.image_url}
-              alt={article.title}
-              className="list-image"
-            />
-          )}
-          <div className="list-content">
-            <h3>{article.title}</h3>
-            <p>{article.content.substring(0, 200)}...</p>
-          </div>
-        </Link>
-      ))}
+    <div className="home-list-container">
+      <div className="home-list-grid">
+        {listArticles.map((article) => (
+          <Link to={`/articles/${article.id}`} key={article.id} className="home-list-card">
+            {article.image_url && (
+              <img
+                src={article.image_url}
+                alt={article.title}
+                className="home-list-image"
+              />
+            )}
+            <div className="home-list-content">
+              <h3>{article.title}</h3>
+              <p>{article.content.substring(0, 200)}...</p>
+            </div>
+          </Link>
+        ))}
+      </div>
       {hasMore && (
         <button onClick={handleLoadMore} className="load-more-button">
           Load More

@@ -1,42 +1,37 @@
+.sidebars {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Adds consistent spacing between each card */
+  width: 100%;
+}
+
 .sidebar-card {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 20px;
-    padding: 10px;
-    border-radius: 4px;
-    box-shadow: 0 2px rgba(178, 0, 0, 0.404);
-    cursor: pointer; /* Makes the card look clickable */
-    transition: box-shadow 0.3s ease; /* Smooth hover effect */
-  }
-  
-  .sidebar-card:hover {
-    box-shadow: 0 4px 4px rgba(145, 0, 0, 0.337); /* Enhanced hover effect */
-  }
-  
-  .sidebar-card a {
-    display: flex;
-    width: 100%;
-    height: 116px;
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  .sidebar-image {
-    width: 30%;
-    margin-right: 10px;
-  }
-  
-  .sidebar-content {
-    flex: 1;
-  }
-  
-  .sidebar-content h3 {
-    margin: 0;
-    font-size: 1em;
-    font-weight: 700;
-  }
-  
-  .sidebar-content p {
-    margin: 15px 0;
-    font-size: 13px;
-  }
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 50%;
+  overflow: hidden; /* Ensure the image doesn't overflow */
+  background-color: #fff; /* Optional: Add a background color */
+}
+
+.sidebar-image {
+  width: 120px; /* Adjust the width of the image */
+  height: 100px; /* Adjust the height of the image */
+  object-fit: cover; /* Ensure the image covers the area */
+  margin-right: 16px; /* Add spacing between the image and content */
+}
+
+.sidebar-content {
+  flex: 1; /* Allow the content to take up remaining space */
+}
+
+.sidebar-content h3 {
+  margin: 0;
+  font-size: 16px; /* Adjust the font size as needed */
+}
+
+.sidebar-content p {
+  margin: 8px 0 0; /* Adjust the margin as needed */
+  font-size: 14px; /* Adjust the font size as needed */
+  color: #666; /* Optional: Adjust the text color */
+}

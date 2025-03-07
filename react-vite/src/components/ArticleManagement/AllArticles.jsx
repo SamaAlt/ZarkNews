@@ -29,10 +29,10 @@ const AllArticles = () => {
             <ul className="articles-list">
                 {displayedArticles.map((article) => {
                     return (
-                        <li key={`${article.id}-${article.created_at}`} className="article-item">
+                        <li key={`${article.id}-${article.created_at}`} className="all-article-item">
                             <h2>{article.title}</h2>
                             <p>{article.content.substring(0, 100)}...</p>
-                            <Link to={`/articles/${article.id}`} className="read-more-link">Read More</Link>
+                            <Link to={`/articles/${article.id}`} className="all-read-more-link">Read More</Link>
                         </li>
                     );
                 })}

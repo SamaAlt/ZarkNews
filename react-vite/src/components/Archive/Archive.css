@@ -1,73 +1,78 @@
-.archive-container {
+/* Archive.css */
+
+/* Container for the entire archive */
+.arc-container {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
     font-family: Arial, sans-serif;
-}
-
-h1 {
-    text-align: center;
     color: #333;
-    margin-bottom: 20px;
 }
 
+/* Loading and error messages */
 .loading, .error, .no-articles {
     text-align: center;
+    font-size: 1.2em;
+    margin-top: 20px;
     color: #666;
-    font-size: 18px;
 }
 
-.articles-list {
+.error {
+    color: #ff4d4d;
+}
+
+/* List of articles */
+.arc-articles-list {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
-.article-item {
-    background: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 15px;
-    transition: box-shadow 0.3s ease;
+/* Individual article item */
+.arc-article-item {
+    margin-bottom: 30px;
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0;
 }
 
-.article-item:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.arc-article-item:last-child {
+    border-bottom: none;
 }
 
-.article-item h2 {
+.arc-article-item h2 {
+    font-size: 1.5em;
     margin: 0 0 10px;
-    color: #333;
-    font-size: 24px;
+    color: #222;
 }
 
-.article-item p {
-    margin: 0 0 10px;
-    color: #666;
-    font-size: 16px;
-}
-
-.article-item strong {
-    color: #333;
-}
-
-.article-image {
-    max-width: 100%;
+.arc-article-image {
+    max-width: 50%;
     height: auto;
-    border-radius: 8px;
-    margin-bottom: 10px;
+    margin: 10px auto;
+    border-radius: 4px;
 }
 
+.arc-article-item p {
+    margin: 5px 0;
+    font-size: 0.95em;
+    color: #555;
+}
+
+.arc-article-item strong {
+    color: #222;
+}
+
+/* Load more button */
 .load-more-button {
     display: block;
     margin: 20px auto;
     padding: 10px 20px;
+    font-size: 1em;
+    color: #fff;
     background-color: #007bff;
-    color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 16px;
     transition: background-color 0.3s ease;
 }
 

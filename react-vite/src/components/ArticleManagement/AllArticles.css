@@ -1,118 +1,83 @@
-/* Container for all articles */
+/* AllArticles.css */
+
+/* Container for the entire component */
 .all-articles-container {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    font-family: 'Arial', sans-serif;
-}
-
-/* Heading */
-.all-articles-container h1 {
-    font-size: 2.5rem;
+    font-family: Arial, sans-serif;
     color: #333;
-    text-align: center;
-    margin-bottom: 20px;
 }
 
-/* Loading message */
-.loading {
+/* Loading and no articles message */
+.loading, .no-articles {
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1.2em;
+    margin-top: 20px;
     color: #666;
 }
 
-/* No articles message */
-.no-articles {
-    text-align: center;
-    font-size: 1.2rem;
-    color: #666;
-}
-
-/* Articles list */
+/* List of articles */
 .articles-list {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 /* Individual article item */
-.article-item {
-    background: #f9f9f9;
-    border-radius: 8px;
-    padding: 20px;
+.all-article-item {
     margin-bottom: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
 }
 
-.article-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+.all-article-item:last-child {
+    border-bottom: none;
 }
 
-/* Article title */
-.article-item h2 {
-    font-size: 1.8rem;
+.all-article-item h2 {
+    font-size: 1.4em;
+    margin: 0 0 10px;
     color: #222;
-    margin-bottom: 10px;
 }
 
-/* Article content preview */
-.article-item p {
-    font-size: 1rem;
+.all-article-item p {
+    margin: 0 0 10px;
+    font-size: 0.95em;
     color: #555;
-    line-height: 1.6;
-    margin-bottom: 15px;
 }
 
 /* Read More link */
-.read-more-link {
+.all-read-more-link {
     display: inline-block;
-    font-size: 1rem;
-    color: #007bff;
     text-decoration: none;
-    font-weight: bold;
-    transition: color 0.2s ease;
+    font-size: 0.9em;
+    padding: 5px 10px;
+    color: #007bff;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.read-more-link:hover {
-    color: #0056b3;
+.all-read-more-link:hover {
+    background-color: #007bff;
+    color: #fff;
 }
 
-.read-more-link::after {
-    content: '\f061'; /* FontAwesome arrow-right icon */
-    font-family: 'Font Awesome 5 Free';
-    font-weight: 900;
-    margin-left: 8px;
-    transition: margin-left 0.2s ease;
-}
-
-.read-more-link:hover::after {
-    margin-left: 12px;
-}
-
-/* Load More button */
+/* Load more button */
 .load-more-button {
     display: block;
-    width: 100%;
-    max-width: 200px;
     margin: 20px auto;
     padding: 10px 20px;
-    font-size: 1rem;
+    font-size: 1em;
     color: #fff;
     background-color: #007bff;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.3s ease;
 }
 
 .load-more-button:hover {
     background-color: #0056b3;
-}
-
-.load-more-button::before {
-    content: '\f1d8'; /* FontAwesome sync icon */
-    font-family: 'Font Awesome 5 Free';
-    font-weight: 900;
-    margin-right: 8px;
 }

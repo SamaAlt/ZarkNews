@@ -41,12 +41,12 @@ const MyArticles = () => {
             <ul className="articles-list">
                 {userArticles.slice(0, visibleArticles).map((article) => {
                     return (
-                        <li key={article.id} className="article-item">
+                        <li key={article.id} className="my-article-item">
                             <h2>{article.title}</h2>
                             <p>{article.content.substring(0, 100)}...</p>
                             <div className="article-actions">
-                                <Link to={`/articles/${article.id}`} className="read-more-link">Read More</Link>
-                                <Link to={`/articles/edit/${article.id}`} className="edit-link">Edit</Link>
+                                <Link to={`/articles/${article.id}`} className="my-read-more-link">Read More</Link>
+                                <Link to={`/articles/edit/${article.id}`} className="my-edit-link">Edit</Link>
                             </div>
                         </li>
                     );
